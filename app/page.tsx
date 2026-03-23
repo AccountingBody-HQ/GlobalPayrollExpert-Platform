@@ -108,7 +108,7 @@ export default async function HomePage() {
               <span className="text-blue-300 text-xs font-semibold tracking-wide">Global Payroll Intelligence Platform</span>
             </div>
 
-            <h1 className="font-serif text-6xl lg:text-8xl font-bold text-white leading-[1.05] mb-8" style={{letterSpacing: '-0.025em'}}>
+            <h1 className="font-serif text-4xl lg:text-6xl font-bold text-white leading-[1.08] mb-8" style={{letterSpacing: '-0.025em'}}>
               Your complete <span className="text-blue-400">global payroll</span><br />intelligence platform.
             </h1>
 
