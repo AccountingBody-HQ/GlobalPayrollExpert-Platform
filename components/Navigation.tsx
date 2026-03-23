@@ -28,9 +28,20 @@ export default function Navigation() {
 
           {/* LOGO */}
           <Link href="/" className="flex items-center gap-2 shrink-0">
-            <span className="flex items-center justify-center w-8 h-8 rounded-lg" style={{backgroundColor:"#0f172a"}}><Globe className="h-4 w-4 text-blue-400" /></span>
-            <span className="text-lg font-bold text-slate-900 tracking-tight">
-              Global Payroll Expert
+            {/* GPE Logomark */}
+            <span className="flex items-center gap-2.5">
+              <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="34" height="34" rx="8" fill="#0f172a"/>
+                <circle cx="17" cy="17" r="9" stroke="#3b82f6" strokeWidth="1.5" fill="none"/>
+                <ellipse cx="17" cy="17" rx="5" ry="9" stroke="#3b82f6" strokeWidth="1.5" fill="none"/>
+                <line x1="8" y1="17" x2="26" y2="17" stroke="#3b82f6" strokeWidth="1.5"/>
+                <line x1="9.5" y1="12.5" x2="24.5" y2="12.5" stroke="#3b82f6" strokeWidth="1" strokeOpacity="0.6"/>
+                <line x1="9.5" y1="21.5" x2="24.5" y2="21.5" stroke="#3b82f6" strokeWidth="1" strokeOpacity="0.6"/>
+              </svg>
+              <span className="flex flex-col leading-none">
+                <span className="text-sm font-black text-slate-900 tracking-tight">GLOBAL PAYROLL</span>
+                <span className="text-sm font-black text-blue-700 tracking-tight">EXPERT</span>
+              </span>
             </span>
           </Link>
 
