@@ -6,7 +6,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Menu, X, Globe } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const navLinks = [
@@ -29,20 +29,34 @@ export default function Navigation() {
           {/* LOGO */}
           <Link href="/" className="flex items-center gap-2 shrink-0">
             {/* GPE Logomark */}
-            <span className="flex items-center gap-2.5">
-              <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="34" height="34" rx="8" fill="#0f172a"/>
-                <circle cx="17" cy="17" r="9" stroke="#3b82f6" strokeWidth="1.5" fill="none"/>
-                <ellipse cx="17" cy="17" rx="5" ry="9" stroke="#3b82f6" strokeWidth="1.5" fill="none"/>
-                <line x1="8" y1="17" x2="26" y2="17" stroke="#3b82f6" strokeWidth="1.5"/>
-                <line x1="9.5" y1="12.5" x2="24.5" y2="12.5" stroke="#3b82f6" strokeWidth="1" strokeOpacity="0.6"/>
-                <line x1="9.5" y1="21.5" x2="24.5" y2="21.5" stroke="#3b82f6" strokeWidth="1" strokeOpacity="0.6"/>
-              </svg>
-              <span className="flex flex-col leading-none">
-                <span className="text-sm font-black text-slate-900 tracking-tight">GLOBAL PAYROLL</span>
-                <span className="text-sm font-black text-blue-700 tracking-tight">EXPERT</span>
-              </span>
-            </span>
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <radialGradient id="globeGlow" cx="35%" cy="30%" r="70%">
+                  <stop offset="0%" stopColor="#60a5fa" stopOpacity="1"/>
+                  <stop offset="100%" stopColor="#1d4ed8" stopOpacity="1"/>
+                </radialGradient>
+                <radialGradient id="globeFill" cx="35%" cy="30%" r="70%">
+                  <stop offset="0%" stopColor="#1e3a6e" stopOpacity="1"/>
+                  <stop offset="100%" stopColor="#0f172a" stopOpacity="1"/>
+                </radialGradient>
+              </defs>
+              {/* Globe sphere */}
+              <circle cx="16" cy="16" r="14" fill="url(#globeFill)" stroke="url(#globeGlow)" strokeWidth="1.2"/>
+              {/* Equator */}
+              <ellipse cx="16" cy="16" rx="14" ry="5.5" fill="none" stroke="#3b82f6" strokeWidth="0.9" strokeOpacity="0.7"/>
+              {/* Upper latitude */}
+              <ellipse cx="16" cy="10.5" rx="9.5" ry="3" fill="none" stroke="#60a5fa" strokeWidth="0.75" strokeOpacity="0.5"/>
+              {/* Lower latitude */}
+              <ellipse cx="16" cy="21.5" rx="9.5" ry="3" fill="none" stroke="#60a5fa" strokeWidth="0.75" strokeOpacity="0.5"/>
+              {/* Central meridian */}
+              <ellipse cx="16" cy="16" rx="5.5" ry="14" fill="none" stroke="#3b82f6" strokeWidth="0.9" strokeOpacity="0.7"/>
+              {/* Left meridian */}
+              <ellipse cx="16" cy="16" rx="11" ry="14" fill="none" stroke="#1d4ed8" strokeWidth="0.7" strokeOpacity="0.5"/>
+              {/* Right meridian */}
+              <ellipse cx="16" cy="16" rx="11" ry="14" fill="none" stroke="#1d4ed8" strokeWidth="0.7" strokeOpacity="0.5" transform="rotate(60 16 16)"/>
+              {/* Highlight */}
+              <ellipse cx="12" cy="11" rx="3.5" ry="2" fill="white" fillOpacity="0.08" transform="rotate(-25 12 11)"/>
+            </svg>
           </Link>
 
           {/* DESKTOP NAV */}
