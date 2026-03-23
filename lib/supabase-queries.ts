@@ -17,7 +17,12 @@ export async function getAllCountries() {
 }
 
 export async function getAllCountryCodes(): Promise<{ iso2: string }[]> {
-  const supabase = await createSupabaseServerClient()
+  // Uses basic client — no cookies — safe for generateStaticParams at build time
+  const { createClient } = await import('@supabase/supabase-js')
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
   const { data, error } = await supabase
     .from('countries')
     .select('iso2')
