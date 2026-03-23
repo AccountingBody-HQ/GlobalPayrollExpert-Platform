@@ -125,18 +125,26 @@ export default async function HomePage() {
               {/* Quick capability links */}
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl mb-8">
-              {[
-                { label: 'Country Data',       href: '/countries/',    icon: '🌍' },
-                { label: 'Payroll Calculator', href: '/payroll-tools/', icon: '🧮' },
-                { label: 'EOR Intelligence',   href: '/eor/',          icon: '🏢' },
-                { label: 'Employment Law',     href: '/hr-compliance/', icon: '⚖️' },
-              ].map(item => (
-                <Link key={item.href} href={item.href}
-                  className="flex items-center gap-2.5 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-blue-500/40 rounded-xl px-4 py-3 transition-all group">
-                  <span className="text-base leading-none">{item.icon}</span>
-                  <span className="text-xs font-semibold text-slate-300 group-hover:text-white transition-colors leading-tight">{item.label}</span>
-                </Link>
-              ))}
+              <Link href="/countries/"
+                className="flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-blue-400/50 rounded-xl px-4 py-3.5 transition-all group">
+                <Globe size={16} className="text-blue-400 shrink-0" />
+                <span className="text-xs font-semibold text-slate-300 group-hover:text-white transition-colors leading-tight">Country Data</span>
+              </Link>
+              <Link href="/payroll-tools/"
+                className="flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-blue-400/50 rounded-xl px-4 py-3.5 transition-all group">
+                <Calculator size={16} className="text-blue-400 shrink-0" />
+                <span className="text-xs font-semibold text-slate-300 group-hover:text-white transition-colors leading-tight">Payroll Calculator</span>
+              </Link>
+              <Link href="/eor/"
+                className="flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-blue-400/50 rounded-xl px-4 py-3.5 transition-all group">
+                <Building2 size={16} className="text-blue-400 shrink-0" />
+                <span className="text-xs font-semibold text-slate-300 group-hover:text-white transition-colors leading-tight">EOR Intelligence</span>
+              </Link>
+              <Link href="/hr-compliance/"
+                className="flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-blue-400/50 rounded-xl px-4 py-3.5 transition-all group">
+                <Shield size={16} className="text-blue-400 shrink-0" />
+                <span className="text-xs font-semibold text-slate-300 group-hover:text-white transition-colors leading-tight">Employment Law</span>
+              </Link>
             </div>
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-slate-400 text-xs font-semibold uppercase tracking-wider mr-1">Browse:</span>
@@ -150,17 +158,17 @@ export default async function HomePage() {
           </div>
 
           {/* Stat strip */}
-          <div className="mt-16 pt-10 border-t border-slate-800 grid grid-cols-2 sm:grid-cols-4 gap-8">
+          <div className="mt-16 grid grid-cols-2 sm:grid-cols-4 gap-0 bg-slate-900/60 border border-slate-700/60 rounded-2xl overflow-hidden">
             {[
               { value: '195', label: 'Countries', sub: 'Full global coverage' },
               { value: '10,000+', label: 'Data Points', sub: 'Per country record' },
               { value: 'Monthly', label: 'Updates', sub: 'Always current' },
               { value: 'Free', label: 'Core Access', sub: 'No account required' },
-            ].map(s => (
-              <div key={s.label}>
+            ].map((s, i) => (
+              <div key={s.label} className={`px-8 py-8 text-center ${i < 3 ? 'border-r border-slate-700/60' : ''}`}>
                 <div className="text-3xl font-black text-white tracking-tight">{s.value}</div>
-                <div className="text-sm font-semibold text-slate-300 mt-1">{s.label}</div>
-                <div className="text-xs text-slate-600 mt-0.5">{s.sub}</div>
+                <div className="text-sm font-bold text-slate-300 mt-1">{s.label}</div>
+                <div className="text-xs text-slate-500 mt-0.5">{s.sub}</div>
               </div>
             ))}
           </div>
