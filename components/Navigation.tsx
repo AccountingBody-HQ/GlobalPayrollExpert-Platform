@@ -28,7 +28,7 @@ export default function Navigation() {
 
           {/* LOGO */}
           <Link href="/" className="flex items-center gap-2 shrink-0">
-            <Globe className="h-6 w-6 text-blue-600" />
+            <span className="flex items-center justify-center w-8 h-8 rounded-lg" style={{backgroundColor:"#0f172a"}}><Globe className="h-4 w-4 text-blue-400" /></span>
             <span className="text-lg font-bold text-slate-900 tracking-tight">
               Global Payroll Expert
             </span>
