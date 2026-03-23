@@ -92,91 +92,46 @@ export default async function HomePage() {
       ══════════════════════════════════════════ */}
       <section className="bg-white border-b-2 border-slate-950">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid lg:grid-cols-[1fr_400px] min-h-[90vh]">
 
-            {/* LEFT */}
-            <div className="flex flex-col justify-center py-24 pr-16 border-r-2 border-slate-950">
+          {/* Main hero */}
+          <div className="py-28 lg:py-36 max-w-5xl">
 
-              <div className="flex items-center gap-3 mb-10">
-                <div className="w-10 h-0.5 bg-blue-700" />
-                <span className="text-blue-700 text-xs font-black uppercase tracking-[0.3em]">
-                  Global Payroll Intelligence Platform
-                </span>
-              </div>
-
-              <h1 className="font-serif text-[3.5rem] lg:text-[5rem] xl:text-[5.5rem] font-bold text-slate-950 leading-[0.95] tracking-tighter mb-10">
-                The world<br />
-                standard for<br />
-                global payroll<br />
-                <em className="text-blue-700 not-italic">intelligence.</em>
-              </h1>
-
-              <p className="text-xl text-slate-500 leading-relaxed max-w-lg mb-12 font-light tracking-wide">
-                Payroll data, calculators, and employment compliance guides 
-                for 195 countries. The reference platform for EOR firms, 
-                HR directors, lawyers, and global finance teams.
-              </p>
-
-              <div className="mb-10">
-                <p className="text-xs font-black uppercase tracking-[0.25em] text-slate-400 mb-3">
-                  Search any country
-                </p>
-                <CountrySearch />
-              </div>
-
-              <div className="flex flex-wrap gap-2">
-                {REGIONS.map(r => (
-                  <Link key={r.slug}
-                    href={`/countries/?region=${r.slug}`}
-                    className="text-xs font-bold text-slate-500 hover:text-blue-700 border border-slate-300 hover:border-blue-600 px-4 py-2 transition-all uppercase tracking-wider">
-                    {r.name}
-                    <span className="text-slate-300 ml-2 font-normal">{r.count}</span>
-                  </Link>
-                ))}
-              </div>
+            <div className="flex items-center gap-3 mb-10">
+              <div className="w-10 h-0.5 bg-blue-700" />
+              <span className="text-blue-700 text-xs font-black uppercase tracking-[0.3em]">
+                Global Payroll Intelligence Platform
+              </span>
             </div>
 
-            {/* RIGHT — live data panel */}
-            <div className="hidden lg:flex flex-col border-b-0 bg-slate-950">
-              <div className="px-8 pt-10 pb-6 border-b border-slate-800">
-                <p className="text-xs font-black uppercase tracking-[0.3em] text-slate-400 mb-1">
-                  Live Data Preview
-                </p>
-                <p className="text-xs text-slate-600">
-                  Income tax · Employer social security
-                </p>
-              </div>
+            <h1 className="font-serif text-[4rem] lg:text-[6rem] xl:text-[7rem] font-bold text-slate-950 leading-[0.92] tracking-tighter mb-10">
+              The world<br />
+              standard for<br />
+              global payroll<br />
+              <em className="text-blue-700 not-italic">intelligence.</em>
+            </h1>
 
-              {/* Column headers */}
-              <div className="grid grid-cols-[1fr_70px_70px] px-6 py-3 border-b border-slate-800">
-                <span className="text-xs font-black uppercase tracking-widest text-slate-500">Country</span>
-                <span className="text-xs font-black uppercase tracking-widest text-slate-500 text-right">Income</span>
-                <span className="text-xs font-black uppercase tracking-widest text-slate-500 text-right">SS Emp.</span>
-              </div>
+            <p className="text-xl lg:text-2xl text-slate-400 leading-relaxed max-w-2xl mb-16 font-light">
+              Payroll data, calculators, and employment compliance guides for 195 countries.
+              The reference platform for EOR firms, HR directors, lawyers, and global finance teams.
+            </p>
 
-              {/* Rows */}
-              <div className="flex-1 flex flex-col divide-y divide-slate-800/60">
-                {FEATURED_COUNTRIES.map(c => (
-                  <Link key={c.code} href={`/countries/${c.code}/`}
-                    className="grid grid-cols-[1fr_70px_70px] px-6 py-4 hover:bg-slate-900 transition-colors group">
-                    <div className="flex items-center gap-3">
-                      <img src={`https://flagcdn.com/20x15/${c.code}.png`}
-                        alt={c.name} width={20} height={15} className="shrink-0 opacity-90" />
-                      <span className="text-sm font-semibold text-slate-300 group-hover:text-white transition-colors leading-tight">{c.name}</span>
-                    </div>
-                    <span className="text-sm text-slate-400 text-right font-mono group-hover:text-blue-400 transition-colors">{c.income}</span>
-                    <span className="text-sm text-slate-400 text-right font-mono group-hover:text-blue-400 transition-colors">{c.ss_employer}</span>
-                  </Link>
-                ))}
-              </div>
-
-              <Link href="/countries/"
-                className="flex items-center justify-between px-6 py-5 border-t-2 border-slate-700 bg-blue-700 hover:bg-blue-600 transition-colors group">
-                <span className="text-xs font-black uppercase tracking-[0.3em] text-white">View all 195 countries</span>
-                <ArrowRight size={14} className="text-white group-hover:translate-x-1 transition-transform" />
-              </Link>
+            {/* Search */}
+            <div className="max-w-2xl mb-10">
+              <CountrySearch />
             </div>
 
+            {/* Region links */}
+            <div className="flex flex-wrap gap-2 items-center">
+              <span className="text-xs font-black uppercase tracking-[0.25em] text-slate-300 mr-2">Browse:</span>
+              {REGIONS.map(r => (
+                <Link key={r.slug}
+                  href={`/countries/?region=${r.slug}`}
+                  className="text-xs font-bold text-slate-500 hover:text-blue-700 border border-slate-200 hover:border-blue-600 px-4 py-2 transition-all uppercase tracking-wider">
+                  {r.name}
+                  <span className="text-slate-300 ml-2 font-normal">{r.count}</span>
+                </Link>
+              ))}
+            </div>
           </div>
 
           {/* Stat strip */}
@@ -195,6 +150,7 @@ export default async function HomePage() {
               </div>
             ))}
           </div>
+
         </div>
       </section>
 
