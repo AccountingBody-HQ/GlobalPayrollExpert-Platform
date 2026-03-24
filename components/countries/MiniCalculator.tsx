@@ -59,18 +59,21 @@ function calcIncomeTax(annualGross: number, brackets: TaxBracket[]): number {
 function calcSS(annualGross: number, rows: SocialSecurityRow[], type: 'employee' | 'employer'): number {
   let total = 0
   for (const row of rows) {
-    const threshold = row.applies_above ?? 0
-    const ceiling  = type === 'employee'
-      ? (row.employee_cap_annual ?? row.applies_below ?? null)
-      : (row.employer_cap_annual ?? row.applies_below ?? null)
-    // Income above threshold (and below ceiling if set)
-    const upperBound = ceiling ? Math.min(annualGross, ceiling) : annualGross
-    const taxableBase = Math.max(0, upperBound - threshold)
+    // applies_below is the salary ceiling; applies_above is the lower threshold
+    const lowerBound   = row.applies_above ?? 0
+    const salaryCap    = row.applies_below ?? null
+    const upperBound   = salaryCap ? Math.min(annualGross, salaryCap) : annualGross
+    const taxableBase  = Math.max(0, upperBound - lowerBound)
     if (type === 'employee' && (row.employee_rate ?? 0) > 0) {
-      total += taxableBase * (row.employee_rate / 100)
+      let contribution = taxableBase * (row.employee_rate / 100)
+      // cap contribution at max annual contribution if set
+      if (row.employee_cap_annual) contribution = Math.min(contribution, row.employee_cap_annual)
+      total += contribution
     }
     if (type === 'employer' && (row.employer_rate ?? 0) > 0) {
-      total += taxableBase * (row.employer_rate / 100)
+      let contribution = taxableBase * (row.employer_rate / 100)
+      if (row.employer_cap_annual) contribution = Math.min(contribution, row.employer_cap_annual)
+      total += contribution
     }
   }
   return Math.max(0, total)
