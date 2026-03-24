@@ -4,6 +4,7 @@ import { createSupabaseServerClient } from '@/lib/supabase'
 import Calculator from '@/components/Calculator'
 import type { TaxBracket, SocialSecurityRate } from '@/lib/calculator'
 import type { Metadata } from 'next'
+import { Calculator as CalcIcon, ChevronRight, Shield, RefreshCw, Award, ArrowRight } from 'lucide-react'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -40,7 +41,6 @@ export const dynamic = 'force-dynamic'
 
 export default async function PayrollCalculatorPage({ params, searchParams }: PageProps) {
   const { code } = await params
-  const { salary, period } = await searchParams
   const upperCode = code.toUpperCase()
   const supabase = await createSupabaseServerClient()
 
@@ -107,134 +107,200 @@ export default async function PayrollCalculatorPage({ params, searchParams }: Pa
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <div className="min-h-screen bg-slate-50">
+      <main className="min-h-screen bg-white">
 
-        {/* ── Header ── */}
-        <div className="border-b border-slate-200 bg-white">
-          <div className="mx-auto max-w-4xl px-4 py-6 sm:px-6">
+        {/* ══════ HERO HEADER ══════ */}
+        <section className="relative bg-slate-950 overflow-hidden">
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                'radial-gradient(ellipse at 60% 0%, rgba(30,111,255,0.15) 0%, transparent 60%), radial-gradient(ellipse at 0% 100%, rgba(14,30,80,0.4) 0%, transparent 50%)',
+            }}
+          />
+          <div className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-12 pb-14">
 
             {/* Breadcrumb */}
-            <nav className="mb-4 flex items-center gap-2 text-sm text-slate-500">
-              <Link href="/countries" className="hover:text-slate-700 transition">Countries</Link>
-              <span>/</span>
-              <Link href={`/countries/${code.toLowerCase()}`} className="hover:text-slate-700 transition">
+            <nav className="flex items-center gap-2 text-sm text-slate-500 mb-8">
+              <Link href="/countries" className="hover:text-slate-300 transition-colors">Countries</Link>
+              <ChevronRight size={13} className="text-slate-700" />
+              <Link href={`/countries/${code.toLowerCase()}/`} className="hover:text-slate-300 transition-colors">
                 {country.flag_emoji} {country.name}
               </Link>
-              <span>/</span>
-              <span className="text-slate-900">Payroll Calculator</span>
+              <ChevronRight size={13} className="text-slate-700" />
+              <span className="text-slate-400">Payroll Calculator</span>
             </nav>
 
-            <div className="flex flex-wrap items-start justify-between gap-4">
-              <div>
-                <h1 className="text-2xl font-bold text-slate-900 sm:text-3xl">
-                  {country.flag_emoji} {country.name} Payroll Calculator {taxYear}
+            <div className="flex flex-wrap items-start justify-between gap-6">
+              <div className="max-w-2xl">
+                <div className="inline-flex items-center gap-2 bg-blue-600/10 border border-blue-500/20 rounded-full px-4 py-1.5 mb-5">
+                  <CalcIcon size={12} className="text-blue-400" />
+                  <span className="text-blue-300 text-xs font-semibold tracking-wide">
+                    Payroll Calculator · Tax Year {taxYear}
+                  </span>
+                </div>
+
+                <h1
+                  className="font-serif text-3xl lg:text-5xl font-bold text-white leading-tight mb-4"
+                  style={{ letterSpacing: '-0.025em' }}
+                >
+                  {country.flag_emoji} {country.name}<br />
+                  <span className="text-blue-400">Payroll Calculator</span>
                 </h1>
-                <p className="mt-1.5 text-slate-500">
-                  Calculate net salary, income tax, and employer costs. All figures shown monthly and annually.
+
+                <p className="text-slate-400 text-lg leading-relaxed">
+                  Calculate net salary, income tax, and total employer cost.
+                  Full bracket-by-bracket breakdown — shown monthly and annually.
                 </p>
               </div>
+
               <Link
-                href={`/countries/${code.toLowerCase()}`}
-                className="shrink-0 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 transition"
+                href={`/countries/${code.toLowerCase()}/`}
+                className="shrink-0 flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-blue-400/40 text-slate-300 hover:text-white rounded-xl px-5 py-3 text-sm font-medium transition-all"
               >
-                ← Country Overview
+                ← {country.name} Overview
               </Link>
             </div>
 
-          </div>
-        </div>
-
-        {/* ── Main content ── */}
-        <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6">
-
-          <div className="grid gap-8 lg:grid-cols-3">
-
-            {/* Calculator — takes up 2/3 on large screens */}
-            <div className="lg:col-span-2">
-              <Calculator
-                countryCode={upperCode}
-                countryName={country.name}
-                currencyCode={country.currency_code}
-                taxBrackets={taxBrackets}
-                ssRates={ssRates}
-                taxYear={taxYear}
-                isAuthenticated={false}
-              />
+            {/* Stat strip */}
+            <div className="mt-12 pt-8 border-t border-slate-800 grid grid-cols-2 sm:grid-cols-4 gap-6">
+              {[
+                { value: 'Free', label: 'No account needed', sub: 'Core calculator' },
+                { value: 'Live', label: 'Tax year ' + taxYear, sub: 'Current rates' },
+                { value: 'Full', label: 'Bracket detail', sub: 'Line-by-line' },
+                { value: 'PDF', label: 'Export ready', sub: 'Download results' },
+              ].map((s) => (
+                <div key={s.label} className="text-center">
+                  <div className="text-2xl font-black text-white tracking-tight">{s.value}</div>
+                  <div className="text-sm font-bold text-slate-300 mt-1">{s.label}</div>
+                  <div className="text-xs text-slate-500 mt-0.5">{s.sub}</div>
+                </div>
+              ))}
             </div>
 
-            {/* Sidebar */}
-            <div className="space-y-5">
+          </div>
+        </section>
 
-              {/* Data info card */}
-              <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-                <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-slate-500">About This Data</h3>
-                <ul className="space-y-2 text-sm text-slate-600">
-                  <li className="flex gap-2">
-                    <span className="text-green-500">✓</span>
-                    Official government sources
-                  </li>
-                  <li className="flex gap-2">
-                    <span className="text-green-500">✓</span>
-                    Tax year {taxYear}
-                  </li>
-                  <li className="flex gap-2">
-                    <span className="text-green-500">✓</span>
-                    Progressive bracket calculation
-                  </li>
-                  <li className="flex gap-2">
-                    <span className="text-green-500">✓</span>
-                    Employee and employer view
-                  </li>
-                  <li className="flex gap-2">
-                    <span className="text-amber-500">⚠</span>
-                    For guidance only — not tax advice
-                  </li>
-                </ul>
+        {/* ══════ CALCULATOR + SIDEBAR ══════ */}
+        <section className="bg-slate-50 border-b border-slate-200">
+          <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16">
+            <div className="grid gap-10 lg:grid-cols-3">
+
+              {/* Calculator — 2/3 width */}
+              <div className="lg:col-span-2">
+                <Calculator
+                  countryCode={upperCode}
+                  countryName={country.name}
+                  currencyCode={country.currency_code}
+                  taxBrackets={taxBrackets}
+                  ssRates={ssRates}
+                  taxYear={taxYear}
+                  isAuthenticated={false}
+                />
               </div>
 
-              {/* Pro upsell */}
-              <div className="rounded-2xl border border-blue-100 bg-blue-50 p-5">
-                <h3 className="mb-1.5 text-sm font-semibold text-blue-900">Save Your Calculations</h3>
-                <p className="mb-3 text-sm text-blue-700">
-                  Sign up for a free account to save calculations, generate PDF reports, and compare across countries.
-                </p>
-                <Link
-                  href="/sign-up"
-                  className="block rounded-lg bg-blue-600 px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-blue-700 transition"
+              {/* Sidebar — 1/3 width */}
+              <div className="space-y-5">
+
+                {/* Data standards card */}
+                <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+                  <p className="text-blue-600 text-xs font-bold uppercase tracking-widest mb-4">About This Data</p>
+                  <ul className="space-y-3">
+                    {[
+                      { icon: Award,     text: 'Sourced from official government publications' },
+                      { icon: RefreshCw, text: 'Updated monthly — always current rates' },
+                      { icon: Shield,    text: 'For guidance only — not professional tax advice' },
+                    ].map((item) => (
+                      <li key={item.text} className="flex items-start gap-3">
+                        <div className="bg-blue-600 text-white w-7 h-7 rounded-lg flex items-center justify-center shrink-0 mt-0.5">
+                          <item.icon size={13} />
+                        </div>
+                        <span className="text-sm text-slate-600 leading-snug">{item.text}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Pro upsell */}
+                <div
+                  className="rounded-2xl p-6 overflow-hidden relative"
+                  style={{ backgroundColor: '#0d1f3c' }}
                 >
-                  Create Free Account
-                </Link>
-              </div>
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      background:
+                        'radial-gradient(ellipse at 80% 20%, rgba(30,111,255,0.2) 0%, transparent 60%)',
+                    }}
+                  />
+                  <div className="relative">
+                    <p className="text-blue-300 text-xs font-bold uppercase tracking-widest mb-3">Pro Plan</p>
+                    <h3 className="font-serif text-lg font-bold text-white mb-2 leading-snug">
+                      Save and revisit your calculations.
+                    </h3>
+                    <p className="text-slate-400 text-sm leading-relaxed mb-5">
+                      Save any calculation, generate PDF reports, compare across countries, and get rate-change alerts.
+                    </p>
+                    <Link
+                      href="/sign-up"
+                      className="block rounded-xl bg-blue-600 hover:bg-blue-500 px-4 py-3 text-center text-sm font-bold text-white transition-colors"
+                    >
+                      Create Free Account
+                    </Link>
+                    <Link
+                      href="/pricing"
+                      className="block mt-2 text-center text-xs text-slate-500 hover:text-slate-400 transition-colors"
+                    >
+                      View Pro features →
+                    </Link>
+                  </div>
+                </div>
 
-              {/* Related links */}
-              <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-                <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-slate-500">
-                  More for {country.name}
-                </h3>
-                <ul className="space-y-2">
-                  {[
-                    { label: 'Country Overview', href: `/countries/${code.toLowerCase()}/` },
-                    { label: 'Employment Law', href: `/countries/${code.toLowerCase()}/employment-law/` },
-                    { label: 'Tax Guide', href: `/countries/${code.toLowerCase()}/tax-guide/` },
-                    { label: 'Hiring Guide', href: `/countries/${code.toLowerCase()}/hiring-guide/` },
-                  ].map((link) => (
-                    <li key={link.href}>
-                      <Link
-                        href={link.href}
-                        className="flex items-center justify-between text-sm text-slate-600 hover:text-blue-600 transition"
-                      >
-                        {link.label}
-                        <span className="text-slate-300">→</span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+                {/* More for this country */}
+                <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+                  <p className="text-blue-600 text-xs font-bold uppercase tracking-widest mb-4">
+                    More for {country.name}
+                  </p>
+                  <ul className="space-y-1">
+                    {[
+                      { label: 'Country Overview',  href: `/countries/${code.toLowerCase()}/` },
+                      { label: 'Employment Law',     href: `/countries/${code.toLowerCase()}/employment-law/` },
+                      { label: 'Tax Guide',          href: `/countries/${code.toLowerCase()}/tax-guide/` },
+                      { label: 'Hiring Guide',       href: `/countries/${code.toLowerCase()}/hiring-guide/` },
+                    ].map((link) => (
+                      <li key={link.href}>
+                        <Link
+                          href={link.href}
+                          className="flex items-center justify-between rounded-lg px-3 py-2.5 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition-colors group"
+                        >
+                          {link.label}
+                          <ArrowRight size={13} className="text-slate-300 group-hover:text-blue-400 transition-colors" />
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
 
+                {/* Compare link */}
+                <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+                  <p className="text-blue-600 text-xs font-bold uppercase tracking-widest mb-3">Compare</p>
+                  <p className="text-sm text-slate-500 mb-4 leading-relaxed">
+                    Side-by-side employer cost comparison across two countries.
+                  </p>
+                  <Link
+                    href="/compare/"
+                    className="flex items-center gap-2 text-sm font-semibold text-blue-600 hover:text-blue-700 transition-colors"
+                  >
+                    Open comparison tool <ArrowRight size={14} />
+                  </Link>
+                </div>
+
+              </div>
             </div>
           </div>
-        </div>
-      </div>
+        </section>
+
+      </main>
     </>
   )
 }
