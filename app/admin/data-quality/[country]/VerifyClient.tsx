@@ -222,7 +222,7 @@ Respond ONLY with raw JSON, no markdown, no code blocks:
 
           {/* Summary */}
           <div className="bg-slate-800 rounded-xl p-4 mb-6">
-            <p className="text-slate-300 text-sm leading-relaxed">{result.summary}</p>
+            <p className="text-slate-300 text-sm leading-relaxed">{result.summary.replace(/<[^>]*>/g, "")}</p>
           </div>
 
           {/* Findings */}
