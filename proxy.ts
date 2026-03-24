@@ -3,9 +3,9 @@ import { NextResponse } from 'next/server'
 
 const ADMIN_USER_ID = 'user_3BEB6ktIKuXbZEqamZxWJ55eLVv'
 
-export default clerkMiddleware((auth, request) => {
+export default clerkMiddleware(async (auth, request) => {
   if (request.nextUrl.pathname.startsWith('/admin')) {
-    const { userId } = auth()
+    const { userId } = await auth()
     if (!userId) {
       return NextResponse.redirect(new URL('/sign-in', request.url))
     }
