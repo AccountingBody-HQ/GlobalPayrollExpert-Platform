@@ -76,10 +76,21 @@ Respond ONLY with a JSON object in this exact format, no other text:
       const data = await response.json()
       const text = data.content?.[0]?.text ?? ''
 
-      // Parse JSON from response
-      const jsonMatch = text.match(/\{[\s\S]*\}/)
-      if (!jsonMatch) throw new Error('No JSON found in response')
-      const parsed = JSON.parse(jsonMatch[0])
+      // Strip markdown code blocks if present
+      const cleaned = text
+        .replace(/```json/g, '')
+        .replace(/```/g, '')
+        .trim()
+
+      // Find JSON object in response
+      const start = cleaned.indexOf('{')
+      const end = cleaned.lastIndexOf('}')
+      if (start === -1 || end === -1) {
+        console.error('Raw response:', text)
+        throw new Error('No JSON found in response')
+      }
+      const jsonStr = cleaned.slice(start, end + 1)
+      const parsed = JSON.parse(jsonStr)
       setResult(parsed)
     } catch (e: any) {
       setError('Verification failed: ' + e.message)
