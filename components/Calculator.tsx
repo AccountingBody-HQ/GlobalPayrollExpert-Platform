@@ -348,7 +348,7 @@ export default function Calculator({
                   width={110}
                 />
                 <Tooltip
-                  formatter={(value: number) => [fmt(value, result.currency_code), '']}
+                  formatter={(value) => [fmt(Number(value ?? 0), result.currency_code), '']}
                   contentStyle={{ borderRadius: '8px', border: '1px solid #e2e8f0', fontSize: 13 }}
                 />
                 <Bar dataKey="value" radius={[0, 6, 6, 0]}>
