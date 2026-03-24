@@ -5,17 +5,18 @@ import Link from 'next/link'
 import { Calculator, ArrowRight } from 'lucide-react'
 
 interface TaxBracket {
-  min_income: number
-  max_income: number | null
-  rate_percent: number
-  bracket_label: string | null
+  lower_limit: number
+  upper_limit: number | null
+  rate: number
+  bracket_name: string | null
 }
 
 interface SocialSecurityRow {
   contribution_type: string
-  rate_percent: number
-  cap_amount: number | null
-  description: string | null
+  employee_rate: number
+  employer_rate: number
+  employee_cap_annual: number | null
+  employer_cap_annual: number | null
 }
 
 interface MiniCalculatorProps {
@@ -43,9 +44,9 @@ function calcIncomeTax(annualGross: number, brackets: TaxBracket[]): number {
   if (!brackets.length) return 0
   let tax = 0
   for (const bracket of brackets) {
-    const min = bracket.min_income ?? 0
-    const max = bracket.max_income ?? Infinity
-    const rate = (bracket.rate_percent ?? 0) / 100
+    const min = bracket.lower_limit ?? 0
+    const max = bracket.upper_limit ?? Infinity
+    const rate = (bracket.rate ?? 0) / 100
     if (annualGross <= min) continue
     const taxableInBracket = Math.min(annualGross, max) - min
     tax += taxableInBracket * rate
@@ -54,12 +55,20 @@ function calcIncomeTax(annualGross: number, brackets: TaxBracket[]): number {
 }
 
 function calcSS(annualGross: number, rows: SocialSecurityRow[], type: 'employee' | 'employer'): number {
-  const matched = rows.filter(r => r.contribution_type?.toLowerCase().includes(type))
   let total = 0
-  for (const row of matched) {
-    const rate = (row.rate_percent ?? 0) / 100
-    const base = row.cap_amount ? Math.min(annualGross, row.cap_amount) : annualGross
-    total += base * rate
+  for (const row of rows) {
+    if (type === 'employee' && (row.employee_rate ?? 0) > 0) {
+      const rate = row.employee_rate / 100
+      const cap = row.employee_cap_annual
+      const base = cap ? Math.min(annualGross, cap) : annualGross
+      total += base * rate
+    }
+    if (type === 'employer' && (row.employer_rate ?? 0) > 0) {
+      const rate = row.employer_rate / 100
+      const cap = row.employer_cap_annual
+      const base = cap ? Math.min(annualGross, cap) : annualGross
+      total += base * rate
+    }
   }
   return Math.max(0, total)
 }
