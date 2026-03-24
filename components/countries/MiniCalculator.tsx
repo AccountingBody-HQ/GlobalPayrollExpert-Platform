@@ -117,7 +117,15 @@ export default function MiniCalculator({
           {(['annual', 'monthly'] as const).map(p => (
             <button
               key={p}
-              onClick={() => setPeriod(p)}
+              onClick={() => {
+                const current = parseFloat(grossInput.replace(/,/g, '')) || 0
+                if (p === 'monthly' && period === 'annual') {
+                  setGrossInput(Math.round(current / 12).toString())
+                } else if (p === 'annual' && period === 'monthly') {
+                  setGrossInput(Math.round(current * 12).toString())
+                }
+                setPeriod(p)
+              }}
               className={'px-3 py-1.5 rounded-md text-xs font-semibold transition-all ' + (period === p ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-white')}
             >
               {p.charAt(0).toUpperCase() + p.slice(1)}
@@ -146,7 +154,7 @@ export default function MiniCalculator({
           </div>
           {minimumWage && (
             <p className="text-xs text-slate-400 mt-1.5">
-              Minimum wage: {formatCurrency(minimumWage, currency)} / year
+              Minimum wage: {formatCurrency(minimumWage, currency)} / hour
             </p>
           )}
         </div>
