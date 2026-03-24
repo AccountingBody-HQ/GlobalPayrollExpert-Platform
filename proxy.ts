@@ -4,7 +4,10 @@ import type { NextRequest } from 'next/server'
 const ADMIN_SECRET = 'gpe-admin-2025-secure'
 
 export function proxy(request: NextRequest) {
-  if (request.nextUrl.pathname.startsWith('/admin')) {
+  const path = request.nextUrl.pathname
+
+  // Only protect /admin routes — not /admin-login
+  if (path.startsWith('/admin') && !path.startsWith('/admin-login')) {
     const token = request.cookies.get('admin_token')?.value
     if (token !== ADMIN_SECRET) {
       return NextResponse.redirect(new URL('/admin-login', request.url))
@@ -14,5 +17,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/(admin)(.*)'],
+  matcher: ['/(admin)(.*)', '/admin-login'],
 }
