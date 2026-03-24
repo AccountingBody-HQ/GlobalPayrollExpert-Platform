@@ -3,59 +3,67 @@ import { createClient } from '@supabase/supabase-js'
 
 export async function POST(req: Request) {
   try {
-    const { countryCode, action, finding } = await req.json()
+    const body = await req.json()
+    const { countryCode, action, finding } = body
 
-    // Use service role key to bypass RLS for admin updates
+    console.log('admin-update-country called:', JSON.stringify(body))
+
     const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.SUPABASE_SERVICE_ROLE_KEY!
     )
 
     if (action === 'approve_all') {
-      // Mark country as verified today
       const { error } = await supabase
         .from('countries')
         .update({ last_data_update: new Date().toISOString().split('T')[0] })
         .eq('iso2', countryCode)
-
-      if (error) throw new Error(error.message)
-      return NextResponse.json({ ok: true, message: 'Country marked as verified' })
+      if (error) {
+        console.error('approve_all error:', error)
+        return NextResponse.json({ error: error.message }, { status: 500 })
+      }
+      return NextResponse.json({ ok: true })
     }
 
     if (action === 'update_value') {
-      // Update a specific field in the database
       const { table, field, new_value, record_id } = finding
+      console.log('Updating:', table, field, new_value, record_id)
 
-      if (table === 'tax_brackets') {
-        const { error } = await supabase
-          .schema('gpe').from('tax_brackets')
-          .update({ [field]: new_value })
-          .eq('id', record_id)
-        if (error) throw new Error(error.message)
+      if (!record_id) {
+        return NextResponse.json({ error: 'No record_id provided' }, { status: 400 })
       }
 
-      if (table === 'social_security') {
-        const { error } = await supabase
-          .schema('gpe').from('social_security')
-          .update({ [field]: new_value })
-          .eq('id', record_id)
-        if (error) throw new Error(error.message)
+      // Use raw SQL via rpc to update gpe schema tables
+      const tableMap: Record<string, string> = {
+        'tax_brackets': 'gpe.tax_brackets',
+        'social_security': 'gpe.social_security',
+        'employment_rules': 'gpe.employment_rules',
       }
 
-      if (table === 'employment_rules') {
-        const { error } = await supabase
-          .schema('gpe').from('employment_rules')
-          .update({ [field]: new_value })
-          .eq('id', record_id)
-        if (error) throw new Error(error.message)
+      const fullTable = tableMap[table]
+      if (!fullTable) {
+        return NextResponse.json({ error: 'Unknown table: ' + table }, { status: 400 })
       }
 
-      return NextResponse.json({ ok: true, message: 'Value updated' })
+      const { error } = await supabase.rpc('admin_update_field', {
+        p_table: fullTable,
+        p_field: field,
+        p_value: String(new_value),
+        p_id: record_id,
+      })
+
+      if (error) {
+        console.error('update_value error:', error)
+        return NextResponse.json({ error: error.message }, { status: 500 })
+      }
+
+      return NextResponse.json({ ok: true })
     }
 
-    return NextResponse.json({ ok: true })
+    return NextResponse.json({ error: 'Unknown action' }, { status: 400 })
+
   } catch (e: any) {
-    console.error('admin-update error:', e)
+    console.error('admin-update-country exception:', e)
     return NextResponse.json({ error: e.message }, { status: 500 })
   }
 }
