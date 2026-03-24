@@ -1,20 +1,17 @@
-import { clerkMiddleware } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 
-const ADMIN_USER_ID = 'user_3BEB6ktIKuXbZEqamZxWJ55eLVv'
+const ADMIN_SECRET = 'gpe-admin-2025-secure'
 
-export default clerkMiddleware(async (auth, request) => {
+export function middleware(request: NextRequest) {
   if (request.nextUrl.pathname.startsWith('/admin')) {
-    const { userId } = await auth()
-    if (!userId) {
-      return NextResponse.redirect(new URL('/sign-in', request.url))
-    }
-    if (userId !== ADMIN_USER_ID) {
-      return NextResponse.redirect(new URL('/', request.url))
+    const token = request.cookies.get('admin_token')?.value
+    if (token !== ADMIN_SECRET) {
+      return NextResponse.redirect(new URL('/admin-login', request.url))
     }
   }
   return NextResponse.next()
-})
+}
 
 export const config = {
   matcher: ['/(admin)(.*)'],
