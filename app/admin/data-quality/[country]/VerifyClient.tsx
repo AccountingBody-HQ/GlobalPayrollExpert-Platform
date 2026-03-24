@@ -196,14 +196,7 @@ Respond ONLY with a JSON object in this exact format, no other text:
                       </div>
                       <p className="text-xs text-slate-400">{f.note}</p>
                       {f.source && (
-                        
-                          href={f.source}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-xs text-blue-400 hover:text-blue-300 mt-1 inline-block truncate max-w-xs"
-                        >
-                          {f.source}
-                        </a>
+                        <a href={f.source} target="_blank" rel="noopener noreferrer" className="text-xs text-blue-400 hover:text-blue-300 mt-1 inline-block truncate max-w-xs">{f.source}</a>
                       )}
                     </div>
                   </div>
