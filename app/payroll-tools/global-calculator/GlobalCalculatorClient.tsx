@@ -50,7 +50,7 @@ export default function GlobalCalculatorClient({ countries }: Props) {
         supabase
           .schema('gpe')
           .from('social_security')
-          .select('contribution_type, employer_rate, employee_rate, employer_cap_annual, employee_cap_annual')
+          .select('contribution_type, employer_rate, employee_rate, employer_cap_annual, employee_cap_annual, applies_above, applies_below')
           .eq('country_code', selectedCode)
           .eq('is_current', true),
       ])
@@ -70,12 +70,16 @@ export default function GlobalCalculatorClient({ countries }: Props) {
             contribution_type: 'employer',
             rate_percent: Number(s.employer_rate),
             cap_amount: s.employer_cap_annual !== null ? Number(s.employer_cap_annual) : null,
+            applies_above: s.applies_above !== null ? Number(s.applies_above) : null,
+            applies_below: s.applies_below !== null ? Number(s.applies_below) : null,
             description: s.contribution_type,
           },
           {
             contribution_type: 'employee',
             rate_percent: Number(s.employee_rate),
             cap_amount: s.employee_cap_annual !== null ? Number(s.employee_cap_annual) : null,
+            applies_above: s.applies_above !== null ? Number(s.applies_above) : null,
+            applies_below: s.applies_below !== null ? Number(s.applies_below) : null,
             description: s.contribution_type,
           },
         ])

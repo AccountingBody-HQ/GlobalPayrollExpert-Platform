@@ -14,6 +14,8 @@ export interface SocialSecurityRate {
   contribution_type: string // 'employee' | 'employer'
   rate_percent: number
   cap_amount: number | null
+  applies_above: number | null  // income threshold above which rate applies
+  applies_below: number | null  // income ceiling above which rate stops
   description: string
 }
 
@@ -122,8 +124,15 @@ export function calculateSocialSecurity(
   const breakdown: SSBreakdown[] = []
 
   for (const rate of filtered) {
-    const base = rate.cap_amount ? Math.min(annualGross, rate.cap_amount) : annualGross
+    // Apply applies_above threshold — only income above this level is subject to this rate
+    const floor = rate.applies_above ?? 0
+    // Apply applies_below ceiling — income above this level is excluded from this band
+    const ceiling = rate.applies_below ?? Infinity
+    // Cap amount is a hard annual maximum contribution
+    const taxableBase = Math.max(0, Math.min(annualGross, ceiling) - floor)
+    const base = rate.cap_amount ? Math.min(taxableBase, rate.cap_amount) : taxableBase
     const contribution = base * (rate.rate_percent / 100)
+    if (contribution <= 0) continue
     total += contribution
 
     breakdown.push({

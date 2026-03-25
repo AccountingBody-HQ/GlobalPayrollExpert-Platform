@@ -78,7 +78,8 @@ function getSSRate(ss: SSRow[], type: string): number {
 export default function CompareClient({ countries }: Props) {
   const [codeA, setCodeA] = useState('GB')
   const [codeB, setCodeB] = useState('US')
-  const [salary, setSalary] = useState('60000')
+  const [salaryA, setSalaryA] = useState('60000')
+  const [salaryB, setSalaryB] = useState('60000')
   const [dataA, setDataA] = useState<CountryData | null>(null)
   const [dataB, setDataB] = useState<CountryData | null>(null)
   const [loading, setLoading] = useState(false)
@@ -134,23 +135,24 @@ export default function CompareClient({ countries }: Props) {
     return grossSalary * (1 + employerSS / 100)
   }
 
-  const grossNum = parseFloat(salary.replace(/,/g, '')) || 0
+  const grossA = parseFloat(salaryA.replace(/,/g, '')) || 0
+  const grossB = parseFloat(salaryB.replace(/,/g, '')) || 0
 
   const chartData = compared && dataA && dataB ? [
     {
       name: 'Gross Salary',
-      [dataA.country.name]: grossNum,
-      [dataB.country.name]: grossNum,
+      [dataA.country.name]: grossA,
+      [dataB.country.name]: grossB,
     },
     {
       name: 'Employer SS',
-      [dataA.country.name]: Math.round(grossNum * getSSRate(dataA.ss, 'employer') / 100),
-      [dataB.country.name]: Math.round(grossNum * getSSRate(dataB.ss, 'employer') / 100),
+      [dataA.country.name]: Math.round(grossA * getSSRate(dataA.ss, 'employer') / 100),
+      [dataB.country.name]: Math.round(grossB * getSSRate(dataB.ss, 'employer') / 100),
     },
     {
       name: 'Total Cost',
-      [dataA.country.name]: Math.round(employerCost(dataA, grossNum)),
-      [dataB.country.name]: Math.round(employerCost(dataB, grossNum)),
+      [dataA.country.name]: Math.round(employerCost(dataA, grossA)),
+      [dataB.country.name]: Math.round(employerCost(dataB, grossB)),
     },
   ] : []
 
@@ -196,15 +198,28 @@ export default function CompareClient({ countries }: Props) {
             </select>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">Annual Gross Salary (local currency)</label>
-            <input
-              type="number"
-              value={salary}
-              onChange={e => setSalary(e.target.value)}
-              placeholder="e.g. 60000"
-              className="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-slate-800 font-medium focus:outline-none focus:border-blue-500 text-sm"
-            />
+          <div className="space-y-3">
+            <label className="block text-sm font-medium text-slate-700">Annual Gross Salary</label>
+            <div>
+              <span className="text-xs text-slate-500 mb-1 block">Country A salary (local currency)</span>
+              <input
+                type="number"
+                value={salaryA}
+                onChange={e => setSalaryA(e.target.value)}
+                placeholder="e.g. 60000"
+                className="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-slate-800 font-medium focus:outline-none focus:border-blue-500 text-sm"
+              />
+            </div>
+            <div>
+              <span className="text-xs text-slate-500 mb-1 block">Country B salary (local currency)</span>
+              <input
+                type="number"
+                value={salaryB}
+                onChange={e => setSalaryB(e.target.value)}
+                placeholder="e.g. 60000"
+                className="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-slate-800 font-medium focus:outline-none focus:border-blue-500 text-sm"
+              />
+            </div>
           </div>
         </div>
 
@@ -271,21 +286,21 @@ export default function CompareClient({ countries }: Props) {
               </span>
             </div>
 
-            {grossNum > 0 && (
+            {(grossA > 0 || grossB > 0) && (
               <div className="grid grid-cols-[2fr_1fr_1fr] px-6 py-4 items-center border-t border-slate-200 bg-blue-50">
                 <span className="text-sm font-bold text-slate-800">Est. Total Employer Cost</span>
                 <span className="font-mono text-sm font-bold text-blue-700">
-                  {fmt(employerCost(dataA, grossNum), dataA.country.currency_code)}
+                  {grossA > 0 ? fmt(employerCost(dataA, grossA), dataA.country.currency_code) : '—'}
                 </span>
                 <span className="font-mono text-sm font-bold text-blue-700">
-                  {fmt(employerCost(dataB, grossNum), dataB.country.currency_code)}
+                  {grossB > 0 ? fmt(employerCost(dataB, grossB), dataB.country.currency_code) : '—'}
                 </span>
               </div>
             )}
           </div>
 
           {/* Chart */}
-          {grossNum > 0 && (
+          {(grossA > 0 || grossB > 0) && (
             <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
               <h3 className="font-semibold text-slate-900 mb-6">Employer Cost Breakdown</h3>
               <ResponsiveContainer width="100%" height={260}>
