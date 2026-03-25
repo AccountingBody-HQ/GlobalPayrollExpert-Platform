@@ -63,11 +63,16 @@ function getRuleDisplay(rules: RuleRow[], type: string): string {
 }
 
 function getSSRate(ss: SSRow[], type: string): number {
-  return ss.reduce((sum, s) => {
-    if (type === 'employer') return sum + Number(s.employer_rate)
-    if (type === 'employee') return sum + Number(s.employee_rate)
-    return sum
-  }, 0)
+  // Use the highest single rate rather than summing bands
+  // Multiple rows often represent the same contribution split across salary bands
+  // not additive separate contributions
+  const rates = ss.map(s => {
+    if (type === 'employer') return Number(s.employer_rate)
+    if (type === 'employee') return Number(s.employee_rate)
+    return 0
+  })
+  if (rates.length === 0) return 0
+  return Math.max(...rates)
 }
 
 export default function CompareClient({ countries }: Props) {
@@ -192,7 +197,7 @@ export default function CompareClient({ countries }: Props) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">Annual Gross Salary (USD equivalent)</label>
+            <label className="block text-sm font-medium text-slate-700 mb-2">Annual Gross Salary (local currency)</label>
             <input
               type="number"
               value={salary}
