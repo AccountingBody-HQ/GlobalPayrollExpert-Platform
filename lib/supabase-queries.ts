@@ -17,7 +17,7 @@ export async function getAllCountries() {
   const supabase = getPublicClient()
   const { data, error } = await supabase
     .from('countries')
-    .select('id, iso2, iso3, name, currency_code, flag_emoji, region, coverage_level, payroll_complexity_score')
+    .select('id, iso2, iso3, name, currency_code, flag_emoji, region, gpe_coverage_level, payroll_complexity_score')
     .order('name', { ascending: true })
   if (error) { console.error('getAllCountries error:', error.message); return [] }
   return data ?? []
@@ -139,7 +139,7 @@ export async function getRelatedCountries(iso2: string, region: string) {
   const supabase = getPublicClient()
   const { data, error } = await supabase
     .from('countries')
-    .select('id, iso2, name, flag_emoji, currency_code, region, coverage_level, payroll_complexity_score')
+    .select('id, iso2, name, flag_emoji, currency_code, region, gpe_coverage_level, payroll_complexity_score')
     .eq('region', region)
     .neq('iso2', iso2.toUpperCase())
     .limit(4)

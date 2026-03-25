@@ -7,7 +7,7 @@
 import Link from 'next/link'
 import { ChevronRight } from 'lucide-react'
 
-// Coverage level comes from public.countries.coverage_level
+// Coverage level comes from public.countries.gpe_coverage_level
 // Values: full | partial | basic | none
 type CoverageLevel = 'full' | 'partial' | 'basic' | 'none'
 
@@ -17,7 +17,7 @@ interface CountryCardProps {
   flag_emoji: string | null
   currency: string | null
   region: string | null
-  coverage_level: CoverageLevel | null
+  gpe_coverage_level: CoverageLevel | null
   payroll_complexity_score: number | null
 }
 
@@ -37,12 +37,12 @@ export default function CountryCard({
   flag_emoji,
   currency,
   region,
-  coverage_level,
+  gpe_coverage_level,
   payroll_complexity_score,
 }: CountryCardProps) {
   const code = iso2.toLowerCase()
-  const coverage = coverage_level ? COVERAGE_CONFIG[coverage_level] ?? DEFAULT_COVERAGE : DEFAULT_COVERAGE
-  const isAvailable = coverage_level && coverage_level !== 'none'
+  const coverage = gpe_coverage_level ? COVERAGE_CONFIG[gpe_coverage_level] ?? DEFAULT_COVERAGE : DEFAULT_COVERAGE
+  const isAvailable = gpe_coverage_level && gpe_coverage_level !== 'none'
 
   return (
     <Link

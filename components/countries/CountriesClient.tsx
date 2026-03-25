@@ -20,7 +20,7 @@ interface Country {
   flag_emoji: string | null
   currency_code: string | null
   region: string | null
-  coverage_level: CoverageLevel | null
+  gpe_coverage_level: CoverageLevel | null
   payroll_complexity_score: number | null
 }
 
@@ -190,7 +190,7 @@ export default function CountriesClient({ countries }: CountriesClientProps) {
               flag_emoji={country.flag_emoji}
               currency={country.currency_code}
               region={country.region}
-              coverage_level={country.coverage_level}
+              gpe_coverage_level={country.gpe_coverage_level}
               payroll_complexity_score={country.payroll_complexity_score}
             />
           ))}
