@@ -22,7 +22,8 @@ interface RuleRow {
 
 interface SSRow {
   contribution_type: string
-  rate_percent: number
+  employer_rate: number
+  employee_rate: number
 }
 
 interface CountryData {
@@ -62,9 +63,11 @@ function getRuleDisplay(rules: RuleRow[], type: string): string {
 }
 
 function getSSRate(ss: SSRow[], type: string): number {
-  return ss
-    .filter(s => s.contribution_type.includes(type))
-    .reduce((sum, s) => sum + Number(s.rate_percent), 0)
+  return ss.reduce((sum, s) => {
+    if (type === 'employer') return sum + Number(s.employer_rate)
+    if (type === 'employee') return sum + Number(s.employee_rate)
+    return sum
+  }, 0)
 }
 
 export default function CompareClient({ countries }: Props) {
@@ -96,7 +99,7 @@ export default function CompareClient({ countries }: Props) {
       supabase
         .schema('gpe')
         .from('social_security')
-        .select('contribution_type, rate_percent')
+        .select('contribution_type, employer_rate, employee_rate')
         .eq('country_code', code)
         .eq('is_current', true),
     ])
