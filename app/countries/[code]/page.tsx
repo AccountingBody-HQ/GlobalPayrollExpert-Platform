@@ -184,7 +184,7 @@ export default async function CountryPage(
                     <h1 className="font-serif text-3xl lg:text-5xl font-bold text-white tracking-tight">
                       {country.name}
                     </h1>
-                    {country.coverage_level === 'full' && (
+                    {country.gpe_coverage_level === 'full' && (
                       <span className="hidden sm:flex items-center gap-1.5 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-bold px-3 py-1 rounded-full">
                         <CheckCircle size={11} /> Verified
                       </span>
@@ -655,7 +655,7 @@ export default async function CountryPage(
                   flag_emoji={c.flag_emoji}
                   currency={c.currency_code}
                   region={c.region}
-                  coverage_level={c.coverage_level}
+                  coverage_level={c.gpe_coverage_level}
                   payroll_complexity_score={c.payroll_complexity_score}
                 />
               ))}
