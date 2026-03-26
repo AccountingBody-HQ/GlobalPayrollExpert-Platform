@@ -23,12 +23,11 @@ type SortOption = 'az' | 'region' | 'complexity'
 
 // These values must exactly match what is stored in the database
 const REGION_TABS = [
-  { label: 'All',          value: 'all' },
-  { label: 'Europe',       value: 'Europe' },
-  { label: 'Americas',     value: 'Americas' },
-  { label: 'Asia',         value: 'Asia' },
-  { label: 'Middle East',  value: 'Middle East' },
-  { label: 'Africa',       value: 'Africa' },
+  { label: 'All',       value: 'all' },
+  { label: 'Europe',    value: 'Europe' },
+  { label: 'Americas',  value: 'Americas' },
+  { label: 'Asia',      value: 'Asia' },
+  { label: 'Oceania',   value: 'Oceania' },
 ]
 
 // Map URL slugs (from homepage links) to exact database region values
@@ -37,6 +36,7 @@ const SLUG_TO_REGION: Record<string, string> = {
   'americas':     'Americas',
   'asia':         'Asia',
   'asia-pacific': 'Asia',
+  'oceania':      'Oceania',
   'middle-east':  'Middle East',
   'africa':       'Africa',
 }
