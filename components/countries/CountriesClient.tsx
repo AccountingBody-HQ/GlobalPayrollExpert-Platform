@@ -1,12 +1,7 @@
 'use client'
 
-// ============================================
-// GLOBALPAYROLLEXPERT — COUNTRIES CLIENT
-// Handles search, region filter, and sort
-// This is a Client Component — uses React state
-// ============================================
-
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { Search, X } from 'lucide-react'
 import CountryCard from '@/components/CountryCard'
 
@@ -34,8 +29,17 @@ const REGION_TABS = [
   { label: 'Middle East & Africa', value: 'Middle East & Africa' },
 ]
 
+// Map URL slug → tab value
+const SLUG_TO_REGION: Record<string, string> = {
+  'europe':       'Europe',
+  'americas':     'Americas',
+  'asia-pacific': 'Asia Pacific',
+  'middle-east':  'Middle East & Africa',
+  'africa':       'Middle East & Africa',
+}
+
 const SORT_OPTIONS: { label: string; value: SortOption }[] = [
-  { label: 'A–Z',        value: 'az' },
+  { label: 'A-Z',        value: 'az' },
   { label: 'Region',     value: 'region' },
   { label: 'Complexity', value: 'complexity' },
 ]
@@ -45,14 +49,23 @@ interface CountriesClientProps {
 }
 
 export default function CountriesClient({ countries }: CountriesClientProps) {
-  const [search, setSearch]       = useState('')
-  const [region, setRegion]       = useState('all')
-  const [sort, setSort]           = useState<SortOption>('az')
+  const searchParams = useSearchParams()
+  const regionParam = searchParams.get('region') ?? ''
+  const initialRegion = SLUG_TO_REGION[regionParam.toLowerCase()] ?? 'all'
+
+  const [search, setSearch] = useState('')
+  const [region, setRegion] = useState(initialRegion)
+  const [sort, setSort]     = useState<SortOption>('az')
+
+  // Update region if the URL param changes (e.g. browser back/forward)
+  useEffect(() => {
+    const mapped = SLUG_TO_REGION[regionParam.toLowerCase()] ?? 'all'
+    setRegion(mapped)
+  }, [regionParam])
 
   const filtered = useMemo(() => {
     let result = [...countries]
 
-    // Search filter
     if (search.trim()) {
       const q = search.trim().toLowerCase()
       result = result.filter(c =>
@@ -62,8 +75,6 @@ export default function CountriesClient({ countries }: CountriesClientProps) {
       )
     }
 
-    // Region filter
-    // We normalise region values to handle Middle East / Africa split
     if (region !== 'all') {
       if (region === 'Middle East & Africa') {
         result = result.filter(c =>
@@ -76,7 +87,6 @@ export default function CountriesClient({ countries }: CountriesClientProps) {
       }
     }
 
-    // Sort
     if (sort === 'az') {
       result.sort((a, b) => a.name.localeCompare(b.name))
     } else if (sort === 'region') {
@@ -89,7 +99,7 @@ export default function CountriesClient({ countries }: CountriesClientProps) {
       result.sort((a, b) => {
         const sa = a.payroll_complexity_score ?? 0
         const sb = b.payroll_complexity_score ?? 0
-        return sb - sa // highest first
+        return sb - sa
       })
     }
 
@@ -98,9 +108,8 @@ export default function CountriesClient({ countries }: CountriesClientProps) {
 
   return (
     <div>
-      {/* ── Search + Sort bar ── */}
+      {/* Search + Sort bar */}
       <div className="flex flex-col sm:flex-row gap-3 mb-6">
-        {/* Search */}
         <div className="relative flex-1">
           <Search
             size={16}
@@ -110,7 +119,7 @@ export default function CountriesClient({ countries }: CountriesClientProps) {
             type="text"
             value={search}
             onChange={e => setSearch(e.target.value)}
-            placeholder="Search countries, currencies…"
+            placeholder="Search countries, currencies..."
             className="w-full pl-11 pr-10 py-3 bg-white border border-slate-200 focus:border-blue-400 focus:ring-2 focus:ring-blue-100 rounded-xl text-sm text-slate-800 placeholder:text-slate-400 outline-none transition-all"
           />
           {search && (
@@ -124,7 +133,6 @@ export default function CountriesClient({ countries }: CountriesClientProps) {
           )}
         </div>
 
-        {/* Sort */}
         <div className="flex items-center gap-2 shrink-0">
           <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider hidden sm:block">Sort</span>
           <div className="flex gap-1 bg-slate-100 rounded-lg p-1">
@@ -145,7 +153,7 @@ export default function CountriesClient({ countries }: CountriesClientProps) {
         </div>
       </div>
 
-      {/* ── Region tabs ── */}
+      {/* Region tabs */}
       <div className="flex gap-1 flex-wrap mb-8">
         {REGION_TABS.map(tab => (
           <button
@@ -162,7 +170,7 @@ export default function CountriesClient({ countries }: CountriesClientProps) {
         ))}
       </div>
 
-      {/* ── Results count ── */}
+      {/* Results count */}
       <div className="flex items-center justify-between mb-5">
         <p className="text-sm text-slate-500">
           {filtered.length === 0
@@ -179,7 +187,7 @@ export default function CountriesClient({ countries }: CountriesClientProps) {
         )}
       </div>
 
-      {/* ── Country grid ── */}
+      {/* Country grid */}
       {filtered.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {filtered.map(country => (
