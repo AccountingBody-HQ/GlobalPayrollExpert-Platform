@@ -224,30 +224,30 @@ function SearchContent() {
             {query ? <>Results for <span className="text-blue-400">"{query}"</span></> : 'Search GlobalPayrollExpert'}
           </h1>
           <form onSubmit={handleSubmit} className="max-w-2xl">
-            <div className="flex items-center gap-3">
-              <div className="relative flex-1">
-                <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
-                <input
-                  type="text"
-                  value={inputValue}
-                  onChange={e => setInputValue(e.target.value)}
-                  placeholder="Search countries, payroll guides, tools…"
-                  className="w-full pl-12 pr-10 py-3.5 bg-slate-900 border border-slate-700 focus:border-blue-500 text-white placeholder:text-slate-500 rounded-xl outline-none transition-all text-sm font-medium"
-                  autoFocus
-                />
-                {inputValue && (
-                  <button
-                    type="button"
-                    onClick={() => { setInputValue(''); setQuery(''); setResults(null) }}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors p-1"
-                  >
-                    <X size={15} />
-                  </button>
-                )}
+            <div className="flex items-center bg-white rounded-2xl shadow-xl shadow-black/20 overflow-hidden border-2 border-transparent focus-within:border-blue-400 transition-all duration-200">
+              <div className="flex items-center justify-center w-12 h-12 shrink-0">
+                <Search size={17} className="text-slate-400" />
               </div>
+              <input
+                type="text"
+                value={inputValue}
+                onChange={e => setInputValue(e.target.value)}
+                placeholder="Search countries, payroll guides, tools…"
+                className="flex-1 py-3.5 pr-3 text-sm font-medium text-slate-900 placeholder:text-slate-400 bg-transparent outline-none"
+                autoFocus
+              />
+              {inputValue && (
+                <button
+                  type="button"
+                  onClick={() => { setInputValue(''); setQuery(''); setResults(null) }}
+                  className="flex items-center justify-center w-8 h-8 mr-1 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors shrink-0"
+                >
+                  <X size={14} />
+                </button>
+              )}
               <button
                 type="submit"
-                className="shrink-0 bg-blue-600 hover:bg-blue-500 text-white text-sm font-bold px-6 py-3.5 rounded-xl transition-colors"
+                className="m-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-sm font-bold rounded-xl transition-colors shrink-0"
               >
                 Search
               </button>
