@@ -5,7 +5,7 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'About GlobalPayrollExpert — Methodology, Data Standards & Mission',
-  description: 'GlobalPayrollExpert is the world's most comprehensive global payroll intelligence platform. Learn about our data methodology, verification standards, and mission to cover every country.',
+  description: 'The most comprehensive global payroll intelligence platform. Data methodology, verification standards, and a mission to cover every country.',
   alternates: {
     canonical: 'https://globalpayrollexpert.com/about/',
   },
