@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import CountrySearch from '@/components/homepage/CountrySearch'
+import SearchBar from '@/components/SearchBar'
 import { Globe, Calculator, Building2, Shield, ArrowRight, ChevronRight, Lock, RefreshCw, Award, TrendingUp, CheckCircle } from 'lucide-react'
 
 const FEATURED_COUNTRIES = [
@@ -118,7 +118,7 @@ export default async function HomePage() {
             </p>
 
             <div className="max-w-xl mb-8">
-              <CountrySearch />
+              <SearchBar variant="hero" placeholder="Search any country, payroll guide, or topic…" />
             </div>
 
             <div className="flex flex-wrap items-center gap-2">

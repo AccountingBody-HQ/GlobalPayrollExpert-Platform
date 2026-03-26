@@ -8,6 +8,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Menu, X, Globe } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import SearchBar from '@/components/SearchBar'
 
 const navLinks = [
   { label: 'Countries', href: '/countries/' },
@@ -24,18 +25,18 @@ export default function Navigation() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
+        <div className="flex h-16 items-center justify-between gap-4">
 
           {/* LOGO */}
-          <Link href="/" className="flex items-center gap-2">
-              <Globe className="h-6 w-6 text-blue-600" />
-              <span className="text-lg font-bold text-slate-900 tracking-tight">
-                Global Payroll Expert
-              </span>
-            </Link>
+          <Link href="/" className="flex items-center gap-2 shrink-0">
+            <Globe className="h-6 w-6 text-blue-600" />
+            <span className="text-lg font-bold text-slate-900 tracking-tight">
+              Global Payroll Expert
+            </span>
+          </Link>
 
           {/* DESKTOP NAV */}
-          <nav className="hidden md:flex items-center gap-1">
+          <nav className="hidden lg:flex items-center gap-1">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -47,8 +48,16 @@ export default function Navigation() {
             ))}
           </nav>
 
+          {/* SEARCH BAR — desktop */}
+          <div className="hidden md:block w-64 lg:w-72">
+            <SearchBar
+              variant="nav"
+              placeholder="Search countries…"
+            />
+          </div>
+
           {/* DESKTOP CTA */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-3 shrink-0">
             <Link
               href="/sign-in"
               className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
@@ -69,18 +78,18 @@ export default function Navigation() {
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
           >
-            {mobileOpen ? (
-              <X className="h-5 w-5" />
-            ) : (
-              <Menu className="h-5 w-5" />
-            )}
+            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
       </div>
 
       {/* MOBILE MENU */}
       {mobileOpen && (
-        <div className="md:hidden border-t border-slate-200 bg-white px-4 pb-4 pt-2">
+        <div className="md:hidden border-t border-slate-200 bg-white px-4 pb-4 pt-3">
+          {/* Mobile search */}
+          <div className="mb-3">
+            <SearchBar variant="nav" placeholder="Search countries…" />
+          </div>
           <nav className="flex flex-col gap-1">
             {navLinks.map((link) => (
               <Link
