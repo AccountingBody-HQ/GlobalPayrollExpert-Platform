@@ -21,21 +21,24 @@ interface Country {
 
 type SortOption = 'az' | 'region' | 'complexity'
 
+// These values must exactly match what is stored in the database
 const REGION_TABS = [
-  { label: 'All',                  value: 'all' },
-  { label: 'Europe',               value: 'Europe' },
-  { label: 'Americas',             value: 'Americas' },
-  { label: 'Asia Pacific',         value: 'Asia Pacific' },
-  { label: 'Middle East & Africa', value: 'Middle East & Africa' },
+  { label: 'All',          value: 'all' },
+  { label: 'Europe',       value: 'Europe' },
+  { label: 'Americas',     value: 'Americas' },
+  { label: 'Asia',         value: 'Asia' },
+  { label: 'Middle East',  value: 'Middle East' },
+  { label: 'Africa',       value: 'Africa' },
 ]
 
-// Map URL slug → tab value
+// Map URL slugs (from homepage links) to exact database region values
 const SLUG_TO_REGION: Record<string, string> = {
   'europe':       'Europe',
   'americas':     'Americas',
-  'asia-pacific': 'Asia Pacific',
-  'middle-east':  'Middle East & Africa',
-  'africa':       'Middle East & Africa',
+  'asia':         'Asia',
+  'asia-pacific': 'Asia',
+  'middle-east':  'Middle East',
+  'africa':       'Africa',
 }
 
 const SORT_OPTIONS: { label: string; value: SortOption }[] = [
@@ -57,7 +60,6 @@ export default function CountriesClient({ countries }: CountriesClientProps) {
   const [region, setRegion] = useState(initialRegion)
   const [sort, setSort]     = useState<SortOption>('az')
 
-  // Update region if the URL param changes (e.g. browser back/forward)
   useEffect(() => {
     const mapped = SLUG_TO_REGION[regionParam.toLowerCase()] ?? 'all'
     setRegion(mapped)
@@ -76,15 +78,7 @@ export default function CountriesClient({ countries }: CountriesClientProps) {
     }
 
     if (region !== 'all') {
-      if (region === 'Middle East & Africa') {
-        result = result.filter(c =>
-          c.region === 'Middle East' ||
-          c.region === 'Africa' ||
-          c.region === 'Middle East & Africa'
-        )
-      } else {
-        result = result.filter(c => c.region === region)
-      }
+      result = result.filter(c => c.region === region)
     }
 
     if (sort === 'az') {
