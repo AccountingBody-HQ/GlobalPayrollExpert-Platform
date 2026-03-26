@@ -1,8 +1,11 @@
+'use client'
 // ============================================
 // GLOBALPAYROLLEXPERT — FOOTER COMPONENT
 // ============================================
 import Link from 'next/link'
 import { Globe } from 'lucide-react'
+import { usePathname } from 'next/navigation'
+import EmailCapture from '@/components/EmailCapture'
 
 const footerLinks = {
   'Country Data': [
@@ -34,6 +37,8 @@ const footerLinks = {
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
+  const pathname = usePathname()
+  const isHomepage = pathname === '/'
   return (
     <footer className="bg-slate-900 border-t border-slate-800">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -78,6 +83,20 @@ export default function Footer() {
             </div>
           ))}
         </div>
+
+        {/* EMAIL CAPTURE STRIP — shown on all pages except homepage */}
+        {!isHomepage && (
+          <div className="border-t border-slate-800 py-12">
+            <div className="max-w-xl">
+              <EmailCapture
+                source="footer"
+                variant="dark"
+                title="Monthly global payroll updates."
+                subtitle="Rate changes, new country data, and compliance alerts — once a month, free."
+              />
+            </div>
+          </div>
+        )}
 
         {/* BOTTOM SECTION */}
         <div className="border-t border-slate-800 py-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
