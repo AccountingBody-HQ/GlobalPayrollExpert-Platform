@@ -11,7 +11,7 @@ interface Country {
   flag_emoji: string
   region: string
   currency_code: string
-  coverage_level: string
+  gpe_coverage_level: string
   payroll_complexity_score: number
 }
 
@@ -64,7 +64,7 @@ function CountryCard({ country }: { country: Country }) {
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2 flex-wrap mb-1">
           <span className="font-bold text-slate-900 group-hover:text-blue-700 transition-colors">{country.name}</span>
-          {coverageBadge(country.coverage_level)}
+          {coverageBadge(country.gpe_coverage_level)}
         </div>
         <div className="text-xs text-slate-400">
           {country.region} · {country.currency_code}
