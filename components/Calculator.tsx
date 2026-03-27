@@ -288,18 +288,20 @@ export default function Calculator({
               ))}
             </div>
 
-            <div className="flex gap-2">
+            <div className="flex items-center gap-2">
               <button
                 onClick={handleCopyLink}
-                className="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-xs font-medium text-slate-500 hover:text-slate-800 hover:border-slate-300 hover:bg-slate-50 transition-all"
               >
-                {copied ? '✓ Copied' : '🔗 Share'}
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                {copied ? 'Copied' : 'Share'}
               </button>
               <button
                 onClick={handleDownloadPDF}
-                className="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-xs font-medium text-slate-500 hover:text-slate-800 hover:border-slate-300 hover:bg-slate-50 transition-all"
               >
-                ⬇ PDF
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Export PDF
               </button>
               {onSaveRequest && (
                 <button
@@ -310,9 +312,10 @@ export default function Calculator({
                     }
                     onSaveRequest(result, parseFloat(gross), period)
                   }}
-                  className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 transition"
+                  className="inline-flex items-center gap-1.5 rounded-lg bg-slate-900 hover:bg-slate-700 px-3.5 py-2 text-xs font-medium text-white transition-all"
                 >
-                  {isAuthenticated ? '💾 Save' : '🔒 Save (Sign in)'}
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                  {isAuthenticated ? 'Save Calculation' : 'Sign in to Save'}
                 </button>
               )}
             </div>
