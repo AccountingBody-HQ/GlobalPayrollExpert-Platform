@@ -1,21 +1,30 @@
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
 
 const ADMIN_SECRET = 'gpe-admin-2025-secure'
 
-export function proxy(request: NextRequest) {
+const isProtectedRoute = createRouteMatcher(['/dashboard(.*)'])
+
+export default clerkMiddleware(async (auth, request) => {
   const path = request.nextUrl.pathname
 
-  // Only protect /admin routes — not /admin-login
+  // Protect /admin routes with password cookie
   if (path.startsWith('/admin') && !path.startsWith('/admin-login')) {
     const token = request.cookies.get('admin_token')?.value
     if (token !== ADMIN_SECRET) {
       return NextResponse.redirect(new URL('/admin-login', request.url))
     }
   }
-  return NextResponse.next()
-}
+
+  // Protect /dashboard routes with Clerk auth
+  if (isProtectedRoute(request)) {
+    await auth.protect()
+  }
+})
 
 export const config = {
-  matcher: ['/(admin)(.*)', '/admin-login'],
+  matcher: [
+    '/((?!_next|[^?]*\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+    '/(api|trpc)(.*)',
+  ],
 }
