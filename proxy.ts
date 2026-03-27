@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server'
 
 const ADMIN_SECRET = 'gpe-admin-2025-secure'
 
-const isProtectedRoute = createRouteMatcher(['/dashboard(.*)'])
+const isProtectedRoute = createRouteMatcher(['/dashboard(.*)', '/ai-assistant(.*)'])
 
 export default clerkMiddleware(async (auth, request) => {
   const path = request.nextUrl.pathname
