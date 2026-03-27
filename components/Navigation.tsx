@@ -2,8 +2,9 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Menu, X, Globe } from 'lucide-react'
+import { Menu, X, Globe, User, LayoutDashboard, LogOut, ChevronDown, Crown } from 'lucide-react'
 import SearchBar from '@/components/SearchBar'
+import { useUser, useClerk } from '@clerk/nextjs'
 
 const navLinks = [
   { label: 'Countries', href: '/countries/' },
@@ -16,6 +17,11 @@ const navLinks = [
 
 export default function Navigation() {
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [userMenuOpen, setUserMenuOpen] = useState(false)
+  const { isSignedIn, user } = useUser()
+  const { signOut } = useClerk()
+
+  const firstName = user?.firstName || user?.emailAddresses?.[0]?.emailAddress?.split('@')?.[0] || 'Account'
 
   return (
     <header className="sticky top-0 z-50 w-full bg-slate-950/95 backdrop-blur-md border-b border-slate-800/80">
@@ -48,19 +54,69 @@ export default function Navigation() {
             <SearchBar variant="nav" />
           </div>
 
-          {/* CTA */}
-          <div className="hidden md:flex items-center gap-2 shrink-0 ml-auto lg:ml-0">
-            <Link href="/sign-in"
-              className="text-sm font-medium text-slate-400 hover:text-white transition-colors px-3 py-1.5"
-            >
-              Sign in
-            </Link>
-            <Link href="/pricing"
-              className="inline-flex items-center justify-center rounded-lg bg-blue-600 hover:bg-blue-500 px-4 py-2 text-sm font-semibold text-white transition-colors"
-            >
-              Go Pro
-            </Link>
-          </div>
+          {/* CTA — signed out */}
+          {!isSignedIn && (
+            <div className="hidden md:flex items-center gap-2 shrink-0 ml-auto lg:ml-0">
+              <Link href="/sign-in"
+                className="text-sm font-medium text-slate-400 hover:text-white transition-colors px-3 py-1.5"
+              >
+                Sign in
+              </Link>
+              <Link href="/pricing/"
+                className="inline-flex items-center justify-center rounded-lg bg-blue-600 hover:bg-blue-500 px-4 py-2 text-sm font-semibold text-white transition-colors"
+              >
+                Go Pro
+              </Link>
+            </div>
+          )}
+
+          {/* USER MENU — signed in */}
+          {isSignedIn && (
+            <div className="hidden md:flex items-center gap-2 shrink-0 ml-auto lg:ml-0 relative">
+              <Link href="/pricing/"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-blue-500/30 bg-blue-600/10 hover:bg-blue-600/20 px-3 py-1.5 text-sm font-semibold text-blue-400 transition-colors"
+              >
+                <Crown size={13} /> Go Pro
+              </Link>
+              <button
+                onClick={() => setUserMenuOpen(!userMenuOpen)}
+                className="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg px-3 py-1.5 transition-colors"
+              >
+                <div className="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center">
+                  <User size={13} className="text-white" />
+                </div>
+                <span className="text-sm font-medium text-slate-300">{firstName}</span>
+                <ChevronDown size={13} className="text-slate-400" />
+              </button>
+
+              {userMenuOpen && (
+                <div className="absolute right-0 top-full mt-2 w-48 bg-slate-900 border border-slate-700 rounded-xl shadow-2xl py-1 z-50">
+                  <Link href="/dashboard/"
+                    className="flex items-center gap-3 px-4 py-2.5 text-sm text-slate-300 hover:text-white hover:bg-slate-800 transition-colors"
+                    onClick={() => setUserMenuOpen(false)}
+                  >
+                    <LayoutDashboard size={15} className="text-blue-400" />
+                    Dashboard
+                  </Link>
+                  <Link href="/dashboard/saved/"
+                    className="flex items-center gap-3 px-4 py-2.5 text-sm text-slate-300 hover:text-white hover:bg-slate-800 transition-colors"
+                    onClick={() => setUserMenuOpen(false)}
+                  >
+                    <User size={15} className="text-blue-400" />
+                    Saved Calculations
+                  </Link>
+                  <div className="border-t border-slate-700 my-1" />
+                  <button
+                    onClick={() => { setUserMenuOpen(false); signOut({ redirectUrl: '/' }) }}
+                    className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-slate-300 hover:text-red-400 hover:bg-slate-800 transition-colors"
+                  >
+                    <LogOut size={15} />
+                    Sign out
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
 
           {/* MOBILE BUTTON */}
           <button
@@ -92,18 +148,37 @@ export default function Navigation() {
             ))}
           </nav>
           <div className="px-4 py-3 border-t border-slate-800/80 flex gap-2">
-            <Link href="/sign-in"
-              className="flex-1 text-center px-4 py-2.5 text-sm font-medium text-slate-400 hover:text-white border border-slate-700 hover:border-slate-600 rounded-lg transition-all"
-              onClick={() => setMobileOpen(false)}
-            >
-              Sign in
-            </Link>
-            <Link href="/pricing"
-              className="flex-1 text-center px-4 py-2.5 text-sm font-bold text-white bg-blue-600 hover:bg-blue-500 rounded-lg transition-all"
-              onClick={() => setMobileOpen(false)}
-            >
-              Go Pro
-            </Link>
+            {!isSignedIn ? (
+              <>
+                <Link href="/sign-in"
+                  className="flex-1 text-center px-4 py-2.5 text-sm font-medium text-slate-400 hover:text-white border border-slate-700 hover:border-slate-600 rounded-lg transition-all"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  Sign in
+                </Link>
+                <Link href="/pricing/"
+                  className="flex-1 text-center px-4 py-2.5 text-sm font-bold text-white bg-blue-600 hover:bg-blue-500 rounded-lg transition-all"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  Go Pro
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link href="/dashboard/"
+                  className="flex-1 text-center px-4 py-2.5 text-sm font-medium text-slate-300 border border-slate-700 rounded-lg transition-all"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  Dashboard
+                </Link>
+                <button
+                  onClick={() => { setMobileOpen(false); signOut({ redirectUrl: '/' }) }}
+                  className="flex-1 text-center px-4 py-2.5 text-sm font-bold text-white bg-red-600 hover:bg-red-500 rounded-lg transition-all"
+                >
+                  Sign out
+                </button>
+              </>
+            )}
           </div>
         </div>
       )}
