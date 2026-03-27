@@ -9,6 +9,23 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Unauthorised' }, { status: 401 })
   }
 
+  // Check Pro plan
+  const supabaseCheck = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  )
+  const { data: subscription } = await supabaseCheck
+    .from('subscriptions')
+    .select('plan, status')
+    .eq('user_id', userId)
+    .eq('platform', 'gpe')
+    .single()
+
+  const isPro = subscription?.plan === 'pro' && subscription?.status === 'active'
+  if (!isPro) {
+    return NextResponse.json({ error: 'Pro plan required', upgrade: true }, { status: 403 })
+  }
+
   const body = await req.json()
   const { country_code, gross_salary, period, label, calculation_result } = body
 

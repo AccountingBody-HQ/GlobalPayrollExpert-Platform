@@ -53,6 +53,12 @@ export default function CalculatorWithSave({
       const data = await res.json()
 
       if (!res.ok) {
+        if (data.upgrade) {
+          setSaveStatus('error')
+          setSaveMessage('Pro plan required. Upgrade to save calculations.')
+          setTimeout(() => setSaveStatus('idle'), 5000)
+          return
+        }
         setSaveStatus('error')
         setSaveMessage(data.error || 'Failed to save. Please try again.')
         setTimeout(() => setSaveStatus('idle'), 4000)
@@ -95,6 +101,9 @@ export default function CalculatorWithSave({
         <div className="mb-4 rounded-xl bg-red-50 border border-red-200 px-5 py-3 text-sm font-medium text-red-800 flex items-center gap-3">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-red-600 shrink-0"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
           {saveMessage}
+          {saveMessage.includes('Pro plan') && (
+            <a href="/pricing/" className="underline font-semibold ml-1 shrink-0">View Pro plans →</a>
+          )}
         </div>
       )}
       <Calculator
