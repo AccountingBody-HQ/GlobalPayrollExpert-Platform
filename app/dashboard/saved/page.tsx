@@ -16,8 +16,9 @@ async function getSavedCalculations(userId: string) {
       process.env.SUPABASE_SERVICE_ROLE_KEY!
     )
     const { data } = await supabase
+      .schema('gpe')
       .from('saved_calculations')
-      .select('id, country_code, label, created_at, calculation_result, gross_salary')
+      .select('id, country_code, name, created_at, results, inputs')
       .eq('user_id', userId)
       .order('created_at', { ascending: false })
     return data || []
@@ -79,11 +80,11 @@ export default async function SavedCalculationsPage() {
 
                   <div>
                     <div className="font-semibold text-slate-800 text-sm">
-                      {calc.label || 'Untitled calculation'}
+                      {calc.name || 'Untitled calculation'}
                     </div>
-                    {calc.gross_salary && (
+                    {calc.inputs?.gross_salary && (
                       <div className="text-slate-400 text-xs mt-0.5">
-                        Gross: {Number(calc.gross_salary).toLocaleString()}
+                        Gross: {Number(calc.inputs?.gross_salary).toLocaleString()}
                       </div>
                     )}
                   </div>
