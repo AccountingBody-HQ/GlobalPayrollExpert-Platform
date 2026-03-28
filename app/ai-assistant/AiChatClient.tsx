@@ -164,7 +164,7 @@ export default function AiChatClient({ countries, userId, isPro, monthlyUsage, f
   }
 
   return (
-    <div className="flex flex-col bg-slate-50" style={{ height: "calc(100vh - 64px)", overflow: "hidden" }}>
+    <div className="flex flex-col bg-slate-50" style={{ position: "fixed", top: "64px", left: 0, right: 0, bottom: 0, overflow: "hidden" }}>
 
       {/* Header */}
       <div className="border-b border-slate-200 bg-white shrink-0 shadow-sm">
