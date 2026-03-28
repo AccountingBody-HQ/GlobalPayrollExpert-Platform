@@ -93,7 +93,6 @@ export default function AiChatClient({ countries, userId, isPro, monthlyUsage, f
   const [anonCount, setAnonCount] = useState(0);
   const [showLimit, setShowLimit] = useState<"anon"|"free"|null>(null);
   const [usageCount, setUsageCount] = useState(monthlyUsage);
-  const bottomRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const hasMessages = messages.length > 0 || thinking;
@@ -104,7 +103,6 @@ export default function AiChatClient({ countries, userId, isPro, monthlyUsage, f
     if (!scrollRef.current) return;
     const el = scrollRef.current;
     const near = el.scrollHeight - el.scrollTop - el.clientHeight < 200;
-    if (near) bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   function handleCountryChange(e: React.ChangeEvent<HTMLSelectElement>) {
@@ -129,7 +127,6 @@ export default function AiChatClient({ countries, userId, isPro, monthlyUsage, f
     setInput("");
     setLoading(true);
     setThinking(true);
-    setTimeout(() => bottomRef.current?.scrollIntoView({ behavior: "smooth" }), 50);
     if (!userId) { setAnonCount(incrementAnonCount()); } else { setUsageCount(p => p + 1); }
     try {
       const res = await fetch("/api/chat", {
@@ -282,7 +279,6 @@ export default function AiChatClient({ countries, userId, isPro, monthlyUsage, f
 
               {showLimit === "anon" && <SignUpPrompt />}
               {showLimit === "free" && <UpgradePrompt />}
-              <div ref={bottomRef} />
             </div>
           </div>
 
