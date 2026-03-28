@@ -25,6 +25,9 @@ import {
 } from '@/lib/supabase-queries'
 import CountryCard from '@/components/CountryCard'
 import MiniCalculator from '@/components/countries/MiniCalculator'
+import AiCountryWidget from '@/components/AiCountryWidget'
+import { auth } from '@clerk/nextjs/server'
+import { createClient } from '@supabase/supabase-js'
 
 // ── Revalidate every 24 hours ──────────────────────────────────────────────
 export const dynamic = "force-dynamic"
@@ -160,6 +163,23 @@ export default async function CountryPage(
   } catch { insights = [] }
 
   const flagUrl = `https://flagcdn.com/64x48/${code.toLowerCase()}.png`
+
+  // ── Auth + Pro check ──────────────────────────────────────────────────────
+  const { userId } = await auth()
+  let isPro = false
+  if (userId) {
+    const supabaseAdmin = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!
+    )
+    const { data: sub } = await supabaseAdmin
+      .from("subscriptions")
+      .select("plan, status")
+      .eq("user_id", userId)
+      .eq("platform", "gpe")
+      .single()
+    isPro = !!(sub && ["pro","enterprise"].includes(sub.plan) && ["active","trialling"].includes(sub.status))
+  }
 
   return (
     <main className="min-h-screen bg-slate-50">
@@ -608,6 +628,13 @@ export default async function CountryPage(
               socialSecurity={socialSecurity}
               minimumWage={employmentRules?.minimum_wage ?? null}
               payrollFrequency={employmentRules?.payroll_frequency ?? null}
+            />
+
+            {/* ══════ AI WIDGET ══════ */}
+            <AiCountryWidget
+              countryCode={code.toUpperCase()}
+              countryName={country.name}
+              isPro={isPro}
             />
 
             {/* Quick links card */}
