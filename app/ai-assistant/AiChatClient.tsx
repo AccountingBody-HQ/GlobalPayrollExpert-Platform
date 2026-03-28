@@ -272,13 +272,26 @@ export default function AiChatClient({ countries, userId, isPro, monthlyUsage, f
               <p className="text-slate-500 text-sm max-w-md mx-auto mb-10 leading-relaxed">
                 Instant answers on payroll, employment law, tax, social security, and HR compliance — backed by verified country data for 195 jurisdictions.
               </p>
-              <div className="grid sm:grid-cols-2 gap-3 max-w-xl mx-auto">
+              <div className="grid sm:grid-cols-2 gap-3 max-w-xl mx-auto mb-8">
                 {SUGGESTIONS.map((s) => (
                   <button key={s} onClick={() => { setInput(s); textareaRef.current?.focus(); }}
                     className="text-left bg-white hover:bg-blue-50 border border-slate-200 hover:border-blue-300 rounded-xl px-4 py-4 text-slate-700 text-sm transition-all leading-snug shadow-sm hover:shadow-md">
                     <span className="text-blue-600 font-bold text-base mr-1.5">→</span>
                     {s}
                   </button>
+                ))}
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl mx-auto">
+                {[
+                  { value: "195", label: "Countries covered" },
+                  { value: "Verified", label: "Government-sourced data" },
+                  { value: "Monthly", label: "Data updates" },
+                  { value: "Free", label: "No account needed" },
+                ].map((s) => (
+                  <div key={s.label} className="bg-white border border-slate-200 rounded-xl px-4 py-3 text-center shadow-sm">
+                    <div className="text-blue-600 font-bold text-sm">{s.value}</div>
+                    <div className="text-slate-500 text-xs mt-0.5">{s.label}</div>
+                  </div>
                 ))}
               </div>
             </div>
