@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { Globe } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import EmailCapture from '@/components/EmailCapture'
+import CookieSettingsButton from '@/components/CookieSettingsButton'
 
 const footerLinks = {
   'Country Data': [
@@ -100,9 +101,12 @@ export default function Footer() {
 
         {/* BOTTOM SECTION */}
         <div className="border-t border-slate-800 py-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <p className="text-xs text-slate-600">
-            © {currentYear} GlobalPayrollExpert.com — All rights reserved.
-          </p>
+          <div className="flex items-center gap-6">
+            <p className="text-xs text-slate-600">
+              © {currentYear} GlobalPayrollExpert.com — All rights reserved.
+            </p>
+            <CookieSettingsButton />
+          </div>
           <p className="text-xs text-slate-600 text-left sm:text-right max-w-lg leading-relaxed">
             Data is provided for reference purposes only and does not constitute
             professional legal, tax, or payroll advice. Always verify with a

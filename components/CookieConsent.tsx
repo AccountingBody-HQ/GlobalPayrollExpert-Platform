@@ -51,6 +51,9 @@ function initConsentDefaults() {
   })
 }
 
+// Global function — call window.__gpe_openCookieSettings() from anywhere to reopen
+declare global { interface Window { __gpe_openCookieSettings?: () => void } }
+
 export default function CookieConsent() {
   const [visible, setVisible] = useState(false)
   const [showPreferences, setShowPreferences] = useState(false)
@@ -58,6 +61,11 @@ export default function CookieConsent() {
 
   useEffect(() => {
     initConsentDefaults()
+    // Register global reopen function so footer/cookie policy can trigger it
+    window.__gpe_openCookieSettings = () => {
+      setShowPreferences(false)
+      setVisible(true)
+    }
     try {
       const stored = localStorage.getItem(CONSENT_KEY)
       if (stored) {

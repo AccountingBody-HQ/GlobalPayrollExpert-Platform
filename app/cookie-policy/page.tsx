@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import CookieSettingsButton from '@/components/CookieSettingsButton'
 
 export const metadata = {
   title: 'Cookie Policy — GlobalPayrollExpert',
@@ -156,6 +157,16 @@ export default function CookiePolicyPage() {
               </ul>
               <p>Please note that blocking essential cookies will prevent the platform from functioning correctly — you will not be able to sign in or maintain your session.</p>
               <p>For guidance on managing cookies in your browser, visit <a href="https://www.aboutcookies.org" target="_blank" rel="noopener noreferrer">aboutcookies.org</a>.</p>
+
+              <div className="not-prose bg-slate-900 border border-slate-700 rounded-2xl p-6 my-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div>
+                  <p className="text-white font-bold text-sm mb-1">Manage your cookie preferences</p>
+                  <p className="text-slate-400 text-sm">You can review and update your consent choices at any time.</p>
+                </div>
+                <div className="shrink-0 [&>button]:bg-blue-600 [&>button]:hover:bg-blue-500 [&>button]:text-white [&>button]:font-semibold [&>button]:text-sm [&>button]:px-5 [&>button]:py-2.5 [&>button]:rounded-xl [&>button]:transition-all">
+                  <CookieSettingsButton />
+                </div>
+              </div>
 
               <h2 id="contact">7. Contact us</h2>
               <p>If you have any questions about our use of cookies, please <Link href="/contact/">contact us</Link>. For information about how we handle your personal data more broadly, see our <Link href="/privacy-policy/">Privacy Policy</Link>.</p>
