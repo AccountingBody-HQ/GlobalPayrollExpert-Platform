@@ -54,7 +54,7 @@ export default async function InsightsPage({
         dangerouslySetInnerHTML={{ __html: jsonLd(breadcrumbData) }}
       />
 
-      {/* ══════ HEADER ══════ */}
+      {/* HEADER */}
       <section className="relative bg-slate-950 overflow-hidden">
         <div
           className="absolute inset-0"
@@ -99,18 +99,17 @@ export default async function InsightsPage({
         </div>
       </section>
 
-      {/* ══════ FILTERS ══════ */}
+      {/* FILTERS */}
       <section className="bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 py-10">
           <InsightsClient />
         </div>
       </section>
 
-      {/* ══════ ARTICLE GRID ══════ */}
-      <section className="bg-[#f8f9fb]">
+      {/* ARTICLE GRID */}
+      <section className="bg-slate-50 border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16">
 
-          {/* Count row */}
           <div className="flex items-center gap-3 mb-10">
             <div className="w-8 h-8 rounded-lg bg-slate-900 flex items-center justify-center shrink-0">
               <Layers size={14} className="text-white" />
@@ -133,36 +132,31 @@ export default async function InsightsPage({
             </div>
           </div>
 
-          {/* Grid */}
           {articles.length > 0 ? (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {articles.map((article) => (
                 <Link
                   key={article._id}
                   href={"/insights/" + article.slug?.current + "/"}
-                  className="group flex flex-col bg-white rounded-2xl shadow-[0_1px_4px_rgba(0,0,0,0.06),0_4px_16px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_24px_rgba(0,0,0,0.10)] hover:-translate-y-0.5 transition-all duration-200 border border-slate-100 hover:border-blue-200 overflow-hidden"
+                  className="group bg-white border border-slate-200 hover:border-blue-300 rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-200 flex flex-col"
                 >
-                  {/* Blue top bar — always visible, brightens on hover */}
-                  <div className="h-1 bg-blue-600 group-hover:h-1.5 group-hover:bg-blue-500 transition-all duration-200" />
-
-                  <div className="flex flex-col flex-1 p-7">
-                    {/* Category + read time row */}
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="text-xs font-bold text-blue-600 uppercase tracking-widest">
-                        {article.category || "Analysis"}
+                  <div className="h-1.5 bg-blue-600" />
+                  <div className="p-7 flex flex-col flex-1">
+                    {article.category && (
+                      <span className="text-xs font-bold text-blue-600 uppercase tracking-widest mb-3">
+                        {article.category}
                       </span>
-
-                    </div>
-
-                    {/* Title */}
-                    <h2 className="font-bold text-slate-900 text-lg leading-snug flex-1 group-hover:text-blue-700 transition-colors duration-150">
+                    )}
+                    <h2 className="font-bold text-slate-900 text-lg leading-snug mb-3 group-hover:text-blue-700 transition-colors">
                       {article.title}
                     </h2>
-
-                    {/* Footer */}
-                    <div className="mt-6 pt-5 border-t border-slate-100 flex items-center gap-1.5 text-blue-600 text-sm font-bold group-hover:gap-2.5 transition-all duration-150">
-                      Read article
-                      <ArrowRight size={13} className="group-hover:translate-x-0.5 transition-transform duration-150" />
+                    {article.excerpt && (
+                      <p className="text-slate-500 text-sm leading-relaxed line-clamp-2 flex-1">
+                        {article.excerpt}
+                      </p>
+                    )}
+                    <div className="mt-6 flex items-center gap-1.5 text-blue-600 text-sm font-semibold group-hover:gap-2.5 transition-all">
+                      Read article <ArrowRight size={14} />
                     </div>
                   </div>
                 </Link>
@@ -182,7 +176,6 @@ export default async function InsightsPage({
             </div>
           )}
 
-          {/* Pagination */}
           {totalPages > 1 && (
             <div className="mt-16 flex items-center justify-center gap-1.5">
               {page > 1 && (
@@ -206,7 +199,7 @@ export default async function InsightsPage({
         </div>
       </section>
 
-      {/* ══════ EMAIL CAPTURE ══════ */}
+      {/* EMAIL CAPTURE */}
       <section className="relative overflow-hidden" style={{ backgroundColor: "#0d1f3c" }}>
         <div
           className="absolute inset-0"
