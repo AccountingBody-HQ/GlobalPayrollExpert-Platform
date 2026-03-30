@@ -50,7 +50,7 @@ const ALSO = [
 
 export default function PayrollToolsPage() {
   return (
-    <main className="bg-white">
+    <main className="flex-1 bg-white">
 
       {/* Hero */}
       <section className="relative bg-slate-950 overflow-hidden">

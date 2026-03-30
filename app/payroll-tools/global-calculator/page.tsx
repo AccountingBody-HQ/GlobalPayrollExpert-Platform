@@ -21,7 +21,7 @@ export default async function GlobalCalculatorPage() {
     .order('name', { ascending: true })
 
   return (
-    <main className="bg-white">
+    <main className="flex-1 bg-white">
 
       {/* Hero */}
       <section className="relative bg-slate-950 overflow-hidden">

@@ -48,7 +48,7 @@ export default async function InsightsPage({
   ])
 
   return (
-    <div className="bg-white">
+    <div className="flex-1 bg-white">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: jsonLd(breadcrumbData) }}
