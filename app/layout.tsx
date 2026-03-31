@@ -30,11 +30,11 @@ const playfair = Playfair_Display({
 // --- DEFAULT METADATA ---
 export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || 'https://globalpayrollexpert.com'
+    process.env.NEXT_PUBLIC_SITE_URL || 'https://hrlake.com'
   ),
   title: {
-    default: 'GlobalPayrollExpert — World-Class Global Payroll Intelligence',
-    template: '%s | GlobalPayrollExpert',
+    default: 'HRLake — World-Class Global Payroll Intelligence',
+    template: '%s | HRLake',
   },
   description:
     'World-class global payroll and HR intelligence. Employer costs, tax brackets, employment law, and compliance data for every country.',
@@ -48,9 +48,9 @@ export const metadata: Metadata = {
     'international payroll',
     'employer costs',
   ],
-  authors: [{ name: 'GlobalPayrollExpert' }],
-  creator: 'GlobalPayrollExpert',
-  publisher: 'GlobalPayrollExpert',
+  authors: [{ name: 'HRLake' }],
+  creator: 'HRLake',
+  publisher: 'HRLake',
   robots: {
     index: true,
     follow: true,
@@ -65,9 +65,9 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_GB',
-    url: 'https://globalpayrollexpert.com',
-    siteName: 'GlobalPayrollExpert',
-    title: 'GlobalPayrollExpert — World-Class Global Payroll Intelligence',
+    url: 'https://hrlake.com',
+    siteName: 'HRLake',
+    title: 'HRLake — World-Class Global Payroll Intelligence',
     description:
       'Employer costs, tax brackets, employment law, and compliance data for every country.',
     images: [
@@ -75,13 +75,13 @@ export const metadata: Metadata = {
         url: '/og-default.png',
         width: 1200,
         height: 630,
-        alt: 'GlobalPayrollExpert',
+        alt: 'HRLake',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'GlobalPayrollExpert — World-Class Global Payroll Intelligence',
+    title: 'HRLake — World-Class Global Payroll Intelligence',
     description:
       'Employer costs, tax brackets, employment law, and compliance data for every country.',
     images: ['/og-default.png'],
@@ -90,7 +90,7 @@ export const metadata: Metadata = {
     google: "Ke1xcsC2rYKaBT_PbROsCHNgOJ8s3IjRNyzQuI6JBt4",
   },
   alternates: {
-    canonical: 'https://globalpayrollexpert.com',
+    canonical: 'https://hrlake.com',
   },
 }
 

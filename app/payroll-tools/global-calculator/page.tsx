@@ -2,7 +2,7 @@ import { createClient } from '@supabase/supabase-js'
 import GlobalCalculatorClient from './GlobalCalculatorClient'
 
 export const metadata = {
-  title: 'Global Payroll Calculator — All Countries | GlobalPayrollExpert',
+  title: 'Global Payroll Calculator — All Countries | HRLake',
   description: 'Calculate net salary, income tax, and total employer cost for any country. Full payroll breakdown with PDF export — free, no sign-in required.',
 }
 

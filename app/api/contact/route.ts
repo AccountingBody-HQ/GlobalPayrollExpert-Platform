@@ -26,7 +26,7 @@ export async function POST(req: Request) {
     const { error: dbError } = await supabase
       .from('contact_submissions')
       .insert({
-        platform: 'gpe',
+        platform: 'hrlake',
         full_name,
         email,
         organisation: organisation || null,
@@ -75,8 +75,8 @@ export async function POST(req: Request) {
             Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
           },
           body: JSON.stringify({
-            from: 'GlobalPayrollExpert <noreply@globalpayrollexpert.com>',
-            to: [process.env.ADMIN_EMAIL || 'admin@globalpayrollexpert.com'],
+            from: 'HRLake <noreply@hrlake.com>',
+            to: [process.env.ADMIN_EMAIL || 'admin@hrlake.com'],
             subject,
             html,
           }),

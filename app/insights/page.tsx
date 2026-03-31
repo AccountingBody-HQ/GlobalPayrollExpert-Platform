@@ -14,11 +14,11 @@ export const metadata: Metadata = {
   title: "Insights — Global Payroll Analysis & Intelligence",
   description:
     "Expert analysis on global payroll, employment law, EOR strategy, tax compliance, and HR policy. In-depth articles for payroll professionals and global employers.",
-  alternates: { canonical: "https://globalpayrollexpert.com/insights/" },
+  alternates: { canonical: "https://hrlake.com/insights/" },
   openGraph: {
     title: "Insights — Global Payroll Analysis & Intelligence",
     description: "Expert analysis on global payroll, employment law, EOR strategy, tax compliance, and HR policy.",
-    url: "https://globalpayrollexpert.com/insights/",
+    url: "https://hrlake.com/insights/",
     type: "website",
   },
 }

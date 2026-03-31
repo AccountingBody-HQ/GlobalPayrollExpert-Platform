@@ -4,16 +4,16 @@ import { ArrowRight, Globe, Shield, Users, BookOpen, ExternalLink } from 'lucide
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'About GlobalPayrollExpert — Methodology, Data Standards & Mission',
+  title: 'About HRLake — Methodology, Data Standards & Mission',
   description: 'The most comprehensive global payroll intelligence platform. Data methodology, verification standards, and a mission to cover every country.',
   alternates: {
-    canonical: 'https://globalpayrollexpert.com/about/',
+    canonical: 'https://hrlake.com/about/',
   },
   openGraph: {
-    title: 'About GlobalPayrollExpert — Methodology, Data Standards & Mission',
+    title: 'About HRLake — Methodology, Data Standards & Mission',
     description: 'Learn about our data methodology, verification standards, and mission to cover every country.',
-    url: 'https://globalpayrollexpert.com/about/',
-    siteName: 'GlobalPayrollExpert',
+    url: 'https://hrlake.com/about/',
+    siteName: 'HRLake',
     type: 'website',
   },
 }
@@ -51,13 +51,13 @@ export default function AboutPage() {
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 bg-blue-600/10 border border-blue-500/20 rounded-full px-4 py-1.5 mb-8">
               <div className="w-1.5 h-1.5 rounded-full bg-blue-400" />
-              <span className="text-blue-300 text-xs font-semibold tracking-wide">About GlobalPayrollExpert</span>
+              <span className="text-blue-300 text-xs font-semibold tracking-wide">About HRLake</span>
             </div>
             <h1 className="font-serif text-4xl lg:text-6xl font-bold text-white leading-[1.08] mb-8" style={{letterSpacing: '-0.025em'}}>
               The world&apos;s most<br /><span className="text-blue-400">trusted payroll</span><br />intelligence platform.
             </h1>
             <p className="text-lg text-slate-400 leading-relaxed max-w-2xl">
-              GlobalPayrollExpert exists to give payroll professionals, lawyers, HR directors, and global
+              HRLake exists to give payroll professionals, lawyers, HR directors, and global
               employers authoritative, verified, and current payroll and employment law data for every country in the world.
             </p>
           </div>
@@ -75,7 +75,7 @@ export default function AboutPage() {
               </h2>
               <div className="space-y-5 text-slate-600 leading-relaxed">
                 <p>Global payroll is fragmented. Employers hiring across borders face a patchwork of government websites in different languages, outdated PDF guides, and consultancy reports that are expensive and often out of date.</p>
-                <p>GlobalPayrollExpert is built to fix that. We aggregate, verify, and maintain payroll data — income tax brackets, social security rates, employer costs, employment law, termination rules, and compliance obligations — for every country, in one place, updated continuously.</p>
+                <p>HRLake is built to fix that. We aggregate, verify, and maintain payroll data — income tax brackets, social security rates, employer costs, employment law, termination rules, and compliance obligations — for every country, in one place, updated continuously.</p>
                 <p>Our goal is to become the reference platform for anyone making payroll or hiring decisions across international borders — whether they are running payroll in five countries or researching employer costs in one.</p>
               </div>
             </div>
@@ -172,9 +172,9 @@ export default function AboutPage() {
             <p className="text-blue-600 text-xs font-bold uppercase tracking-widest mb-4">Data Accuracy</p>
             <h2 className="font-serif text-3xl font-bold text-slate-900 tracking-tight leading-tight mb-6">Accurate data. Honest limitations.</h2>
             <div className="space-y-4 text-slate-600 leading-relaxed">
-              <p>We invest significant effort in ensuring the data on GlobalPayrollExpert is accurate, current, and properly sourced. Every data point is linked to an official government publication, and our Tier 1 country data is reviewed on a monthly cycle.</p>
+              <p>We invest significant effort in ensuring the data on HRLake is accurate, current, and properly sourced. Every data point is linked to an official government publication, and our Tier 1 country data is reviewed on a monthly cycle.</p>
               <p>However, payroll and tax law is complex and changes frequently. Rates can change mid-year. Rules vary by employment category, industry, and region. Edge cases exist in every jurisdiction.</p>
-              <p className="font-medium text-slate-800">GlobalPayrollExpert is a research and reference tool. It is not a substitute for qualified professional advice. Always verify critical decisions with a qualified payroll professional, tax adviser, or employment lawyer in the relevant jurisdiction.</p>
+              <p className="font-medium text-slate-800">HRLake is a research and reference tool. It is not a substitute for qualified professional advice. Always verify critical decisions with a qualified payroll professional, tax adviser, or employment lawyer in the relevant jurisdiction.</p>
             </div>
             <div className="mt-8 flex flex-wrap gap-6">
               <Link href="/disclaimer/" className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-semibold text-sm transition-colors">

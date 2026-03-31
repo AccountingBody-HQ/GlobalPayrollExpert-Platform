@@ -11,7 +11,7 @@ interface Country {
   flag_emoji: string
   region: string
   currency_code: string
-  gpe_coverage_level: string
+  hrlake_coverage_level: string
   payroll_complexity_score: number
 }
 
@@ -64,7 +64,7 @@ function CountryCard({ country }: { country: Country }) {
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2 flex-wrap mb-1">
           <span className="font-bold text-slate-900 group-hover:text-blue-700 transition-colors">{country.name}</span>
-          {coverageBadge(country.gpe_coverage_level)}
+          {coverageBadge(country.hrlake_coverage_level)}
         </div>
         <div className="text-xs text-slate-400">
           {country.region} · {country.currency_code}
@@ -221,7 +221,7 @@ function SearchContent() {
         <div className="max-w-4xl mx-auto px-6 lg:px-8 py-12">
           <p className="text-blue-400 text-xs font-bold uppercase tracking-widest mb-4">Search</p>
           <h1 className="font-serif text-3xl lg:text-4xl font-bold text-white mb-8 tracking-tight">
-            {query ? <>Results for <span className="text-blue-400">"{query}"</span></> : 'Search GlobalPayrollExpert'}
+            {query ? <>Results for <span className="text-blue-400">"{query}"</span></> : 'Search HRLake'}
           </h1>
           <form onSubmit={handleSubmit} className="max-w-2xl">
             <div className="flex items-center bg-white rounded-2xl shadow-xl shadow-black/20 overflow-hidden border-2 border-transparent focus-within:border-blue-400 transition-all duration-200">

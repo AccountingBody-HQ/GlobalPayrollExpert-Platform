@@ -1,7 +1,7 @@
 import CurrencyConverterClient from './CurrencyConverterClient'
 
 export const metadata = {
-  title: 'Salary Currency Converter | GlobalPayrollExpert',
+  title: 'Salary Currency Converter | HRLake',
   description: 'Convert any salary between currencies using live exchange rates. Benchmark compensation across international markets.',
 }
 

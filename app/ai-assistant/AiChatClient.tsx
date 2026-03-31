@@ -14,7 +14,7 @@ interface Props {
   freeUserLimit: number;
 }
 
-const ANON_KEY = "gpe_ai_anon_count";
+const ANON_KEY = "hrlake_ai_anon_count";
 function getAnonCount(): number { try { return parseInt(localStorage.getItem(ANON_KEY) || "0", 10); } catch { return 0; } }
 function incrementAnonCount(): number { try { const n = getAnonCount() + 1; localStorage.setItem(ANON_KEY, String(n)); return n; } catch { return 99; } }
 

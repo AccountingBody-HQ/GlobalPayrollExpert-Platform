@@ -118,13 +118,13 @@ export async function generateMetadata({ params }: { params: Promise<{ topic: st
     title,
     description: config.description,
     alternates: {
-      canonical: `https://globalpayrollexpert.com/hr-compliance/${topic}/`,
+      canonical: `https://hrlake.com/hr-compliance/${topic}/`,
     },
     openGraph: {
       title,
       description: config.description,
-      url: `https://globalpayrollexpert.com/hr-compliance/${topic}/`,
-      siteName: 'GlobalPayrollExpert',
+      url: `https://hrlake.com/hr-compliance/${topic}/`,
+      siteName: 'HRLake',
       type: 'website',
     },
     twitter: {
@@ -145,9 +145,9 @@ export default async function TopicPage({ params }: { params: Promise<{ topic: s
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   )
 
-  // Fetch employment rules for this topic from gpe schema
+  // Fetch employment rules for this topic from hrlake schema
   const { data: rules, error: rulesError } = await supabase
-    .schema('gpe')
+    .schema('hrlake')
     .from('employment_rules')
     .select('country_code, rule_type, value_text, value_numeric, value_unit, applies_to, notes, source_url')
     .eq('rule_type', config.rule_type)

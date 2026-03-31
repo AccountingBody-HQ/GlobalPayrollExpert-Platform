@@ -1,5 +1,5 @@
 // lib/calculator.ts
-// Core payroll calculation engine for GlobalPayrollExpert
+// Core payroll calculation engine for HRLake
 // All calculation logic lives here — no UI dependencies
 
 export interface TaxBracket {

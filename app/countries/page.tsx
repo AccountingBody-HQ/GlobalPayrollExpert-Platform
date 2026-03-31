@@ -13,11 +13,11 @@ import { Suspense } from 'react'
 import CountriesClient from '@/components/countries/CountriesClient'
 
 export const metadata: Metadata = {
-  title: 'All Countries — Global Payroll Data | GlobalPayrollExpert',
+  title: 'All Countries — Global Payroll Data | HRLake',
   description:
     'Payroll data, tax rates, social security, and employment law for every country in the world. Browse 195 jurisdictions.',
   alternates: {
-    canonical: 'https://globalpayrollexpert.com/countries/',
+    canonical: 'https://hrlake.com/countries/',
   },
 }
 

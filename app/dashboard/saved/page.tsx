@@ -17,7 +17,7 @@ async function getSavedCalculations(userId: string) {
       process.env.SUPABASE_SERVICE_ROLE_KEY!
     )
     const { data } = await supabase
-      .schema('gpe')
+      .schema('hrlake')
       .from('saved_calculations')
       .select('id, country_code, name, created_at, results, inputs')
       .eq('user_id', userId)

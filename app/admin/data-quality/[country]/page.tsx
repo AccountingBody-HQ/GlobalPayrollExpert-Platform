@@ -19,20 +19,20 @@ async function getCountryData(iso2: string) {
   if (!country) return null
 
   const { data: brackets } = await supabase
-    .schema('gpe').from('tax_brackets')
+    .schema('hrlake').from('tax_brackets')
     .select('*')
     .eq('country_code', iso2.toUpperCase())
     .eq('is_current', true)
     .order('bracket_order')
 
   const { data: ss } = await supabase
-    .schema('gpe').from('social_security')
+    .schema('hrlake').from('social_security')
     .select('*')
     .eq('country_code', iso2.toUpperCase())
     .eq('is_current', true)
 
   const { data: rules } = await supabase
-    .schema('gpe').from('employment_rules')
+    .schema('hrlake').from('employment_rules')
     .select('*')
     .eq('country_code', iso2.toUpperCase())
     .eq('is_current', true)

@@ -65,14 +65,14 @@ function detectCountry(message: string): string | null {
 
 async function fetchCountryData(countryCode: string) {
   const [taxRes, ssRes, rulesRes] = await Promise.all([
-    supabase.schema("gpe").from("tax_brackets")
+    supabase.schema("hrlake").from("tax_brackets")
       .select("bracket_order,lower_limit,upper_limit,rate,bracket_name")
       .eq("country_code", countryCode).eq("is_current", true)
       .order("bracket_order"),
-    supabase.schema("gpe").from("social_security")
+    supabase.schema("hrlake").from("social_security")
       .select("contribution_type,rate_percent,cap_amount,notes")
       .eq("country_code", countryCode).eq("is_current", true),
-    supabase.schema("gpe").from("employment_rules")
+    supabase.schema("hrlake").from("employment_rules")
       .select("minimum_wage,annual_leave_days,notice_period_days,probation_period_days,payroll_frequency")
       .eq("country_code", countryCode).eq("is_current", true).single(),
   ]);
@@ -131,7 +131,7 @@ export async function POST(req: NextRequest) {
     });
     const queryEmbedding = embeddingResponse.data[0].embedding;
 
-    const { data: chunks } = await supabase.rpc("match_gpe_embeddings", {
+    const { data: chunks } = await supabase.rpc("match_hrlake_embeddings", {
       query_embedding: queryEmbedding,
       match_count: 5,
       filter_country: countryCode || null,
@@ -184,11 +184,11 @@ export async function POST(req: NextRequest) {
       );
       await supabaseAdmin.from("ai_conversations").insert({
         user_id: userId,
-        platform: "gpe",
+        platform: "hrlake",
         session_id: crypto.randomUUID(),
         messages: [{ role: "user", content: message }],
-        gpe_data_accessed: !!countryCode,
-        gpe_tier_accessed: "free",
+        hrlake_data_accessed: !!countryCode,
+        hrlake_tier_accessed: "free",
         country_codes_used: countryCode ? [countryCode] : [],
         token_count: message.split(" ").length,
       });

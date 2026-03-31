@@ -40,7 +40,7 @@ export default function Footer() {
   return (
     <footer className="bg-navy-950 text-white">
       <div className="border-b border-white/10">
-        <div className="container-gpe py-12">
+        <div className="container-hrlake py-12">
           <div className="max-w-xl">
             <h3 className="text-xl font-bold mb-1">Stay ahead of global payroll changes</h3>
             <p className="text-slate-400 text-sm mb-4">
@@ -63,10 +63,10 @@ export default function Footer() {
           </div>
         </div>
       </div>
-      <div className="container-gpe py-12">
+      <div className="container-hrlake py-12">
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
           <div className="col-span-2 md:col-span-4 lg:col-span-1">
-            <Link href="/" className="flex items-center gap-2.5 mb-4 group" aria-label="GlobalPayrollExpert home">
+            <Link href="/" className="flex items-center gap-2.5 mb-4 group" aria-label="HRLake home">
               <div className="w-8 h-8 rounded-lg bg-gradient-blue flex items-center justify-center shadow-sm">
                 <Globe size={18} className="text-white" strokeWidth={2.5} />
               </div>
@@ -80,13 +80,13 @@ export default function Footer() {
               Trusted by enterprise HR teams, lawyers, and payroll directors.
             </p>
             <div className="flex items-center gap-2">
-              <a href="https://twitter.com/globalpayrollexpert" target="_blank" rel="noopener noreferrer" className="w-8 h-8 flex items-center justify-center rounded-md text-slate-500 hover:text-white hover:bg-white/10 transition-colors" aria-label="Twitter">
+              <a href="https://twitter.com/hrlake" target="_blank" rel="noopener noreferrer" className="w-8 h-8 flex items-center justify-center rounded-md text-slate-500 hover:text-white hover:bg-white/10 transition-colors" aria-label="Twitter">
                 <Twitter size={16} />
               </a>
-              <a href="https://linkedin.com/company/globalpayrollexpert" target="_blank" rel="noopener noreferrer" className="w-8 h-8 flex items-center justify-center rounded-md text-slate-500 hover:text-white hover:bg-white/10 transition-colors" aria-label="LinkedIn">
+              <a href="https://linkedin.com/company/hrlake" target="_blank" rel="noopener noreferrer" className="w-8 h-8 flex items-center justify-center rounded-md text-slate-500 hover:text-white hover:bg-white/10 transition-colors" aria-label="LinkedIn">
                 <Linkedin size={16} />
               </a>
-              <a href="mailto:hello@globalpayrollexpert.com" className="w-8 h-8 flex items-center justify-center rounded-md text-slate-500 hover:text-white hover:bg-white/10 transition-colors" aria-label="Email">
+              <a href="mailto:hello@hrlake.com" className="w-8 h-8 flex items-center justify-center rounded-md text-slate-500 hover:text-white hover:bg-white/10 transition-colors" aria-label="Email">
                 <Mail size={16} />
               </a>
             </div>
@@ -110,8 +110,8 @@ export default function Footer() {
         </div>
       </div>
       <div className="border-t border-white/10">
-        <div className="container-gpe py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-xs text-slate-600">&copy; {year} GlobalPayrollExpert.com — All rights reserved.</p>
+        <div className="container-hrlake py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-xs text-slate-600">&copy; {year} HRLake.com — All rights reserved.</p>
           <p className="text-xs text-slate-700 text-center sm:text-right max-w-md">
             Data is provided for informational purposes only and does not constitute
             professional legal, tax, or payroll advice. Always verify with a qualified adviser.

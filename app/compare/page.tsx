@@ -3,7 +3,7 @@ import { getComparisonStructuredData, jsonLd } from '@/lib/structured-data'
 import CompareClient from './CompareClient'
 
 export const metadata = {
-  title: 'Country Comparison Tool — Employer Cost Side-by-Side | GlobalPayrollExpert',
+  title: 'Country Comparison Tool — Employer Cost Side-by-Side | HRLake',
   description: 'Compare employer costs, tax rates, and employment law side-by-side for any two countries. Free payroll comparison tool.',
 }
 

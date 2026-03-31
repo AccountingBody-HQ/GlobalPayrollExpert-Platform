@@ -1,8 +1,8 @@
 import Link from 'next/link'
 
 export const metadata = {
-  title: 'Terms of Service — GlobalPayrollExpert',
-  description: 'Terms and conditions for using GlobalPayrollExpert.com.',
+  title: 'Terms of Service — HRLake',
+  description: 'Terms and conditions for using HRLake.com.',
 }
 
 export default function TermsPage() {
@@ -59,17 +59,17 @@ export default function TermsPage() {
             <div className="lg:col-span-3 prose prose-slate max-w-none">
               <div className="bg-blue-50 border border-blue-200 rounded-2xl p-6 mb-12 not-prose">
                 <p className="text-blue-800 text-sm leading-relaxed">
-                  Please read these Terms of Service carefully before using GlobalPayrollExpert.com.
+                  Please read these Terms of Service carefully before using HRLake.com.
                   By accessing or using the platform, you agree to be bound by these terms.
                   If you do not agree, please do not use the platform.
                 </p>
               </div>
 
               <h2 id="acceptance">1. Acceptance of terms</h2>
-              <p>By accessing GlobalPayrollExpert.com (&quot;the platform&quot;, &quot;we&quot;, &quot;us&quot;), you agree to these Terms of Service and our <Link href="/privacy-policy/">Privacy Policy</Link>. These terms apply to all users, including free and Pro subscribers.</p>
+              <p>By accessing HRLake.com (&quot;the platform&quot;, &quot;we&quot;, &quot;us&quot;), you agree to these Terms of Service and our <Link href="/privacy-policy/">Privacy Policy</Link>. These terms apply to all users, including free and Pro subscribers.</p>
 
               <h2 id="the-platform">2. The platform</h2>
-              <p>GlobalPayrollExpert is a payroll intelligence and reference platform providing country payroll data, calculators, employment law summaries, and related tools. The platform is operated by AccountingBody HQ.</p>
+              <p>HRLake is a payroll intelligence and reference platform providing country payroll data, calculators, employment law summaries, and related tools. The platform is operated by AccountingBody HQ.</p>
               <p>We reserve the right to modify, suspend, or discontinue any part of the platform at any time. We will endeavour to provide reasonable notice of significant changes.</p>
 
               <h2 id="accounts">3. Accounts</h2>
@@ -105,7 +105,7 @@ export default function TermsPage() {
               <p>Underlying payroll data (tax rates, employment law rules) is sourced from public government publications. Our compilation, structuring, and verification of that data is our intellectual property.</p>
 
               <h2 id="liability">8. Limitation of liability</h2>
-              <p>To the fullest extent permitted by law, GlobalPayrollExpert and AccountingBody HQ shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of the platform or reliance on data provided.</p>
+              <p>To the fullest extent permitted by law, HRLake and AccountingBody HQ shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of the platform or reliance on data provided.</p>
               <p>Our total liability to you for any claim arising from these terms or your use of the platform shall not exceed the amount you paid us in the 12 months preceding the claim.</p>
               <p>Nothing in these terms excludes or limits liability for death or personal injury caused by negligence, fraud, or any other liability that cannot be excluded by law.</p>
 

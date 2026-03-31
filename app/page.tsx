@@ -282,7 +282,7 @@ export default async function HomePage() {
                 Data held to<br />the highest standard.
               </h2>
               <p className="text-slate-500 leading-relaxed text-lg mb-8">
-                Every data point on GlobalPayrollExpert is sourced directly from official government 
+                Every data point on HRLake is sourced directly from official government 
                 and tax authority publications, verified by qualified payroll professionals, 
                 and updated monthly.
               </p>

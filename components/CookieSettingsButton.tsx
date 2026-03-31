@@ -2,8 +2,8 @@
 
 export default function CookieSettingsButton() {
   function handleClick() {
-    if (typeof window !== 'undefined' && window.__gpe_openCookieSettings) {
-      window.__gpe_openCookieSettings()
+    if (typeof window !== 'undefined' && window.__hrlake_openCookieSettings) {
+      window.__hrlake_openCookieSettings()
     }
   }
 

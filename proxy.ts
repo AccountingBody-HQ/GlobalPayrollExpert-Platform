@@ -1,7 +1,7 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
 
-const ADMIN_SECRET = 'gpe-admin-2025-secure'
+const ADMIN_SECRET = 'hrlake-admin-2025-secure'
 
 const isProtectedRoute = createRouteMatcher(['/dashboard(.*)'])
 

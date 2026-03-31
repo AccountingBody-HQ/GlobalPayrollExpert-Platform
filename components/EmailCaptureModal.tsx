@@ -31,8 +31,8 @@ export default function EmailCaptureModal({
 
     // Check if already dismissed or subscribed
     try {
-      const dismissed = localStorage.getItem('gpe_modal_dismissed')
-      const subscribed = localStorage.getItem('gpe_subscribed')
+      const dismissed = localStorage.getItem('hrlake_modal_dismissed')
+      const subscribed = localStorage.getItem('hrlake_subscribed')
       if (dismissed || subscribed) return
     } catch { return }
 
@@ -53,7 +53,7 @@ export default function EmailCaptureModal({
   function handleClose() {
     setIsOpen(false)
     try {
-      localStorage.setItem('gpe_modal_dismissed', 'true')
+      localStorage.setItem('hrlake_modal_dismissed', 'true')
     } catch {}
     controlledOnClose?.()
   }
@@ -77,7 +77,7 @@ export default function EmailCaptureModal({
       } else {
         setStatus('success')
         try {
-          localStorage.setItem('gpe_subscribed', 'true')
+          localStorage.setItem('hrlake_subscribed', 'true')
         } catch {}
         // Auto close after 3 seconds on success
         setTimeout(() => {
@@ -122,7 +122,7 @@ export default function EmailCaptureModal({
               <CheckCircle className="text-green-500 mx-auto mb-4" size={48} />
               <h3 className="font-bold text-xl text-slate-900 mb-2">You are subscribed.</h3>
               <p className="text-slate-500 text-sm">
-                Check your inbox for a confirmation email from GlobalPayrollExpert.
+                Check your inbox for a confirmation email from HRLake.
               </p>
             </div>
           ) : (

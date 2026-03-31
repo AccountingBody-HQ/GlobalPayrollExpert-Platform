@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { ArrowRight, Calculator, Globe, RefreshCw, BarChart2 } from 'lucide-react'
 
 export const metadata = {
-  title: 'Payroll Tools | GlobalPayrollExpert',
+  title: 'Payroll Tools | HRLake',
   description: 'Free payroll calculators and tools — net pay, employer cost, country comparison, and salary currency conversion for 195 countries.',
 }
 

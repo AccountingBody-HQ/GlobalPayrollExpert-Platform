@@ -57,7 +57,7 @@ export default function EmailCapture({
             You are subscribed.
           </p>
           <p className={`text-sm mt-1 ${variant === 'dark' ? 'text-slate-400' : 'text-slate-500'}`}>
-            Check your inbox for a confirmation email from GlobalPayrollExpert.
+            Check your inbox for a confirmation email from HRLake.
           </p>
         </div>
       </div>

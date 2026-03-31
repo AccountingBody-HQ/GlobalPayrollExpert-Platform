@@ -31,7 +31,7 @@ export async function generateMetadata({
     openGraph: {
       title: article.title,
       description: article.excerpt || undefined,
-      url: "https://globalpayrollexpert.com/insights/" + slug + "/",
+      url: "https://hrlake.com/insights/" + slug + "/",
       type: "article",
       ...(article.publishedAt && { publishedTime: article.publishedAt }),
       ...(article.category && { section: article.category }),
@@ -323,7 +323,7 @@ export default async function InsightArticlePage({
                 )}
                 <div>
                   <p className="text-sm font-semibold text-white">{article.author.name}</p>
-                  <p className="text-xs text-slate-500">GlobalPayrollExpert Editorial</p>
+                  <p className="text-xs text-slate-500">HRLake Editorial</p>
                 </div>
               </div>
             )}

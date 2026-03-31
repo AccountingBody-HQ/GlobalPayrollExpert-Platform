@@ -71,7 +71,7 @@ export async function POST(request: NextRequest) {
       .from('email_subscribers')
       .update({ status: newStatus })
       .eq('email', email.toLowerCase().trim())
-      .eq('platform', 'gpe')
+      .eq('platform', 'hrlake')
 
     if (error) {
       console.error('Resend webhook Supabase error:', error)

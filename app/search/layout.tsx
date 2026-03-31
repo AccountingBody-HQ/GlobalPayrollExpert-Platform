@@ -2,9 +2,9 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Search — Countries, Calculators and Payroll Guides',
-  description: 'Search GlobalPayrollExpert for any country, payroll guide, employment law topic, or compliance requirement. Coverage across 195 countries.',
+  description: 'Search HRLake for any country, payroll guide, employment law topic, or compliance requirement. Coverage across 195 countries.',
   alternates: {
-    canonical: 'https://globalpayrollexpert.com/search/',
+    canonical: 'https://hrlake.com/search/',
   },
   robots: {
     index: false,

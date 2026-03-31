@@ -6,7 +6,7 @@ import { User, Calculator, Crown, ArrowRight, BookmarkCheck, TrendingUp, Shield 
 
 export const metadata = {
   title: 'Dashboard',
-  description: 'Your GlobalPayrollExpert account dashboard.',
+  description: 'Your HRLake account dashboard.',
 }
 
 async function getUserPlan(userId: string) {
@@ -19,7 +19,7 @@ async function getUserPlan(userId: string) {
       .from('subscriptions')
       .select('plan, status')
       .eq('user_id', userId)
-      .eq('platform', 'gpe')
+      .eq('platform', 'hrlake')
       .single()
     return data
   } catch {
@@ -34,7 +34,7 @@ async function getSavedCalculations(userId: string) {
       process.env.SUPABASE_SERVICE_ROLE_KEY!
     )
     const { data } = await supabase
-      .schema('gpe')
+      .schema('hrlake')
       .from('saved_calculations')
       .select('id, country_code, name, created_at, results, inputs')
       .eq('user_id', userId)

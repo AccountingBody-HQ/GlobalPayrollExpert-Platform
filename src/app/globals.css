@@ -130,7 +130,7 @@
 }
 
 @layer components {
-  .container-gpe {
+  .container-hrlake {
     width: 100%;
     max-width: 88rem;
     margin-left: auto;
@@ -140,11 +140,11 @@
   }
 
   @media (min-width: 640px) {
-    .container-gpe { padding-left: 2rem; padding-right: 2rem; }
+    .container-hrlake { padding-left: 2rem; padding-right: 2rem; }
   }
 
   @media (min-width: 1024px) {
-    .container-gpe { padding-left: 3rem; padding-right: 3rem; }
+    .container-hrlake { padding-left: 3rem; padding-right: 3rem; }
   }
 
   .section-padding {

@@ -8,8 +8,8 @@ async function getUserData(userId: string) {
     process.env.SUPABASE_SERVICE_ROLE_KEY!
   );
   const [subRes, usageRes] = await Promise.all([
-    supabase.from("subscriptions").select("plan,status").eq("user_id", userId).eq("platform","gpe").single(),
-    supabase.from("ai_conversations").select("id", { count: "exact" }).eq("user_id", userId).eq("platform","gpe").gte("created_at", new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString()),
+    supabase.from("subscriptions").select("plan,status").eq("user_id", userId).eq("platform","hrlake").single(),
+    supabase.from("ai_conversations").select("id", { count: "exact" }).eq("user_id", userId).eq("platform","hrlake").gte("created_at", new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString()),
   ]);
   const sub = subRes.data;
   const isPro = !!(sub && ["pro","enterprise"].includes(sub.plan) && ["active","trialling"].includes(sub.status));

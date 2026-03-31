@@ -44,7 +44,7 @@ export default function UnsubscribeClient() {
       {/* Logo */}
       <div className="flex items-center gap-2.5 mb-10 justify-center">
         <Globe className="h-5 w-5 text-blue-400" />
-        <span className="text-base font-bold text-white tracking-tight">GlobalPayrollExpert</span>
+        <span className="text-base font-bold text-white tracking-tight">HRLake</span>
       </div>
 
       <div className="bg-slate-900 border border-slate-800 rounded-2xl p-8 text-center">
@@ -54,7 +54,7 @@ export default function UnsubscribeClient() {
             <h1 className="text-white font-bold text-2xl mb-3">Unsubscribe</h1>
             {email ? (
               <p className="text-slate-400 text-sm leading-relaxed mb-8">
-                You are about to unsubscribe <span className="text-white font-medium">{email}</span> from GlobalPayrollExpert monthly updates.
+                You are about to unsubscribe <span className="text-white font-medium">{email}</span> from HRLake monthly updates.
               </p>
             ) : (
               <p className="text-slate-400 text-sm leading-relaxed mb-8">
@@ -87,11 +87,11 @@ export default function UnsubscribeClient() {
             <CheckCircle className="text-green-500 mx-auto mb-4" size={48} />
             <h2 className="text-white font-bold text-xl mb-3">You are unsubscribed.</h2>
             <p className="text-slate-400 text-sm leading-relaxed mb-8">
-              <span className="text-white font-medium">{email}</span> has been removed from all GlobalPayrollExpert email updates. You will not receive any further emails from us.
+              <span className="text-white font-medium">{email}</span> has been removed from all HRLake email updates. You will not receive any further emails from us.
             </p>
             <Link href="/"
               className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 text-sm font-medium transition-colors">
-              Return to GlobalPayrollExpert
+              Return to HRLake
             </Link>
           </>
         )}
@@ -101,11 +101,11 @@ export default function UnsubscribeClient() {
             <CheckCircle className="text-slate-500 mx-auto mb-4" size={48} />
             <h2 className="text-white font-bold text-xl mb-3">Already unsubscribed.</h2>
             <p className="text-slate-400 text-sm leading-relaxed mb-8">
-              <span className="text-white font-medium">{email}</span> is not currently subscribed to GlobalPayrollExpert updates.
+              <span className="text-white font-medium">{email}</span> is not currently subscribed to HRLake updates.
             </p>
             <Link href="/"
               className="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 text-sm font-medium transition-colors">
-              Return to GlobalPayrollExpert
+              Return to HRLake
             </Link>
           </>
         )}
@@ -126,7 +126,7 @@ export default function UnsubscribeClient() {
       </div>
 
       <p className="text-slate-600 text-xs text-center mt-6">
-        GlobalPayrollExpert.com · Global Payroll Intelligence Platform
+        HRLake.com · Global Payroll Intelligence Platform
       </p>
     </div>
   )

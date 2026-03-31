@@ -11,28 +11,28 @@ async function getDataQualitySummary() {
 
     const { data: countries, error: cErr } = await supabase
       .from('countries')
-      .select('iso2, name, currency_code, gpe_coverage_level, last_data_update, payroll_complexity_score')
+      .select('iso2, name, currency_code, hrlake_coverage_level, last_data_update, payroll_complexity_score')
       .eq('is_active', true)
       .order('name')
 
     if (cErr) console.error('countries error:', cErr.message)
 
     const { data: brackets, error: bErr } = await supabase
-      .schema('gpe').from('tax_brackets')
+      .schema('hrlake').from('tax_brackets')
       .select('country_code')
       .eq('is_current', true)
 
     if (bErr) console.error('brackets error:', bErr.message)
 
     const { data: ss, error: sErr } = await supabase
-      .schema('gpe').from('social_security')
+      .schema('hrlake').from('social_security')
       .select('country_code')
       .eq('is_current', true)
 
     if (sErr) console.error('ss error:', sErr.message)
 
     const { data: rules, error: rErr } = await supabase
-      .schema('gpe').from('employment_rules')
+      .schema('hrlake').from('employment_rules')
       .select('country_code')
       .eq('is_current', true)
 

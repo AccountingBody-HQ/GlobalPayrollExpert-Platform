@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
 import { createClient } from '@supabase/supabase-js'
 
-const BASE_URL = 'https://globalpayrollexpert.com'
+const BASE_URL = 'https://hrlake.com'
 
 const STATIC_PAGES: MetadataRoute.Sitemap = [
   { url: BASE_URL,                          lastModified: new Date(), changeFrequency: 'weekly',  priority: 1.0  },

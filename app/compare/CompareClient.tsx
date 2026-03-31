@@ -119,20 +119,20 @@ export default function CompareClient({ countries }: Props) {
 
     const [rulesRes, ssRes, bracketsRes] = await Promise.all([
       supabase
-        .schema('gpe')
+        .schema('hrlake')
         .from('employment_rules')
         .select('rule_type, value_text, value_numeric, value_unit')
         .eq('country_code', code)
         .eq('is_current', true)
         .eq('tier', 'free'),
       supabase
-        .schema('gpe')
+        .schema('hrlake')
         .from('social_security')
         .select('contribution_type, employer_rate, employee_rate, applies_above, applies_below, employer_cap_annual, employee_cap_annual')
         .eq('country_code', code)
         .eq('is_current', true),
       supabase
-        .schema('gpe')
+        .schema('hrlake')
         .from('tax_brackets')
         .select('rate')
         .eq('country_code', code)

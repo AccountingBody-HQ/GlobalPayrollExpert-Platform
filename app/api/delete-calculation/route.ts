@@ -19,7 +19,7 @@ export async function DELETE(req: Request) {
   )
 
   const { error } = await supabase
-    .schema('gpe')
+    .schema('hrlake')
     .from('saved_calculations')
     .delete()
     .eq('id', id)

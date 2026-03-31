@@ -33,11 +33,11 @@ export async function POST(req: Request) {
         return NextResponse.json({ error: 'No record_id provided' }, { status: 400 })
       }
 
-      // Use raw SQL via rpc to update gpe schema tables
+      // Use raw SQL via rpc to update hrlake schema tables
       const tableMap: Record<string, string> = {
-        'tax_brackets': 'gpe.tax_brackets',
-        'social_security': 'gpe.social_security',
-        'employment_rules': 'gpe.employment_rules',
+        'tax_brackets': 'hrlake.tax_brackets',
+        'social_security': 'hrlake.social_security',
+        'employment_rules': 'hrlake.employment_rules',
       }
 
       const fullTable = tableMap[table]

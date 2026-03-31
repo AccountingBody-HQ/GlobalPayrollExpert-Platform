@@ -32,7 +32,7 @@ export default function Navigation() {
           <Link href="/" className="flex items-center gap-2.5 shrink-0">
             <Globe className="h-5 w-5 text-blue-500" />
             <span className="text-base font-bold text-white tracking-tight hidden sm:block">
-              GlobalPayrollExpert
+              HRLake
             </span>
           </Link>
 

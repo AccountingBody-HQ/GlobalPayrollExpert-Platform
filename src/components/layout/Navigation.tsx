@@ -49,11 +49,11 @@ export default function Navigation() {
           ? "bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm"
           : "bg-white border-b border-slate-200"
       )}>
-        <div className="container-gpe">
+        <div className="container-hrlake">
           <div className="flex items-center justify-between h-16">
 
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2.5 shrink-0 group" aria-label="GlobalPayrollExpert home">
+            <Link href="/" className="flex items-center gap-2.5 shrink-0 group" aria-label="HRLake home">
               <div className="w-8 h-8 rounded-lg bg-gradient-blue flex items-center justify-center shadow-sm group-hover:shadow-glow transition-shadow">
                 <Globe size={18} className="text-white" strokeWidth={2.5} />
               </div>
@@ -140,7 +140,7 @@ export default function Navigation() {
         "transition-all duration-300 overflow-hidden",
         open ? "max-h-screen opacity-100" : "max-h-0 opacity-0 pointer-events-none"
       )}>
-        <nav className="container-gpe py-4 flex flex-col gap-1" aria-label="Mobile navigation">
+        <nav className="container-hrlake py-4 flex flex-col gap-1" aria-label="Mobile navigation">
           {navLinks.map(({ label, href, icon: Icon }) => (
             <Link
               key={href}

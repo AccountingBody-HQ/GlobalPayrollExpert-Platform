@@ -5,15 +5,15 @@ import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Pricing — Free and Pro Plans',
-  description: 'GlobalPayrollExpert is free for all country data, calculators, and employment law guides. Upgrade to Pro for saved calculations, PDF exports, AI assistant, and rate-change alerts.',
+  description: 'HRLake is free for all country data, calculators, and employment law guides. Upgrade to Pro for saved calculations, PDF exports, AI assistant, and rate-change alerts.',
   alternates: {
-    canonical: 'https://globalpayrollexpert.com/pricing/',
+    canonical: 'https://hrlake.com/pricing/',
   },
   openGraph: {
     title: 'Pricing — Free and Pro Plans',
     description: 'Free country data and calculators. Pro plan for saved calculations, PDF exports, and AI assistant.',
-    url: 'https://globalpayrollexpert.com/pricing/',
-    siteName: 'GlobalPayrollExpert',
+    url: 'https://hrlake.com/pricing/',
+    siteName: 'HRLake',
     type: 'website',
   },
 }

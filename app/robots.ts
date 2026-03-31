@@ -16,6 +16,6 @@ export default function robots(): MetadataRoute.Robots {
         ],
       },
     ],
-    sitemap: 'https://globalpayrollexpert.com/sitemap.xml',
+    sitemap: 'https://hrlake.com/sitemap.xml',
   }
 }

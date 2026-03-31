@@ -11,7 +11,7 @@ type ConsentState = {
   decided: boolean
 }
 
-const CONSENT_KEY = 'gpe_cookie_consent'
+const CONSENT_KEY = 'hrlake_cookie_consent'
 
 const DEFAULT_CONSENT: ConsentState = {
   essential: true,
@@ -51,8 +51,8 @@ function initConsentDefaults() {
   })
 }
 
-// Global function — call window.__gpe_openCookieSettings() from anywhere to reopen
-declare global { interface Window { __gpe_openCookieSettings?: () => void } }
+// Global function — call window.__hrlake_openCookieSettings() from anywhere to reopen
+declare global { interface Window { __hrlake_openCookieSettings?: () => void } }
 
 export default function CookieConsent() {
   const [visible, setVisible] = useState(false)
@@ -62,7 +62,7 @@ export default function CookieConsent() {
   useEffect(() => {
     initConsentDefaults()
     // Register global reopen function so footer/cookie policy can trigger it
-    window.__gpe_openCookieSettings = () => {
+    window.__hrlake_openCookieSettings = () => {
       setShowPreferences(false)
       setVisible(true)
     }
@@ -117,7 +117,7 @@ export default function CookieConsent() {
               </div>
               <div>
                 <h2 className="text-white font-bold text-sm leading-tight">Your privacy choices</h2>
-                <p className="text-slate-400 text-xs mt-0.5">GlobalPayrollExpert.com</p>
+                <p className="text-slate-400 text-xs mt-0.5">HRLake.com</p>
               </div>
             </div>
             <button onClick={handleRejectAll} className="text-slate-500 hover:text-slate-300 transition-colors shrink-0 mt-0.5" aria-label="Reject and close">

@@ -18,7 +18,7 @@ export async function POST(req: Request) {
     .from('subscriptions')
     .select('plan, status')
     .eq('user_id', userId)
-    .eq('platform', 'gpe')
+    .eq('platform', 'hrlake')
     .single()
 
   const isPro = subscription?.plan === 'pro' && subscription?.status === 'active'
@@ -45,7 +45,7 @@ export async function POST(req: Request) {
 
   // Attempt insert — database unique constraint will reject true duplicates
   const { error } = await supabase
-    .schema('gpe')
+    .schema('hrlake')
     .from('saved_calculations')
     .insert({
       user_id: userId,
@@ -80,7 +80,7 @@ export async function POST(req: Request) {
       
       // Retry the insert
       const { error: retryError } = await supabase
-        .schema('gpe')
+        .schema('hrlake')
         .from('saved_calculations')
         .insert({
           user_id: userId,

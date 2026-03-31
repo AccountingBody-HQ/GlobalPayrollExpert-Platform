@@ -11,7 +11,7 @@ export default withSentryConfig(nextConfig, {
 
   org: "accounting-body",
 
-  project: "globalpayrollexpert-website",
+  project: "hrlake-website",
 
   // Only print logs for uploading source maps in CI
   silent: !process.env.CI,

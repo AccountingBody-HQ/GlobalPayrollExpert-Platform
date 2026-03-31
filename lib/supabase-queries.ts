@@ -1,7 +1,7 @@
 // ============================================
 // GLOBALPAYROLLEXPERT — SUPABASE QUERY FUNCTIONS
-// Schema: public (countries) + gpe (payroll data)
-// Always filter gpe tables: is_current = true
+// Schema: public (countries) + hrlake (payroll data)
+// Always filter hrlake tables: is_current = true
 // ============================================
 
 import { createClient } from '@supabase/supabase-js'
@@ -17,7 +17,7 @@ export async function getAllCountries() {
   const supabase = getPublicClient()
   const { data, error } = await supabase
     .from('countries')
-    .select('id, iso2, iso3, name, currency_code, flag_emoji, region, gpe_coverage_level, payroll_complexity_score')
+    .select('id, iso2, iso3, name, currency_code, flag_emoji, region, hrlake_coverage_level, payroll_complexity_score')
     .order('name', { ascending: true })
   if (error) { console.error('getAllCountries error:', error.message); return [] }
   return data ?? []
@@ -61,7 +61,7 @@ export async function getCountryCount(): Promise<number> {
 export async function getTaxBrackets(iso2: string, taxYear?: number) {
   const supabase = getPublicClient()
   let query = supabase
-    .schema('gpe').from('tax_brackets')
+    .schema('hrlake').from('tax_brackets')
     .select('*')
     .eq('country_code', iso2.toUpperCase())
     .eq('is_current', true)
@@ -75,7 +75,7 @@ export async function getTaxBrackets(iso2: string, taxYear?: number) {
 export async function getTaxYears(iso2: string): Promise<number[]> {
   const supabase = getPublicClient()
   const { data, error } = await supabase
-    .schema('gpe').from('tax_brackets')
+    .schema('hrlake').from('tax_brackets')
     .select('tax_year')
     .eq('country_code', iso2.toUpperCase())
     .eq('is_current', true)
@@ -88,7 +88,7 @@ export async function getTaxYears(iso2: string): Promise<number[]> {
 export async function getSocialSecurity(iso2: string) {
   const supabase = getPublicClient()
   const { data, error } = await supabase
-    .schema('gpe').from('social_security')
+    .schema('hrlake').from('social_security')
     .select('*')
     .eq('country_code', iso2.toUpperCase())
     .eq('is_current', true)
@@ -99,7 +99,7 @@ export async function getSocialSecurity(iso2: string) {
 export async function getEmploymentRules(iso2: string) {
   const supabase = getPublicClient()
   const { data, error } = await supabase
-    .schema('gpe').from('employment_rules')
+    .schema('hrlake').from('employment_rules')
     .select('*')
     .eq('country_code', iso2.toUpperCase())
     .eq('is_current', true)
@@ -126,7 +126,7 @@ export async function getEmploymentRules(iso2: string) {
 export async function getPayrollCompliance(iso2: string) {
   const supabase = getPublicClient()
   const { data, error } = await supabase
-    .schema('gpe').from('payroll_compliance')
+    .schema('hrlake').from('payroll_compliance')
     .select('*')
     .eq('country_code', iso2.toUpperCase())
     .eq('is_current', true)
@@ -139,7 +139,7 @@ export async function getRelatedCountries(iso2: string, region: string) {
   const supabase = getPublicClient()
   const { data, error } = await supabase
     .from('countries')
-    .select('id, iso2, name, flag_emoji, currency_code, region, gpe_coverage_level, payroll_complexity_score')
+    .select('id, iso2, name, flag_emoji, currency_code, region, hrlake_coverage_level, payroll_complexity_score')
     .eq('region', region)
     .neq('iso2', iso2.toUpperCase())
     .limit(4)

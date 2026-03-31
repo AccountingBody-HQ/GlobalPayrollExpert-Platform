@@ -27,23 +27,23 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     .eq('iso2', code.toUpperCase())
     .single()
 
-  if (!country) return { title: 'Payroll Calculator — GlobalPayrollExpert' }
+  if (!country) return { title: 'Payroll Calculator — HRLake' }
 
   const name = country.name
   const title = `${name} Payroll Calculator ${new Date().getFullYear()}`
   const description = `Calculate net salary, income tax, and employer costs in ${name}. Full bracket breakdown, social security contributions, and PDF export.`
-  const ogImage = `https://globalpayrollexpert.com/og/country?code=${code.toLowerCase()}&name=${encodeURIComponent(name)}&type=calculator`
+  const ogImage = `https://hrlake.com/og/country?code=${code.toLowerCase()}&name=${encodeURIComponent(name)}&type=calculator`
   return {
     title,
     description,
     alternates: {
-      canonical: `https://globalpayrollexpert.com/countries/${code.toLowerCase()}/payroll-calculator/`,
+      canonical: `https://hrlake.com/countries/${code.toLowerCase()}/payroll-calculator/`,
     },
     openGraph: {
       title,
       description,
-      url: `https://globalpayrollexpert.com/countries/${code.toLowerCase()}/payroll-calculator/`,
-      siteName: 'GlobalPayrollExpert',
+      url: `https://hrlake.com/countries/${code.toLowerCase()}/payroll-calculator/`,
+      siteName: 'HRLake',
       type: 'website',
       images: [{ url: ogImage, width: 1200, height: 630, alt: `${name} Payroll Calculator` }],
     },
@@ -74,9 +74,9 @@ export default async function PayrollCalculatorPage({ params, searchParams }: Pa
 
   if (!country) notFound()
 
-  // ── Load tax brackets (gpe schema) ────────────────────────────────────────
+  // ── Load tax brackets (hrlake schema) ────────────────────────────────────────
   const { data: rawBrackets } = await supabase
-    .schema('gpe')
+    .schema('hrlake')
     .from('tax_brackets')
     .select('bracket_order, lower_limit, upper_limit, rate, bracket_name')
     .eq('country_code', upperCode)
@@ -84,9 +84,9 @@ export default async function PayrollCalculatorPage({ params, searchParams }: Pa
     .eq('tier', 'free')
     .order('bracket_order', { ascending: true })
 
-  // ── Load social security rates (gpe schema) ───────────────────────────────
+  // ── Load social security rates (hrlake schema) ───────────────────────────────
   const { data: rawSS } = await supabase
-    .schema('gpe')
+    .schema('hrlake')
     .from('social_security')
     .select('contribution_type, employer_rate, employee_rate, employer_cap_annual, employee_cap_annual, applies_above, applies_below')
     .eq('country_code', upperCode)

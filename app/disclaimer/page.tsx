@@ -1,8 +1,8 @@
 import Link from 'next/link'
 
 export const metadata = {
-  title: 'Disclaimer — GlobalPayrollExpert',
-  description: 'Data accuracy disclaimer and limitation of liability for GlobalPayrollExpert.com.',
+  title: 'Disclaimer — HRLake',
+  description: 'Data accuracy disclaimer and limitation of liability for HRLake.com.',
 }
 
 export default function DisclaimerPage() {
@@ -58,7 +58,7 @@ export default function DisclaimerPage() {
               <div className="bg-amber-50 border border-amber-300 rounded-2xl p-6 mb-12 not-prose">
                 <p className="text-amber-900 font-bold text-sm mb-2">Important — please read</p>
                 <p className="text-amber-800 text-sm leading-relaxed">
-                  GlobalPayrollExpert is a research and reference platform. The data, calculators,
+                  HRLake is a research and reference platform. The data, calculators,
                   and guides on this site are provided for informational purposes only. They do not
                   constitute professional tax, legal, payroll, or financial advice. Always consult
                   a qualified professional before making decisions based on this data.
@@ -66,7 +66,7 @@ export default function DisclaimerPage() {
               </div>
 
               <h2 id="not-professional-advice">1. Not professional advice</h2>
-              <p>The information on GlobalPayrollExpert.com — including country payroll data, tax brackets, social security rates, employer cost calculations, employment law summaries, termination rules, and all other content — is provided for general informational and reference purposes only.</p>
+              <p>The information on HRLake.com — including country payroll data, tax brackets, social security rates, employer cost calculations, employment law summaries, termination rules, and all other content — is provided for general informational and reference purposes only.</p>
               <p>This information does not constitute and must not be relied upon as professional tax advice, legal advice, payroll advice, accounting advice, financial advice, or any other form of professional advice. No adviser-client relationship is created by your use of this platform.</p>
 
               <h2 id="data-accuracy">2. Data accuracy</h2>
@@ -91,7 +91,7 @@ export default function DisclaimerPage() {
               <p>The data on this platform represents general national-level rules. It may not reflect the specific rules that apply to your situation. Always consider individual circumstances when applying this data.</p>
 
               <h2 id="no-liability">5. Limitation of liability</h2>
-              <p>GlobalPayrollExpert.com and AccountingBody HQ expressly disclaim all liability for any loss, damage, cost, or expense — whether direct, indirect, consequential, or otherwise — arising from:</p>
+              <p>HRLake.com and AccountingBody HQ expressly disclaim all liability for any loss, damage, cost, or expense — whether direct, indirect, consequential, or otherwise — arising from:</p>
               <ul>
                 <li>Reliance on any data, calculation, or information provided on this platform</li>
                 <li>Errors, omissions, or inaccuracies in platform data</li>
@@ -114,7 +114,7 @@ export default function DisclaimerPage() {
                 <li>An Employer of Record (EOR) provider with in-country expertise</li>
                 <li>The relevant government tax authority directly</li>
               </ul>
-              <p>GlobalPayrollExpert is a starting point for research — not a substitute for expert advice.</p>
+              <p>HRLake is a starting point for research — not a substitute for expert advice.</p>
 
               <hr />
               <p>Questions about this disclaimer? <Link href="/contact/">Contact us</Link>. For our full terms of service, see the <Link href="/terms/">Terms of Service</Link>.</p>

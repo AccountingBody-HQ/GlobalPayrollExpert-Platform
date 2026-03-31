@@ -39,7 +39,7 @@ export default function EORCostEstimator() {
           process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
         )
         const { data: guides } = await supabase
-          .schema('gpe').from('eor_guides')
+          .schema('hrlake').from('eor_guides')
           .select('country_code, ss_employer_rate, provider_fee_low, provider_fee_high, risk_level')
           .eq('is_current', true)
           .order('country_code')

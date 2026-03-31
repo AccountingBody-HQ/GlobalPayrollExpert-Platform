@@ -38,7 +38,7 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const { code } = await params
   const country = await getCountryByCode(code)
-  if (!country) return { title: 'Country Not Found | GlobalPayrollExpert' }
+  if (!country) return { title: 'Country Not Found | HRLake' }
 
   const title = `${country.name} Payroll Guide ${new Date().getFullYear()}: Tax, Social Security & Employment Rules`
   const description = `Complete ${country.name} payroll data: income tax brackets, social security rates, employer costs, employment law, and payroll compliance obligations. Updated monthly from official sources.`
@@ -47,17 +47,17 @@ export async function generateMetadata(
     title,
     description,
     alternates: {
-      canonical: `https://globalpayrollexpert.com/countries/${code.toLowerCase()}/`,
+      canonical: `https://hrlake.com/countries/${code.toLowerCase()}/`,
     },
     openGraph: {
       title,
       description,
-      url: `https://globalpayrollexpert.com/countries/${code.toLowerCase()}/`,
-      siteName: 'GlobalPayrollExpert',
+      url: `https://hrlake.com/countries/${code.toLowerCase()}/`,
+      siteName: 'HRLake',
       type: 'website',
       images: [
         {
-          url: `https://globalpayrollexpert.com/og/country?code=${code.toLowerCase()}&name=${encodeURIComponent(country.name)}&type=payroll`,
+          url: `https://hrlake.com/og/country?code=${code.toLowerCase()}&name=${encodeURIComponent(country.name)}&type=payroll`,
           width: 1200,
           height: 630,
           alt: `${country.name} Payroll Guide`,
@@ -69,7 +69,7 @@ export async function generateMetadata(
       title,
       description,
       images: [
-        `https://globalpayrollexpert.com/og/country?code=${code.toLowerCase()}&name=${encodeURIComponent(country.name)}&type=payroll`,
+        `https://hrlake.com/og/country?code=${code.toLowerCase()}&name=${encodeURIComponent(country.name)}&type=payroll`,
       ],
     },
   }
@@ -154,7 +154,7 @@ export default async function CountryPage(
       useCdn: true,
     })
     insights = await sanity.fetch(
-      `*[_type == "article" && "globalpayrollexpert" in showOnSites && $country in countries] | order(publishedAt desc)[0...3] {
+      `*[_type == "article" && "hrlake" in showOnSites && $country in countries] | order(publishedAt desc)[0...3] {
         title, slug, publishedAt, excerpt,
         "category": categories[0]->title
       }`,
@@ -176,7 +176,7 @@ export default async function CountryPage(
       .from("subscriptions")
       .select("plan, status")
       .eq("user_id", userId)
-      .eq("platform", "gpe")
+      .eq("platform", "hrlake")
       .single()
     isPro = !!(sub && ["pro","enterprise"].includes(sub.plan) && ["active","trialling"].includes(sub.status))
   }
@@ -235,7 +235,7 @@ export default async function CountryPage(
                     <h1 className="font-serif text-3xl lg:text-5xl font-bold text-white tracking-tight">
                       {country.name}
                     </h1>
-                    {country.gpe_coverage_level === 'full' && (
+                    {country.hrlake_coverage_level === 'full' && (
                       <span className="hidden sm:flex items-center gap-1.5 bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-bold px-3 py-1 rounded-full">
                         <CheckCircle size={11} /> Verified
                       </span>
@@ -713,7 +713,7 @@ export default async function CountryPage(
                   flag_emoji={c.flag_emoji}
                   currency={c.currency_code}
                   region={c.region}
-                  gpe_coverage_level={c.gpe_coverage_level}
+                  hrlake_coverage_level={c.hrlake_coverage_level}
                   payroll_complexity_score={c.payroll_complexity_score}
                 />
               ))}

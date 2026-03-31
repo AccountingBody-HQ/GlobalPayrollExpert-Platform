@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { ArrowRight, Shield, Globe, FileText, Clock, Users, Baby } from 'lucide-react'
 
 export const metadata = {
-  title: 'HR Compliance & Employment Law by Country | GlobalPayrollExpert',
+  title: 'HR Compliance & Employment Law by Country | HRLake',
   description: 'Global employment law guides covering minimum wage, annual leave, notice periods, maternity leave, and probation periods across 195 countries.',
 }
 
@@ -91,7 +91,7 @@ export default async function HRCompliancePage() {
 
   // Fetch a country count that has employment rules data
   const { data: countryCounts } = await supabase
-    .schema('gpe')
+    .schema('hrlake')
     .from('employment_rules')
     .select('country_code')
     .eq('is_current', true)
@@ -101,7 +101,7 @@ export default async function HRCompliancePage() {
 
   // Fetch sample countries for the preview strip
   const { data: sampleRules } = await supabase
-    .schema('gpe')
+    .schema('hrlake')
     .from('employment_rules')
     .select('country_code')
     .eq('rule_type', 'minimum_wage')

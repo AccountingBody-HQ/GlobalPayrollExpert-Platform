@@ -69,7 +69,7 @@ export async function POST(req: Request) {
       .from('platform_memberships')
       .upsert({
         user_id: id,
-        platform: 'gpe',
+        platform: 'hrlake',
       }, { onConflict: 'user_id,platform' })
 
     if (membershipError) {

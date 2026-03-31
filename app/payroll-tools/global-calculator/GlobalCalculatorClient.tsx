@@ -42,7 +42,7 @@ export default function GlobalCalculatorClient({ countries }: Props) {
     async function fetchData() {
       const [bracketsRes, ssRes] = await Promise.all([
         supabase
-          .schema('gpe')
+          .schema('hrlake')
           .from('tax_brackets')
           .select('bracket_order, lower_limit, upper_limit, rate, bracket_name')
           .eq('country_code', selectedCode)
@@ -50,7 +50,7 @@ export default function GlobalCalculatorClient({ countries }: Props) {
           .eq('tier', 'free')
           .order('bracket_order', { ascending: true }),
         supabase
-          .schema('gpe')
+          .schema('hrlake')
           .from('social_security')
           .select('contribution_type, employer_rate, employee_rate, employer_cap_annual, employee_cap_annual, applies_above, applies_below')
           .eq('country_code', selectedCode)

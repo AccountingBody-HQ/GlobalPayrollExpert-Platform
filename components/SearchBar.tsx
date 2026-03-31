@@ -10,7 +10,7 @@ interface Country {
   flag_emoji: string
   region: string
   currency_code: string
-  gpe_coverage_level: string
+  hrlake_coverage_level: string
 }
 interface Article {
   title: string

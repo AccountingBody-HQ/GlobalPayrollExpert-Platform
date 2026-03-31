@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
       .upsert(
         {
           email: email.toLowerCase().trim(),
-          platform: 'gpe',
+          platform: 'hrlake',
           status: 'subscribed',
           source,
           subscribed_at: new Date().toISOString(),
@@ -45,13 +45,13 @@ export async function POST(request: NextRequest) {
     if (calculation_summary) {
       // Calculation results email
       const { data: resendData1, error: resendError1 } = await resend.emails.send({
-        from: 'GlobalPayrollExpert <noreply@accountingbody.com>',
+        from: 'HRLake <noreply@accountingbody.com>',
         to: email,
-        subject: 'Your payroll calculation — GlobalPayrollExpert',
+        subject: 'Your payroll calculation — HRLake',
         html: `
           <div style="font-family: Inter, sans-serif; max-width: 600px; margin: 0 auto; color: #1e293b;">
             <div style="background: #0f172a; padding: 32px; border-radius: 8px 8px 0 0;">
-              <h1 style="color: white; margin: 0; font-size: 20px;">GlobalPayrollExpert</h1>
+              <h1 style="color: white; margin: 0; font-size: 20px;">HRLake</h1>
               <p style="color: #94a3b8; margin: 8px 0 0; font-size: 14px;">Global Payroll Intelligence Platform</p>
             </div>
             <div style="background: #f8fafc; padding: 32px; border: 1px solid #e2e8f0; border-top: none;">
@@ -59,10 +59,10 @@ export async function POST(request: NextRequest) {
               <p style="color: #475569; line-height: 1.6;">Here is a summary of your calculation:</p>
               <div style="background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 24px; margin: 24px 0; font-family: monospace; font-size: 14px; color: #1e293b; white-space: pre-wrap;">${calculation_summary}</div>
               <p style="color: #475569; font-size: 14px; line-height: 1.6;">You are now subscribed to our monthly global payroll updates — rate changes, new country data, and compliance alerts, once a month.</p>
-              <a href="https://globalpayrollexpert.com/countries/" style="display: inline-block; background: #2563eb; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 14px; margin-top: 16px;">Browse all countries</a>
+              <a href="https://hrlake.com/countries/" style="display: inline-block; background: #2563eb; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 14px; margin-top: 16px;">Browse all countries</a>
             </div>
             <div style="padding: 24px; text-align: center;">
-              <p style="color: #94a3b8; font-size: 12px; margin: 0;">GlobalPayrollExpert.com · <a href="https://globalpayrollexpert.com/unsubscribe/?email=${email}" style="color: #94a3b8;">Unsubscribe</a></p>
+              <p style="color: #94a3b8; font-size: 12px; margin: 0;">HRLake.com · <a href="https://hrlake.com/unsubscribe/?email=${email}" style="color: #94a3b8;">Unsubscribe</a></p>
             </div>
           </div>
         `,
@@ -70,18 +70,18 @@ export async function POST(request: NextRequest) {
     } else {
       // Standard welcome email
       await resend.emails.send({
-        from: 'GlobalPayrollExpert <noreply@accountingbody.com>',
+        from: 'HRLake <noreply@accountingbody.com>',
         to: email,
-        subject: 'Welcome to GlobalPayrollExpert updates',
+        subject: 'Welcome to HRLake updates',
         html: `
           <div style="font-family: Inter, sans-serif; max-width: 600px; margin: 0 auto; color: #1e293b;">
             <div style="background: #0f172a; padding: 32px; border-radius: 8px 8px 0 0;">
-              <h1 style="color: white; margin: 0; font-size: 20px;">GlobalPayrollExpert</h1>
+              <h1 style="color: white; margin: 0; font-size: 20px;">HRLake</h1>
               <p style="color: #94a3b8; margin: 8px 0 0; font-size: 14px;">Global Payroll Intelligence Platform</p>
             </div>
             <div style="background: #f8fafc; padding: 32px; border: 1px solid #e2e8f0; border-top: none;">
               <h2 style="color: #1e293b; margin: 0 0 16px;">You are subscribed.</h2>
-              <p style="color: #475569; line-height: 1.6;">Thank you for subscribing to GlobalPayrollExpert monthly updates.</p>
+              <p style="color: #475569; line-height: 1.6;">Thank you for subscribing to HRLake monthly updates.</p>
               <p style="color: #475569; line-height: 1.6;">Once a month you will receive:</p>
               <ul style="color: #475569; line-height: 1.8; padding-left: 20px;">
                 <li>Payroll rate changes across key jurisdictions</li>
@@ -89,10 +89,10 @@ export async function POST(request: NextRequest) {
                 <li>Employment law updates</li>
                 <li>Compliance deadline alerts</li>
               </ul>
-              <a href="https://globalpayrollexpert.com/countries/" style="display: inline-block; background: #2563eb; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 14px; margin-top: 16px;">Explore country data</a>
+              <a href="https://hrlake.com/countries/" style="display: inline-block; background: #2563eb; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 14px; margin-top: 16px;">Explore country data</a>
             </div>
             <div style="padding: 24px; text-align: center;">
-              <p style="color: #94a3b8; font-size: 12px; margin: 0;">GlobalPayrollExpert.com · <a href="https://globalpayrollexpert.com/unsubscribe/?email=${email}" style="color: #94a3b8;">Unsubscribe</a></p>
+              <p style="color: #94a3b8; font-size: 12px; margin: 0;">HRLake.com · <a href="https://hrlake.com/unsubscribe/?email=${email}" style="color: #94a3b8;">Unsubscribe</a></p>
             </div>
           </div>
         `,

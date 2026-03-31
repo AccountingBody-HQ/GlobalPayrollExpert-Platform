@@ -1,13 +1,13 @@
 // lib/structured-data.ts
-// JSON-LD structured data generators for GlobalPayrollExpert
+// JSON-LD structured data generators for HRLake
 
-const BASE_URL = "https://globalpayrollexpert.com"
+const BASE_URL = "https://hrlake.com"
 
 export function getHomepageStructuredData() {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "GlobalPayrollExpert",
+    name: "HRLake",
     description: "The global reference platform for payroll data, employer obligations, employment law, tax summaries, and hiring compliance — covering every country in the world.",
     url: BASE_URL,
     potentialAction: {
@@ -20,7 +20,7 @@ export function getHomepageStructuredData() {
     },
     publisher: {
       "@type": "Organization",
-      name: "GlobalPayrollExpert",
+      name: "HRLake",
       url: BASE_URL,
       logo: {
         "@type": "ImageObject",
@@ -58,7 +58,7 @@ export function getCountryStructuredData(country: {
     license: "https://creativecommons.org/licenses/by/4.0/",
     creator: {
       "@type": "Organization",
-      name: "GlobalPayrollExpert",
+      name: "HRLake",
       url: BASE_URL,
     },
     ...(country.last_verified && { dateModified: country.last_verified }),
@@ -104,7 +104,7 @@ export function getCalculatorStructuredData(country: {
     ],
     creator: {
       "@type": "Organization",
-      name: "GlobalPayrollExpert",
+      name: "HRLake",
       url: BASE_URL,
     },
   }
@@ -128,13 +128,13 @@ export function getArticleStructuredData(article: {
     mainEntityOfPage: { "@type": "WebPage", "@id": articleUrl },
     publisher: {
       "@type": "Organization",
-      name: "GlobalPayrollExpert",
+      name: "HRLake",
       url: BASE_URL,
       logo: { "@type": "ImageObject", url: BASE_URL + "/logo.png" },
     },
     author: {
       "@type": "Organization",
-      name: article.authorName ?? "GlobalPayrollExpert Editorial Team",
+      name: article.authorName ?? "HRLake Editorial Team",
       url: BASE_URL,
     },
     ...(article.publishedAt && {
@@ -168,7 +168,7 @@ export function getComparisonStructuredData(countries: {
     ],
     creator: {
       "@type": "Organization",
-      name: "GlobalPayrollExpert",
+      name: "HRLake",
       url: BASE_URL,
     },
     spatialCoverage: countries.map((c) => ({ "@type": "Place", name: c.name })),
@@ -181,7 +181,7 @@ export function getBreadcrumbStructuredData(items: {
   name: string
   href: string
 }[]) {
-  const BASE = 'https://globalpayrollexpert.com'
+  const BASE = 'https://hrlake.com'
   return {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',

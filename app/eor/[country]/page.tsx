@@ -26,7 +26,7 @@ const severityBadge: Record<string, string> = {
 }
 
 async function getEORGuide(countryCode: string) {
-  const { data } = await supabase.schema('gpe')
+  const { data } = await supabase.schema('hrlake')
     .from('eor_guides')
     .select('*')
     .eq('country_code', countryCode.toUpperCase())
@@ -45,7 +45,7 @@ async function getCountry(countryCode: string) {
 }
 
 export async function generateStaticParams() {
-  const { data } = await supabase.schema('gpe')
+  const { data } = await supabase.schema('hrlake')
     .from('eor_guides')
     .select('country_code')
     .eq('is_current', true)
@@ -55,9 +55,9 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ country: string }> }) {
   const { country } = await params
   const countryData = await getCountry(country)
-  if (!countryData) return { title: 'EOR Guide | GlobalPayrollExpert' }
+  if (!countryData) return { title: 'EOR Guide | HRLake' }
   return {
-    title: `EOR Guide: ${countryData.name} | GlobalPayrollExpert`,
+    title: `EOR Guide: ${countryData.name} | HRLake`,
     description: `Employer of Record guide for ${countryData.name}. EOR availability, provider fees, compliance risks, and EOR vs direct employment comparison.`,
   }
 }

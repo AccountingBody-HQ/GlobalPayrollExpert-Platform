@@ -1,8 +1,8 @@
 import Link from 'next/link'
 
 export const metadata = {
-  title: 'Privacy Policy — GlobalPayrollExpert',
-  description: 'How GlobalPayrollExpert collects, uses, and protects your personal data.',
+  title: 'Privacy Policy — HRLake',
+  description: 'How HRLake collects, uses, and protects your personal data.',
 }
 
 export default function PrivacyPolicyPage() {
@@ -57,14 +57,14 @@ export default function PrivacyPolicyPage() {
             <div className="lg:col-span-3 prose prose-slate max-w-none">
               <div className="bg-blue-50 border border-blue-200 rounded-2xl p-6 mb-12 not-prose">
                 <p className="text-blue-800 text-sm leading-relaxed">
-                  This Privacy Policy explains how GlobalPayrollExpert.com (&quot;we&quot;, &quot;us&quot;, &quot;our&quot;) collects,
+                  This Privacy Policy explains how HRLake.com (&quot;we&quot;, &quot;us&quot;, &quot;our&quot;) collects,
                   uses, and protects your personal data when you use our platform. We are committed to
                   protecting your privacy and complying with the UK GDPR and the Data Protection Act 2018.
                 </p>
               </div>
 
               <h2 id="who-we-are">1. Who we are</h2>
-              <p>GlobalPayrollExpert.com is operated by AccountingBody HQ. We are the data controller for personal data collected through this website. If you have any questions about this policy or your personal data, please <Link href="/contact/">contact us</Link>.</p>
+              <p>HRLake.com is operated by AccountingBody HQ. We are the data controller for personal data collected through this website. If you have any questions about this policy or your personal data, please <Link href="/contact/">contact us</Link>.</p>
 
               <h2 id="data-we-collect">2. Data we collect</h2>
               <p>We collect the following categories of personal data:</p>

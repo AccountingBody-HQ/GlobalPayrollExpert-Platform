@@ -2,8 +2,8 @@ import { Suspense } from 'react'
 import UnsubscribeClient from './UnsubscribeClient'
 
 export const metadata = {
-  title: 'Unsubscribe — GlobalPayrollExpert',
-  description: 'Unsubscribe from GlobalPayrollExpert email updates.',
+  title: 'Unsubscribe — HRLake',
+  description: 'Unsubscribe from HRLake email updates.',
   robots: { index: false, follow: false },
 }
 

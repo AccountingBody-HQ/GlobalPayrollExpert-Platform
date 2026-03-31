@@ -53,7 +53,7 @@ export default function Footer() {
             <Link href="/" className="flex items-center gap-2.5 mb-5">
               <Globe className="h-5 w-5 text-blue-400 shrink-0" />
               <span className="text-base font-bold text-white tracking-tight">
-                Global Payroll Expert
+                HR Lake
               </span>
             </Link>
             <p className="text-sm leading-relaxed text-slate-400 mb-6">
@@ -104,7 +104,7 @@ export default function Footer() {
         <div className="border-t border-slate-800 py-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="flex items-center gap-6">
             <p className="text-xs text-slate-600">
-              © {currentYear} GlobalPayrollExpert.com — All rights reserved.
+              © {currentYear} HRLake.com — All rights reserved.
             </p>
             <CookieSettingsButton />
           </div>

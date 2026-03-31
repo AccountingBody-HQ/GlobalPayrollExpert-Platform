@@ -40,12 +40,12 @@ const speedColour: Record<string, string> = {
 }
 
 export const metadata = {
-  title: 'Employer of Record (EOR) Intelligence | GlobalPayrollExpert',
+  title: 'Employer of Record (EOR) Intelligence | HRLake',
   description: 'EOR guides, cost estimators, and compliance intelligence for 195 countries. Know the real cost of hiring internationally before you commit.',
 }
 
 async function getEORCountries() {
-  const { data: guides } = await supabase.schema('gpe')
+  const { data: guides } = await supabase.schema('hrlake')
     .from('eor_guides')
     .select('country_code, risk_level, hire_speed, recommendation_title')
     .eq('is_current', true)

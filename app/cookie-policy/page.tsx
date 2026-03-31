@@ -2,8 +2,8 @@ import Link from 'next/link'
 import CookieSettingsButton from '@/components/CookieSettingsButton'
 
 export const metadata = {
-  title: 'Cookie Policy — GlobalPayrollExpert',
-  description: 'How GlobalPayrollExpert uses cookies and how to manage them.',
+  title: 'Cookie Policy — HRLake',
+  description: 'How HRLake uses cookies and how to manage them.',
 }
 
 export default function CookiePolicyPage() {
@@ -57,7 +57,7 @@ export default function CookiePolicyPage() {
 
               <div className="bg-blue-50 border border-blue-200 rounded-2xl p-6 mb-12 not-prose">
                 <p className="text-blue-800 text-sm leading-relaxed">
-                  This Cookie Policy explains how GlobalPayrollExpert.com uses cookies and similar
+                  This Cookie Policy explains how HRLake.com uses cookies and similar
                   technologies. We use cookies to operate the platform, remember your preferences,
                   and understand how visitors use the site. We do not use cookies for advertising.
                 </p>
@@ -85,8 +85,8 @@ export default function CookiePolicyPage() {
                     {[
                       { name: '__session',        provider: 'Clerk',               purpose: 'Maintains your authenticated session',              duration: 'Session' },
                       { name: '__client_uat',     provider: 'Clerk',               purpose: 'User authentication token',                        duration: '1 year'  },
-                      { name: 'gpe_admin',        provider: 'GlobalPayrollExpert', purpose: 'Admin area session (internal use only)',            duration: '7 days'  },
-                      { name: 'cookie_consent',   provider: 'GlobalPayrollExpert', purpose: 'Stores your cookie consent preferences',           duration: '1 year'  },
+                      { name: 'hrlake_admin',        provider: 'HRLake', purpose: 'Admin area session (internal use only)',            duration: '7 days'  },
+                      { name: 'cookie_consent',   provider: 'HRLake', purpose: 'Stores your cookie consent preferences',           duration: '1 year'  },
                     ].map(row => (
                       <tr key={row.name} className="hover:bg-slate-50">
                         <td className="px-5 py-3 font-mono text-xs text-slate-700">{row.name}</td>
