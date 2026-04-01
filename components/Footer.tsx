@@ -53,7 +53,7 @@ export default function Footer() {
             <Link href="/" className="flex items-center gap-2.5 mb-5">
               <Globe className="h-5 w-5 text-blue-400 shrink-0" />
               <span className="text-base font-bold text-white tracking-tight">
-                HR Lake
+                HRLake
               </span>
             </Link>
             <p className="text-sm leading-relaxed text-slate-400 mb-6">
