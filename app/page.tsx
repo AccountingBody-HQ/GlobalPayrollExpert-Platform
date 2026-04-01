@@ -189,26 +189,6 @@ export default async function HomePage() {
             ))}
           </div>
 
-          {/* Social proof bar */}
-          <div className="mt-10 pt-8 border-t border-slate-800/60">
-            <p className="text-xs font-semibold uppercase tracking-widest text-slate-600 mb-5 text-center">
-              The reference standard for global payroll professionals
-            </p>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-              {[
-                { stat: '195',     desc: 'Countries covered' },
-                { stat: '50,000+', desc: 'Monthly users' },
-                { stat: '100%',    desc: 'Government-sourced data' },
-                { stat: 'Free',    desc: 'Always free to access' },
-              ].map(item => (
-                <div key={item.desc}
-                  className="flex flex-col items-center text-center bg-white/3 border border-white/6 rounded-2xl px-4 py-5">
-                  <span className="text-xl font-black text-white tracking-tight">{item.stat}</span>
-                  <span className="text-xs text-slate-500 mt-1 leading-snug">{item.desc}</span>
-                </div>
-              ))}
-            </div>
-          </div>
 
         </div>
       </section>
