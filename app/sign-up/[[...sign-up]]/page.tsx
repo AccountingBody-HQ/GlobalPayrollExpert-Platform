@@ -1,14 +1,14 @@
 import { SignUp } from '@clerk/nextjs'
 
 export const metadata = {
-  title: 'Create Account',
+  title: 'Create Account | HRLake',
   description: 'Create your free HRLake account.',
 }
 
 export default function SignUpPage() {
   return (
-    <main className="flex items-center justify-center px-4"
-      style={{background: 'radial-gradient(ellipse at 50% 0%, rgba(30,111,255,0.1) 0%, transparent 60%), #020817'}}>
+    <main className="flex items-start justify-center px-4"
+      style={{background: 'radial-gradient(ellipse at 50% 0%, rgba(30,111,255,0.1) 0%, transparent 60%), #020817', minHeight: 'auto', paddingTop: '80px', paddingBottom: '80px'}}>
       <div className="w-full max-w-[400px]">
 
         {/* Logo */}
