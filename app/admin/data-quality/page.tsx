@@ -11,7 +11,7 @@ async function getDataQualitySummary() {
 
     const { data: countries, error: cErr } = await supabase
       .from('countries')
-      .select('iso2, name, currency_code, hrlake_coverage_level, last_data_update, payroll_complexity_score')
+      .select('iso2, name, currency_code, hrlake_coverage_level, last_data_update')
       .eq('is_active', true)
       .order('name')
 
@@ -65,7 +65,7 @@ export default async function DataQualityPage() {
     <div className="p-8">
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-white mb-1">Data Quality Dashboard</h1>
-        <p className="text-slate-400 text-sm">Monitor and verify payroll data across all countries</p>
+        <p className="text-slate-400 text-sm">Monitor HR, payroll and employment data completeness across all countries</p>
       </div>
 
       <div className="grid grid-cols-4 gap-4 mb-8">
