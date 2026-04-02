@@ -82,7 +82,7 @@ export default function CountryCard({
       {payroll_complexity_score !== null && (
         <div>
           <div className="flex items-center justify-between mb-1">
-            <span className="text-xs text-slate-400 font-medium">Payroll complexity</span>
+            <span className="text-xs text-slate-400 font-medium">Compliance complexity</span>
             <span className="text-xs font-bold text-slate-600">{payroll_complexity_score}/10</span>
           </div>
           <div className="h-1 bg-slate-100 rounded-full overflow-hidden">

@@ -13,9 +13,9 @@ import { Suspense } from 'react'
 import CountriesClient from '@/components/countries/CountriesClient'
 
 export const metadata: Metadata = {
-  title: 'All Countries — Global Payroll Data | HRLake',
+  title: 'All Countries — Global HR & Employment Data | HRLake',
   description:
-    'Payroll data, tax rates, social security, and employment law for every country in the world. Browse 195 jurisdictions.',
+    'Employment data, payroll rates, social security, and HR compliance for every country in the world. Browse 195 jurisdictions.',
   alternates: {
     canonical: 'https://hrlake.com/countries/',
   },
@@ -62,7 +62,7 @@ export default async function CountriesPage() {
                 </span>
               </div>
               <p className="text-slate-400 text-base max-w-2xl leading-relaxed">
-                Payroll data, tax rates, social security, and employment law — every country,
+                Employment data, payroll rates, social security, and HR compliance — every country,
                 one authoritative source. Updated monthly from official government sources.
               </p>
             </div>
