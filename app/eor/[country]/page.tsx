@@ -96,11 +96,15 @@ export default async function EORCountryPage({ params }: { params: Promise<{ cou
 
       {/* ══════ HERO ══════ */}
       <section className="relative bg-slate-950 overflow-hidden">
-        <div className="absolute inset-0" style={{background: 'radial-gradient(ellipse at 60% 0%, rgba(30,111,255,0.15) 0%, transparent 60%)'}} />
-        <div className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-20 pb-16">
-          <Link href="/eor/" className="inline-flex items-center gap-2 text-slate-400 hover:text-white text-sm font-medium mb-8 transition-colors">
-            <ArrowLeft size={15} /> EOR Intelligence
-          </Link>
+        <div className="absolute inset-0" style={{background: 'radial-gradient(ellipse at 60% 0%, rgba(30,111,255,0.15) 0%, transparent 60%), radial-gradient(ellipse at 0% 100%, rgba(14,30,80,0.4) 0%, transparent 50%)'}} />
+        <div className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-12 pb-16">
+          <nav className="flex items-center gap-2 text-sm text-slate-500 mb-8">
+            <Link href="/countries" className="hover:text-slate-300 transition-colors">Countries</Link>
+            <ChevronRight size={13} className="text-slate-700" />
+            <Link href="/eor/" className="hover:text-slate-300 transition-colors">EOR</Link>
+            <ChevronRight size={13} className="text-slate-700" />
+            <span className="text-slate-400">{countryData.name}</span>
+          </nav>
           <div className="flex items-start gap-8">
             <div>
               <div className="flex items-center gap-4 mb-6">
@@ -126,16 +130,7 @@ export default async function EORCountryPage({ params }: { params: Promise<{ cou
         </div>
       </section>
 
-      {/* ══════ BREADCRUMB ══════ */}
-      <div className="bg-slate-900 border-b border-slate-800">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-3 flex items-center gap-2 text-xs text-slate-500">
-          <Link href="/" className="hover:text-slate-300 transition-colors">Home</Link>
-          <ChevronRight size={12} />
-          <Link href="/eor/" className="hover:text-slate-300 transition-colors">EOR</Link>
-          <ChevronRight size={12} />
-          <span className="text-slate-400">{countryData.name}</span>
-        </div>
-      </div>
+
 
       {/* ══════ KEY FACTS ══════ */}
       <section className="bg-slate-50 border-b border-slate-200">
