@@ -49,16 +49,20 @@ export default function AboutPage() {
         <div className="absolute inset-0" style={{background: 'radial-gradient(ellipse at 60% 0%, rgba(30,111,255,0.15) 0%, transparent 60%)'}} />
         <div className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-24 pb-20">
           <div className="max-w-3xl">
+            <nav className="flex items-center gap-2 text-xs text-slate-400 mb-6">
+              <a href="/" className="hover:text-slate-200 transition-colors">Home</a>
+              <span>›</span>
+              <span className="text-slate-300">About</span>
+            </nav>
             <div className="inline-flex items-center gap-2 bg-blue-600/10 border border-blue-500/20 rounded-full px-4 py-1.5 mb-8">
               <div className="w-1.5 h-1.5 rounded-full bg-blue-400" />
               <span className="text-blue-300 text-xs font-semibold tracking-wide">About HRLake</span>
             </div>
             <h1 className="font-serif text-4xl lg:text-6xl font-bold text-white leading-[1.08] mb-8" style={{letterSpacing: '-0.025em'}}>
-              The world&apos;s most<br /><span className="text-blue-400">trusted payroll</span><br />intelligence platform.
+              The world&apos;s most<br /><span className="text-blue-400">trusted HR, EOR</span><br />and payroll platform.
             </h1>
             <p className="text-lg text-slate-400 leading-relaxed max-w-2xl">
-              HRLake exists to give payroll professionals, lawyers, HR directors, and global
-              employers authoritative, verified, and current payroll and employment law data for every country in the world.
+              HRLake exists to give HR directors, EOR professionals, lawyers, and global employers authoritative, verified, and current HR intelligence, EOR data, and payroll compliance information for every country in the world.
             </p>
           </div>
         </div>
