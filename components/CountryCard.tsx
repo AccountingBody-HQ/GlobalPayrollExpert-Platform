@@ -78,21 +78,7 @@ export default function CountryCard({
         </span>
       </div>
 
-      {/* Complexity bar — only shown when data exists */}
-      {payroll_complexity_score !== null && (
-        <div>
-          <div className="flex items-center justify-between mb-1">
-            <span className="text-xs text-slate-400 font-medium">Compliance complexity</span>
-            <span className="text-xs font-bold text-slate-600">{payroll_complexity_score}/10</span>
-          </div>
-          <div className="h-1 bg-slate-100 rounded-full overflow-hidden">
-            <div
-              className="h-full rounded-full bg-gradient-to-r from-blue-400 to-blue-600 transition-all"
-              style={{ width: `${(payroll_complexity_score / 10) * 100}%` }}
-            />
-          </div>
-        </div>
-      )}
+
 
       {/* Arrow — appears on hover */}
       <div className="absolute top-5 right-5 opacity-0 group-hover:opacity-100 transition-opacity">

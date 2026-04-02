@@ -283,25 +283,7 @@ export default async function CountryPage(
               </div>
             </div>
 
-            {/* Complexity badge */}
-            {country.payroll_complexity_score && (
-              <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 shrink-0 w-full lg:w-52">
-                <p className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">Payroll Complexity</p>
-                <div className="text-4xl font-black text-white mb-2">
-                  {country.payroll_complexity_score}<span className="text-slate-500 text-xl font-bold">/10</span>
-                </div>
-                <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
-                  <div
-                    className="h-full rounded-full bg-gradient-to-r from-blue-500 to-blue-400"
-                    style={{ width: `${(country.payroll_complexity_score / 10) * 100}%` }}
-                  />
-                </div>
-                <p className="text-slate-500 text-xs mt-2">
-                  {country.payroll_complexity_score >= 8 ? 'High complexity' :
-                   country.payroll_complexity_score >= 5 ? 'Moderate complexity' : 'Low complexity'}
-                </p>
-              </div>
-            )}
+
           </div>
         </div>
       </section>
@@ -341,7 +323,15 @@ export default async function CountryPage(
                 value: employmentRules?.minimum_wage
                   ? fmtCurrency(employmentRules.minimum_wage, country.currency_code)
                   : '—',
-                sub: employmentRules?.payroll_frequency ?? 'Per annum',
+                sub: (() => {
+                const freq = employmentRules?.payroll_frequency ?? ''
+                const map: Record<string, string> = {
+                  'GBP_per_hour': 'Per hour', 'USD_per_hour': 'Per hour',
+                  'EUR_per_hour': 'Per hour', 'monthly': 'Per month',
+                  'weekly': 'Per week', 'annually': 'Per annum',
+                }
+                return map[freq] ?? (freq || 'Per annum')
+              })(),
                 icon: Scale,
                 color: 'text-teal-600',
                 bg: 'bg-teal-50',
@@ -583,7 +573,7 @@ export default async function CountryPage(
             <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden">
               <div className="px-6 py-5 border-b border-slate-100">
                 <h2 className="font-bold text-slate-900 text-lg">Official Sources</h2>
-                <p className="text-slate-400 text-xs mt-0.5">Government authorities for {country.name} payroll and tax</p>
+                <p className="text-slate-400 text-xs mt-0.5">Government authorities for {country.name} employment and tax</p>
               </div>
               <div className="px-6 py-5 space-y-3">
                 {country.official_source_url ? (
@@ -645,7 +635,7 @@ export default async function CountryPage(
                   { href: `/countries/${code}/payroll-calculator/`, icon: Calculator, label: 'Full Payroll Calculator',  sub: 'Complete line-by-line breakdown' },
                   { href: `/countries/${code}/tax-guide/`,          icon: BookOpen,   label: 'Tax Guide',               sub: 'All rates and allowances' },
                   { href: `/countries/${code}/employmentlaw/`,       icon: Scale,      label: 'Employment Law',          sub: 'Leave, notice, probation' },
-                  { href: `/countries/${code}/hiring-guide/`,        icon: Briefcase,  label: 'Hiring Guide',            sub: 'How to hire in ${country.name}' },
+                  { href: `/countries/${code}/hiring-guide/`,        icon: Briefcase,  label: 'Hiring Guide',            sub: `How to hire in ${country.name}` },
                   { href: `/compare/?a=${code}`,                     icon: Globe,      label: 'Compare Countries',       sub: 'Side-by-side cost comparison' },
                 ].map(link => (
                   <Link
@@ -714,7 +704,7 @@ export default async function CountryPage(
                   currency={c.currency_code}
                   region={c.region}
                   hrlake_coverage_level={c.hrlake_coverage_level}
-                  payroll_complexity_score={c.payroll_complexity_score}
+
                 />
               ))}
             </div>
