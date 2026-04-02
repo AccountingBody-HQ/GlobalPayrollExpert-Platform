@@ -190,35 +190,7 @@ export default async function InsightsPage({
         </div>
       </section>
 
-      {/* EMAIL CAPTURE */}
-      <section className="relative overflow-hidden" style={{ backgroundColor: "#0d1f3c" }}>
-        <div
-          className="absolute inset-0"
-          style={{ background: "radial-gradient(ellipse at 80% 50%, rgba(30,111,255,0.12) 0%, transparent 60%)" }}
-        />
-        <div className="relative max-w-7xl mx-auto px-6 lg:px-8 py-24">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <p className="text-blue-400 text-xs font-bold uppercase tracking-widest mb-4">Stay Informed</p>
-              <h2 className="font-serif text-3xl lg:text-4xl font-bold text-white leading-tight tracking-tight mb-6">
-                Get the latest HR and payroll<br />intelligence delivered.
-              </h2>
-              <p className="text-slate-400 leading-relaxed text-lg max-w-md">
-                Rate changes, employment law updates, and compliance alerts — once
-                a month, direct to your inbox.
-              </p>
-            </div>
-            <div>
-              <EmailCapture
-                source="insights"
-                variant="dark"
-                title="Subscribe to updates"
-                subtitle="Join thousands of HR and payroll professionals."
-              />
-            </div>
-          </div>
-        </div>
-      </section>
+
     </div>
   )
 }
