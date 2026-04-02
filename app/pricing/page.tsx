@@ -4,13 +4,13 @@ import { ArrowRight, Check, X } from 'lucide-react'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Pricing — Free and Pro Plans',
+  title: 'Pricing — Free and Pro Plans | HRLake',
   description: 'HRLake is free for all country data, calculators, and employment law guides. Upgrade to Pro for saved calculations, PDF exports, AI assistant, and rate-change alerts.',
   alternates: {
     canonical: 'https://hrlake.com/pricing/',
   },
   openGraph: {
-    title: 'Pricing — Free and Pro Plans',
+    title: 'Pricing — Free and Pro Plans | HRLake',
     description: 'Free country data and calculators. Pro plan for saved calculations, PDF exports, and AI assistant.',
     url: 'https://hrlake.com/pricing/',
     siteName: 'HRLake',
@@ -36,7 +36,7 @@ const PRO_FEATURES = [
   'Everything in Free',
   'Save unlimited calculations',
   'Full PDF export of any calculation',
-  'PayrollExpert AI assistant',
+  'HRLake AI assistant',
   'Priority data updates',
   'Termination rules (all countries)',
   'Contractor classification rules',
@@ -56,7 +56,7 @@ const COMPARISON = [
   { feature: 'Public insights articles',           free: true,  pro: true  },
   { feature: 'Save calculations',                  free: false, pro: true  },
   { feature: 'PDF export',                         free: false, pro: true  },
-  { feature: 'PayrollExpert AI assistant',         free: false, pro: true  },
+  { feature: 'HRLake AI assistant',         free: false, pro: true  },
   { feature: 'Termination rules',                  free: false, pro: true  },
   { feature: 'Contractor classification rules',    free: false, pro: true  },
   { feature: 'Double taxation treaty data',        free: false, pro: true  },
@@ -99,6 +99,11 @@ export default function PricingPage() {
       <section className="relative bg-slate-950 overflow-hidden">
         <div className="absolute inset-0" style={{background: 'radial-gradient(ellipse at 60% 0%, rgba(30,111,255,0.15) 0%, transparent 60%)'}} />
         <div className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-24 pb-20 text-center">
+          <nav className="flex items-center justify-center gap-2 text-xs text-slate-400 mb-6">
+            <a href="/" className="hover:text-slate-200 transition-colors">Home</a>
+            <span>›</span>
+            <span className="text-slate-300">Pricing</span>
+          </nav>
           <div className="inline-flex items-center gap-2 bg-blue-600/10 border border-blue-500/20 rounded-full px-4 py-1.5 mb-8">
             <div className="w-1.5 h-1.5 rounded-full bg-blue-400" />
             <span className="text-blue-300 text-xs font-semibold tracking-wide">Pricing</span>
@@ -107,8 +112,8 @@ export default function PricingPage() {
             Simple, transparent<br /><span className="text-blue-400">pricing.</span>
           </h1>
           <p className="text-lg text-slate-400 leading-relaxed max-w-2xl mx-auto">
-            All core payroll data is free, forever. Upgrade to Pro for saved calculations,
-            AI assistance, PDF exports, and premium data.
+            All core HR, EOR and payroll data is free, forever. Upgrade to Pro for saved calculations,
+            AI assistance, PDF exports, and full premium data access.
           </p>
         </div>
       </section>
