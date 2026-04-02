@@ -275,18 +275,7 @@ export default async function InsightArticlePage({
                   {article.category}
                 </span>
               )}
-              <div className="flex items-center gap-4 text-slate-500 text-xs">
-                {article.publishedAt && (
-                  <span className="flex items-center gap-1.5">
-                    <Calendar size={11} />
-                    {formatDate(article.publishedAt)}
-                  </span>
-                )}
-                <span className="flex items-center gap-1.5">
-                  <Clock size={11} />
-                  {readTime} min read
-                </span>
-              </div>
+
             </div>
 
             <h1
