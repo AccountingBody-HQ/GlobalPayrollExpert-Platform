@@ -49,14 +49,15 @@ function fmtCurrency(value: number | null | undefined, currency: string | null):
 function fmtFrequency(value: string | null | undefined): string {
   if (!value) return '—'
   const map: Record<string, string> = {
-    monthly: 'Monthly',
-    weekly: 'Weekly',
-    bi_weekly: 'Bi-weekly',
-    per_hour: 'Per hour',
-    per_day: 'Per day',
-    annual: 'Annual',
+    monthly: 'per month',
+    weekly: 'per week',
+    bi_weekly: 'bi-weekly',
+    per_hour: 'per hour',
+    per_day: 'per day',
+    annual: 'per year',
   }
-  return map[value.toLowerCase()] ?? value
+  const clean = value.toLowerCase().replace(/^[a-z]+_/, '')
+  return map[value.toLowerCase()] ?? map[clean] ?? value.replace(/_/g, ' ').toLowerCase()
 }
 
 export default async function EmploymentLawPage({ params }: PageProps) {
