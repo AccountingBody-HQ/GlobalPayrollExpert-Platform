@@ -125,7 +125,7 @@ export default function UnsubscribeClient() {
         )}
       </div>
 
-      <p className="text-slate-600 text-xs text-center mt-6">
+      <p className="text-slate-400 text-xs text-center mt-6">
         HRLake.com · Global HR, EOR and Payroll Intelligence
       </p>
     </div>
