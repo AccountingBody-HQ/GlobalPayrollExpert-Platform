@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const name = country.name
   const title = `${name} Payroll Calculator ${new Date().getFullYear()}`
-  const description = `Calculate net salary, income tax, and employer costs in ${name}. Full bracket breakdown, social security contributions, and PDF export.`
+  const description = `Calculate net salary, income tax, and total employer costs in ${name}. Full bracket breakdown, social security, and employment cost analysis for HR and workforce planning.`
   const ogImage = `https://hrlake.com/og/country?code=${code.toLowerCase()}&name=${encodeURIComponent(name)}&type=calculator`
   return {
     title,
@@ -184,8 +184,8 @@ export default async function PayrollCalculatorPage({ params, searchParams }: Pa
                 </h1>
 
                 <p className="text-slate-400 text-lg leading-relaxed">
-                  Calculate net salary, income tax, and total employer cost.
-                  Full bracket-by-bracket breakdown — shown monthly and annually.
+                  Calculate net salary, income tax, and total employer cost for {country.name}.{' '}
+                  Full bracket-by-bracket breakdown — the employment cost data HR and finance teams rely on.
                 </p>
               </div>
 
