@@ -95,6 +95,12 @@ const portableTextComponents = {
     h4: ({ children }: any) => (
       <h4 className="font-bold text-slate-900 mt-8 mb-2">{children}</h4>
     ),
+    h5: ({ children }: any) => (
+      <h5 className="font-semibold text-slate-900 mt-6 mb-2 text-base">{children}</h5>
+    ),
+    h6: ({ children }: any) => (
+      <h6 className="font-semibold text-slate-700 mt-4 mb-1 text-sm uppercase tracking-wide">{children}</h6>
+    ),
     normal: ({ children }: any) => (
       <p className="text-slate-600 leading-[1.85] mb-5 text-[17px]">{children}</p>
     ),
