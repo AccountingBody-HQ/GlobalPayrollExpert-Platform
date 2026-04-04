@@ -114,7 +114,7 @@ export async function getInsightArticles(options?: {
 // --- GET SINGLE ARTICLE (article page) ---
 export async function getInsightBySlug(slug: string): Promise<SanityArticle | null> {
   const query = `*[_type == "article" && slug.current == $slug && "hrlake" in showOnSites][0] {
-    _id, title, slug, publishedAt, excerpt, body[]{ ..., _type == "tableBlock" => { _type, _key, headers, rows[]{ _type, _key, cells } } },
+    _id, title, slug, publishedAt, excerpt, mcqUrl, body[]{ ..., _type == "tableBlock" => { _type, _key, headers, rows[]{ _type, _key, cells } } },
     "category": categories[0]->title,
     "categorySlug": categories[0]->slug.current,
     "countries": coalesce(countries, []),

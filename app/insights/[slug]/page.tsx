@@ -388,6 +388,20 @@ export default async function InsightArticlePage({
                 />
               )}
 
+              {article.mcqUrl && (
+                <div className="mt-10 p-6 bg-blue-50 border border-blue-200 rounded-2xl">
+                  <p className="font-semibold text-slate-900 mb-1">Test your knowledge</p>
+                  <p className="text-slate-600 text-sm mb-4">Practice questions for this topic.</p>
+                  <a
+                    href={article.mcqUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 bg-blue-600 text-white px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-blue-700 transition-colors"
+                  >
+                    Multiple Choice Questions <ArrowRight size={14} />
+                  </a>
+                </div>
+              )}
               <div className="mt-16 pt-8 border-t border-slate-100">
                 <Link
                   href="/insights/"
