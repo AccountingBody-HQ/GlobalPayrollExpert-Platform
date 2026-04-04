@@ -22,8 +22,8 @@ export async function generateMetadata({
     alternates: {
       canonical: (() => {
         const owner = article.canonicalOwner
-        if (owner === 'AccountingBody') return "https://accountingbody.com/blog/" + slug + "/"
-        if (owner === 'EthioTax') return "https://ethiotax.com/articles/" + slug + "/"
+        if (owner === 'accountingbody') return "https://accountingbody.com/articles/" + slug + "/"
+        if (owner === 'ethiotax') return "https://ethiotax.com/articles/" + slug + "/"
         return "https://hrlake.com/insights/" + slug + "/"
       })(),
     },
