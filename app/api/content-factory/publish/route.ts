@@ -118,6 +118,7 @@ export async function POST(req: NextRequest) {
     const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ?? '4rllejq1'
     const dataset   = process.env.NEXT_PUBLIC_SANITY_DATASET    ?? 'production'
 
+    console.log('TOKEN DEBUG:', token ? `starts with ${token.slice(0,10)}` : 'NOT SET')
     if (!token) {
       return NextResponse.json({ error: 'SANITY_API_TOKEN is not set' }, { status: 500 })
     }
