@@ -24,7 +24,9 @@ content_types = [
 # Add already published articles here as ("CC", "Content Type") to skip them
 skip = {("GB", "Country Report")}
 
-log = open("/workspaces/HRLake-Platform/scripts/batch_log.txt", "w")
+LOG_PATH = "/workspaces/HRLake-Platform/scripts/batch_log.txt"
+
+log = open(LOG_PATH, "w")
 success = 0
 failed = 0
 skipped = 0
@@ -38,36 +40,72 @@ for ct, topic_suffix in content_types:
       print(f"[{done}/{total}] SKIP {ct} - {cn}")
       skipped += 1
       continue
+
     topic = f"{cn} {topic_suffix}"
     print(f"[{done}/{total}] Generating {ct} - {cn}...", end=" ", flush=True)
+
     try:
-      gen_payload = json.dumps({"site":"HRLake","contentType":ct,"country":cn,"topic":topic,"tone":"Authoritative","length":"standard"}).encode()
-      req = urllib.request.Request(BASE+"/api/content-factory/generate",data=gen_payload,headers={"Content-Type":"application/json"},method="POST")
+      gen_payload = json.dumps({
+        "site": "HRLake",
+        "contentType": ct,
+        "country": cn,
+        "topic": topic,
+        "tone": "Authoritative",
+        "length": "standard"
+      }).encode()
+
+      req = urllib.request.Request(
+        BASE + "/api/content-factory/generate",
+        data=gen_payload,
+        headers={"Content-Type": "application/json"},
+        method="POST"
+      )
       resp = urllib.request.urlopen(req, timeout=120)
       gen = json.loads(resp.read())
+
       if "content" not in gen:
-        raise Exception(gen.get("error","no content returned"))
-      pub_payload = json.dumps({"site":"HRLake","contentType":ct,"country":cc,"topic":topic,"content":gen["content"],"aiSummary":gen.get("aiSummary",""),"keyTerms":gen.get("keyTerms",""),"showOnSites":["HRLake"],"canonicalOwner":"HRLake"}).encode()
-      req2 = urllib.request.Request(BASE+"/api/content-factory/publish",data=pub_payload,headers={"Content-Type":"application/json"},method="POST")
+        raise Exception(gen.get("error", "no content returned"))
+
+      pub_payload = json.dumps({
+        "site": "HRLake",
+        "contentType": ct,
+        "country": cc,
+        "topic": topic,
+        "content": gen["content"],
+        "aiSummary": gen.get("aiSummary", ""),
+        "keyTerms": gen.get("keyTerms", ""),
+        "showOnSites": ["HRLake"],
+        "canonicalOwner": "HRLake"
+      }).encode()
+
+      req2 = urllib.request.Request(
+        BASE + "/api/content-factory/publish",
+        data=pub_payload,
+        headers={"Content-Type": "application/json"},
+        method="POST"
+      )
       resp2 = urllib.request.urlopen(req2, timeout=60)
       pub = json.loads(resp2.read())
+
       if pub.get("success"):
-        print(f"OK ({len(gen[chr(39)+"content"+chr(39)])} chars) ID:{pub[chr(39)+"documentId"+chr(39)]}")
-        log.write(f"OK|{ct}|{cc}|{cn}|{pub[chr(39)+"documentId"+chr(39)]}|{pub[chr(39)+"slug"+chr(39)]}
-")
+        content_len = len(gen["content"])
+        doc_id = pub["documentId"]
+        slug = pub["slug"]
+        print(f"OK ({content_len} chars) ID:{doc_id}")
+        log.write(f"OK|{ct}|{cc}|{cn}|{doc_id}|{slug}\n")
         log.flush()
         success += 1
       else:
-        raise Exception(pub.get("error","publish failed"))
+        raise Exception(pub.get("error", "publish failed"))
+
     except Exception as e:
       print(f"FAILED: {e}")
-      log.write(f"FAIL|{ct}|{cc}|{cn}|{e}
-")
+      log.write(f"FAIL|{ct}|{cc}|{cn}|{e}\n")
       log.flush()
       failed += 1
+
     time.sleep(2)
 
 log.close()
-print(f"
-DONE: {success} published, {failed} failed, {skipped} skipped")
-print("Log: /workspaces/HRLake-Platform/scripts/batch_log.txt")
+print(f"\nDONE: {success} published, {failed} failed, {skipped} skipped")
+print(f"Log: {LOG_PATH}")
