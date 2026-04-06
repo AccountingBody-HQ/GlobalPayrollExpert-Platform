@@ -3,6 +3,8 @@ import Link from 'next/link'
 import { createSupabaseServerClient } from '@/lib/supabase'
 import { getEmploymentRules } from '@/lib/supabase-queries'
 import { ChevronRight, Calendar, ArrowRight } from 'lucide-react'
+import { PortableText } from '@portabletext/react'
+import { getCountryArticle } from '@/lib/sanity'
 import type { Metadata } from 'next'
 
 interface PageProps {
@@ -49,7 +51,8 @@ export default async function LeaveBenefitsPage({ params }: PageProps) {
 
   if (!country) notFound()
 
-  const [employmentRules, statutoryLeaveRows, publicHolidays] = await Promise.all([
+  const [employmentRules, statutoryLeaveRows, publicHolidays, sanityArticle] = await Promise.all([
+    getCountryArticle(upperCode, 'leave-and-benefits'),
     getEmploymentRules(upperCode),
     supabase.from('statutory_leave').select('*').eq('country_code', upperCode),
     supabase.from('public_holidays').select('*').eq('country_code', upperCode).order('date', { ascending: true }),
@@ -168,6 +171,18 @@ export default async function LeaveBenefitsPage({ params }: PageProps) {
                         ))}
                       </tbody>
                     </table>
+                  </div>
+                </div>
+              )}
+
+
+              {sanityArticle?.body && (
+                <div className="prose max-w-none">
+                  <h2 className="font-serif text-2xl font-bold text-slate-900 mb-6">
+                    {country.name} Leave and Benefits — Full Guide
+                  </h2>
+                  <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
+                    <PortableText value={sanityArticle.body} />
                   </div>
                 </div>
               )}

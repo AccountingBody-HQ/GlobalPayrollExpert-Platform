@@ -222,3 +222,22 @@ export async function getInsightCategories(): Promise<{ title: string; slug: str
     return []
   }
 }
+
+// --- GET ARTICLE BY COUNTRY AND CONTENT TYPE ---
+export async function getCountryArticle(countryCode: string, contentType: string): Promise<SanityArticle | null> {
+  const query = `*[_type == "article" && "hrlake" in showOnSites && relatedCountryCode == $countryCode && contentType == $contentType][0] {
+    _id, title, slug, publishedAt, excerpt, body[]{ ..., _type == "tableBlock" => { _type, _key, headers, rows[]{ _type, _key, cells } } },
+    "category": categories[0]->title,
+    "categorySlug": categories[0]->slug.current,
+    "countries": coalesce(countries, []),
+    canonicalOwner,
+    mainImage,
+    "author": author->{name, image}
+  }`
+  try {
+    return await sanityClient.fetch(query, { countryCode: countryCode.toUpperCase(), contentType })
+  } catch (error) {
+    console.error('Failed to fetch country article:', error)
+    return null
+  }
+}

@@ -3,6 +3,8 @@ import Link from 'next/link'
 import { createSupabaseServerClient } from '@/lib/supabase'
 import { getPayrollCompliance } from '@/lib/supabase-queries'
 import { ChevronRight, ClipboardList, ArrowRight } from 'lucide-react'
+import { PortableText } from '@portabletext/react'
+import { getCountryArticle } from '@/lib/sanity'
 import type { Metadata } from 'next'
 
 interface PageProps {
@@ -49,7 +51,8 @@ export default async function ComplianceCalendarPage({ params }: PageProps) {
 
   if (!country) notFound()
 
-  const [compliance, filingCalendarRows] = await Promise.all([
+  const [compliance, filingCalendarRows, sanityArticle] = await Promise.all([
+    getCountryArticle(upperCode, 'compliance-calendar'),
     getPayrollCompliance(upperCode),
     supabase.from('filing_calendar').select('*').eq('country_code', upperCode).order('due_month', { ascending: true }),
   ])
@@ -160,6 +163,18 @@ export default async function ComplianceCalendarPage({ params }: PageProps) {
                         </div>
                       </div>
                     ))}
+                  </div>
+                </div>
+              )}
+
+
+              {sanityArticle?.body && (
+                <div className="prose max-w-none">
+                  <h2 className="font-serif text-2xl font-bold text-slate-900 mb-6">
+                    {country.name} Compliance Calendar — Full Guide
+                  </h2>
+                  <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
+                    <PortableText value={sanityArticle.body} />
                   </div>
                 </div>
               )}

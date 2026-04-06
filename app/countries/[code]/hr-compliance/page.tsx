@@ -3,6 +3,8 @@ import Link from 'next/link'
 import { createSupabaseServerClient } from '@/lib/supabase'
 import { getEmploymentRules, getPayrollCompliance } from '@/lib/supabase-queries'
 import { ChevronRight, ShieldCheck, ArrowRight } from 'lucide-react'
+import { PortableText } from '@portabletext/react'
+import { getCountryArticle } from '@/lib/sanity'
 import type { Metadata } from 'next'
 
 interface PageProps {
@@ -55,7 +57,8 @@ export default async function HRCompliancePage({ params }: PageProps) {
     .eq('country_code', upperCode)
     .single()
 
-  const [employmentRules, compliance] = await Promise.all([
+  const [employmentRules, compliance, sanityArticle] = await Promise.all([
+    getCountryArticle(upperCode, 'hr-compliance-guide'),
     getEmploymentRules(upperCode),
     getPayrollCompliance(upperCode),
   ])
@@ -192,6 +195,18 @@ export default async function HRCompliancePage({ params }: PageProps) {
                         ))}
                       </tbody>
                     </table>
+                  </div>
+                </div>
+              )}
+
+
+              {sanityArticle?.body && (
+                <div className="prose max-w-none">
+                  <h2 className="font-serif text-2xl font-bold text-slate-900 mb-6">
+                    {country.name} HR Compliance — Full Guide
+                  </h2>
+                  <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
+                    <PortableText value={sanityArticle.body} />
                   </div>
                 </div>
               )}
