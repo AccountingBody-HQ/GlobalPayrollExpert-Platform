@@ -20,7 +20,6 @@ const FEATURED_COUNTRIES = [
   { code: 'ca', name: 'Canada',         income: '15–33%', ss_employer: '~7.5%',  currency: 'CAD' },
   { code: 'nl', name: 'Netherlands',    income: '9–49.5%',ss_employer: '~19%',   currency: 'EUR' },
   { code: 'jp', name: 'Japan',          income: '5–45%',  ss_employer: '~16%',   currency: 'JPY' },
-  { code: 'in', name: 'India',          income: '0–30%',  ss_employer: '12%',    currency: 'INR' },
 ]
 
 const PREVIEW_COUNTRIES = [
@@ -32,11 +31,11 @@ const PREVIEW_COUNTRIES = [
 ]
 
 const REGIONS = [
-  { name: 'Europe',       slug: 'europe',       count: 44 },
-  { name: 'Americas',     slug: 'americas',     count: 35 },
-  { name: 'Asia Pacific', slug: 'asia-pacific', count: 42 },
-  { name: 'Middle East',  slug: 'middle-east',  count: 18 },
-  { name: 'Africa',       slug: 'africa',       count: 56 },
+  { name: 'Europe',       slug: 'europe',       count: 12 },
+  { name: 'Americas',     slug: 'americas',     count: 2 },
+  { name: 'Asia Pacific', slug: 'asia-pacific', count: 4 },
+  { name: 'Middle East',  slug: 'middle-east',  count: 1 },
+  { name: 'Africa',       slug: 'africa',       count: 0 },
 ]
 
 const CAPABILITIES = [
@@ -53,7 +52,7 @@ const CAPABILITIES = [
   {
     icon: Calculator,
     title: 'Payroll Calculator',
-    body: 'Net pay, employer on-costs, income tax, and social security — full line-by-line cost breakdowns for 195 jurisdictions.',
+    body: 'Net pay, employer on-costs, income tax, and social security — full line-by-line cost breakdowns for 20 countries and growing.',
     href: '/payroll-tools/',
     cta: 'Open calculator',
     accent: 'bg-indigo-50 text-indigo-700',
@@ -86,7 +85,7 @@ const STANDARDS = [
   { icon: Award,      title: 'Government-sourced',     body: 'Every data point traced to an official tax authority or government publication.' },
   { icon: RefreshCw,  title: 'Updated monthly',        body: 'Employment rates and statutory thresholds reviewed on a rolling monthly cycle.' },
   { icon: Lock,       title: 'Expert verified',        body: 'Data reviewed by qualified HR and employment law professionals before publication.' },
-  { icon: TrendingUp, title: 'Continuously expanding', body: 'Coverage growing toward complete global depth across all 195 countries.' },
+  { icon: TrendingUp, title: 'Continuously expanding', body: 'Coverage growing toward complete global depth across all 20 countries.' },
 ]
 
 const UPDATE_ITEMS = [
@@ -139,7 +138,7 @@ export default async function HomePage() {
               {/* Subheading */}
               <p className="text-lg text-slate-400 leading-relaxed max-w-xl mb-8">
                 Country employment data, payroll calculations, and EOR intelligence
-                for 195 jurisdictions — the reference platform for HR directors,
+                for 20 countries and growing — the reference platform for HR directors,
                 global law firms, EOR providers, and finance teams worldwide.
               </p>
 
@@ -204,7 +203,7 @@ export default async function HomePage() {
                     <div className="w-2 h-2 rounded-full bg-teal-400 animate-pulse" />
                     <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Live Data</span>
                   </div>
-                  <span className="text-xs text-slate-600">195 countries</span>
+                  <span className="text-xs text-slate-600">20 countries</span>
                 </div>
                 <div className="grid grid-cols-[1fr_70px_60px] px-5 py-2 border-b border-white/5">
                   <span className="text-xs font-bold text-slate-600 uppercase tracking-wider">Country</span>
@@ -225,7 +224,7 @@ export default async function HomePage() {
                 <div className="border-t border-white/10 bg-blue-600/10 px-5 py-3.5">
                   <Link href="/countries/"
                     className="flex items-center justify-between text-xs text-blue-400 hover:text-blue-300 font-semibold transition-colors group">
-                    <span>View all 195 countries</span>
+                    <span>View all 20 countries</span>
                     <ArrowRight size={13} className="group-hover:translate-x-0.5 transition-transform" />
                   </Link>
                 </div>
@@ -240,8 +239,8 @@ export default async function HomePage() {
           {/* Stat strip */}
           <div className="mt-16 pt-10 border-t border-slate-800 grid grid-cols-2 sm:grid-cols-4 gap-8">
             {[
-              { value: '195',     label: 'Countries',   sub: 'Full global coverage' },
-              { value: '10,000+', label: 'Data Points', sub: 'Per country record' },
+              { value: '195',     label: 'Countries',   sub: 'Core jurisdictions live' },
+              { value: '50,000+', label: 'Data Points', sub: 'Per country record' },
               { value: 'Monthly', label: 'Updates',     sub: 'Always current' },
               { value: 'Free',    label: 'Core Access', sub: 'No account required' },
             ].map(s => (
@@ -303,7 +302,7 @@ export default async function HomePage() {
             </div>
             <Link href="/countries/"
               className="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-semibold text-sm transition-colors">
-              All 195 countries <ArrowRight size={15} />
+              All 20 countries <ArrowRight size={15} />
             </Link>
           </div>
 
