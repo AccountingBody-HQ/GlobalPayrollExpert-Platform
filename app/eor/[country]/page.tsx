@@ -94,7 +94,7 @@ export default async function EORCountryPage({ params }: { params: Promise<{ cou
 
   return (
     <main className="bg-white flex-1">
-      <CountrySubNav code={country.iso2} countryName={country.name} />
+      <CountrySubNav code={countryData.iso2} countryName={countryData.name} />
 
       {/* ══════ HERO ══════ */}
       <section className="relative bg-slate-950 overflow-hidden">
