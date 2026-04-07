@@ -18,6 +18,7 @@ export async function getAllCountries() {
   const { data, error } = await supabase
     .from('countries')
     .select('id, iso2, iso3, name, currency_code, flag_emoji, region, hrlake_coverage_level, payroll_complexity_score')
+    .eq('is_active', true)
     .order('name', { ascending: true })
   if (error) { console.error('getAllCountries error:', error.message); return [] }
   return data ?? []
@@ -33,6 +34,7 @@ export async function getAllCountryCodes(): Promise<{ iso2: string }[]> {
   const { data, error } = await supabase
     .from('countries')
     .select('iso2')
+    .eq('is_active', true)
     .order('name', { ascending: true })
   if (error) { console.error('getAllCountryCodes error:', error.message); return [] }
   return data ?? []
