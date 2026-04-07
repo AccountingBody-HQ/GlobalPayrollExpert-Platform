@@ -247,67 +247,16 @@ export default async function PayrollCalculatorPage({ params, searchParams }: Pa
                   <p className="text-blue-600 text-xs font-bold uppercase tracking-widest mb-4">About This Data</p>
                   <ul className="space-y-3">
                     {[
-                      { icon: Award,     text: 'Sourced from official government publications' },
-                      { icon: RefreshCw, text: 'Updated monthly — always current rates' },
-                      { icon: Shield,    text: 'For guidance only — not professional tax advice' },
-                    ].map((item) => (
-                      <li key={item.text} className="flex items-start gap-3">
-                        <div className="bg-blue-600 text-white w-7 h-7 rounded-lg flex items-center justify-center shrink-0 mt-0.5">
-                          <item.icon size={13} />
-                        </div>
-                        <span className="text-sm text-slate-600 leading-snug">{item.text}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Pro upsell */}
-                <div
-                  className="rounded-2xl p-6 overflow-hidden relative"
-                  style={{ backgroundColor: '#0d1f3c' }}
-                >
-                  <div
-                    className="absolute inset-0"
-                    style={{
-                      background:
-                        'radial-gradient(ellipse at 80% 20%, rgba(30,111,255,0.2) 0%, transparent 60%)',
-                    }}
-                  />
-                  <div className="relative">
-                    <p className="text-blue-300 text-xs font-bold uppercase tracking-widest mb-3">Pro Plan</p>
-                    <h3 className="font-serif text-lg font-bold text-white mb-2 leading-snug">
-                      Save and revisit your calculations.
-                    </h3>
-                    <p className="text-slate-400 text-sm leading-relaxed mb-5">
-                      Save any calculation, generate PDF reports, compare across countries, and get rate-change alerts.
-                    </p>
-                    <Link
-                      href="/sign-up"
-                      className="block rounded-xl bg-blue-600 hover:bg-blue-500 px-4 py-3 text-center text-sm font-bold text-white transition-colors"
-                    >
-                      Create Free Account
-                    </Link>
-                    <Link
-                      href="/pricing"
-                      className="block mt-2 text-center text-xs text-slate-500 hover:text-slate-400 transition-colors"
-                    >
-                      View Pro features →
-                    </Link>
-                  </div>
-                </div>
-
-                {/* More for this country */}
-                <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-                  <p className="text-blue-600 text-xs font-bold uppercase tracking-widest mb-4">
-                    More for {country.name}
-                  </p>
-                  <ul className="space-y-1">
-                    {[
-                      { label: 'Country Overview',  href: `/countries/${code.toLowerCase()}/` },
-                      { label: 'Employment Law',     href: `/countries/${code.toLowerCase()}/employmentlaw/` },
-                      { label: 'Tax Guide',          href: `/countries/${code.toLowerCase()}/tax-guide/` },
-                      { label: 'Hiring Guide',       href: `/countries/${code.toLowerCase()}/hiring-guide/` },
-                    ].map((link) => (
+                    { label: 'Country Overview', href: `/countries/${code.toLowerCase()}/` },
+                    { label: 'Tax Guide', href: `/countries/${code.toLowerCase()}/tax-guide/` },
+                    { label: 'Payroll Guide', href: `/countries/${code.toLowerCase()}/payroll-guide/` },
+                    { label: 'Employment Law', href: `/countries/${code.toLowerCase()}/employmentlaw/` },
+                    { label: 'Hiring Guide', href: `/countries/${code.toLowerCase()}/hiring-guide/` },
+                    { label: 'HR Compliance', href: `/countries/${code.toLowerCase()}/hr-compliance/` },
+                    { label: 'Leave & Benefits', href: `/countries/${code.toLowerCase()}/leave-benefits/` },
+                    { label: 'Compliance Calendar', href: `/countries/${code.toLowerCase()}/compliance-calendar/` },
+                    { label: 'EOR Guide', href: `/countries/${code.toLowerCase()}/eor-guide/` },
+                  ].map((link) => (
                       <li key={link.href}>
                         <Link
                           href={link.href}

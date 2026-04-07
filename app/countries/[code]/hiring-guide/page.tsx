@@ -281,10 +281,15 @@ export default async function HiringGuidePage({ params }: PageProps) {
                 <p className="text-blue-600 text-xs font-bold uppercase tracking-widest mb-4">More for {country.name}</p>
                 <ul className="space-y-1">
                   {[
-                    { label: 'Country Overview',   href: `/countries/${code.toLowerCase()}/` },
+                    { label: 'Country Overview', href: `/countries/${code.toLowerCase()}/` },
                     { label: 'Payroll Calculator', href: `/countries/${code.toLowerCase()}/payroll-calculator/` },
-                    { label: 'Employment Law',     href: `/countries/${code.toLowerCase()}/employmentlaw/` },
-                    { label: 'Tax Guide',          href: `/countries/${code.toLowerCase()}/tax-guide/` },
+                    { label: 'Tax Guide', href: `/countries/${code.toLowerCase()}/tax-guide/` },
+                    { label: 'Payroll Guide', href: `/countries/${code.toLowerCase()}/payroll-guide/` },
+                    { label: 'Employment Law', href: `/countries/${code.toLowerCase()}/employmentlaw/` },
+                    { label: 'HR Compliance', href: `/countries/${code.toLowerCase()}/hr-compliance/` },
+                    { label: 'Leave & Benefits', href: `/countries/${code.toLowerCase()}/leave-benefits/` },
+                    { label: 'Compliance Calendar', href: `/countries/${code.toLowerCase()}/compliance-calendar/` },
+                    { label: 'EOR Guide', href: `/countries/${code.toLowerCase()}/eor-guide/` },
                   ].map((link) => (
                     <li key={link.href}>
                       <Link
