@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { Database, BarChart3, Settings, Shield, LogOut, Sparkles } from 'lucide-react'
+import { Database, BarChart3, Settings, Shield, LogOut, Sparkles, Hammer } from 'lucide-react'
 
 export default function AdminLayout({
   children,
@@ -36,6 +36,7 @@ export default function AdminLayout({
             { href: '/admin/data-quality', icon: Database, label: 'Data Quality', sub: 'Verify country data' },
             { href: '/admin/coverage',     icon: BarChart3, label: 'Coverage Map', sub: 'Country coverage' },
             { href: '/admin/settings',     icon: Settings,  label: 'Settings',     sub: 'Admin settings' },
+            { href: '/admin/country-builder', icon: Hammer, label: 'Country Builder', sub: 'Intelligence Engine' },
           ].map(item => (
             <Link
               key={item.href}
