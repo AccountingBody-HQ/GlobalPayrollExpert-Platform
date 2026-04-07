@@ -145,7 +145,7 @@ export default async function HomePage() {
               {/* Trust strip */}
               <div className="mb-10">
                 <span className="text-slate-500 text-xs font-semibold uppercase tracking-widest block mb-3">Trusted by</span>
-                <div className="flex items-center gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                <div className="flex flex-wrap items-center gap-2">
                 {['EOR Providers', 'Global Law Firms', 'HR Directors', 'Finance Teams', 'Payroll Consultants'].map(label => (
                   <span key={label}
                     className="shrink-0 inline-flex items-center gap-1.5 text-xs font-medium text-slate-300 bg-white/10 border border-white/15 rounded-full px-3 py-1">
@@ -188,7 +188,7 @@ export default async function HomePage() {
               {/* Region pills */}
               <div className="pt-2">
                 <span className="text-slate-500 text-xs font-semibold uppercase tracking-wider block mb-3">Browse by region:</span>
-                <div className="flex items-center gap-2 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                <div className="flex flex-wrap items-center gap-2">
                 {REGIONS.map(r => (
                   <Link key={r.slug} href={`/countries/?region=${r.slug}`}
                     className="shrink-0 text-xs font-medium text-slate-400 hover:text-white border border-slate-700 hover:border-slate-500 rounded-full px-3 py-1.5 transition-all">
