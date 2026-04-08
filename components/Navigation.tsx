@@ -90,7 +90,8 @@ export default function Navigation() {
                 Countries <ChevronDown size={12} />
               </Link>
               {countriesOpen && (
-                <div className="absolute left-0 top-full mt-1 w-64 bg-slate-900 border border-slate-700 rounded-xl shadow-2xl py-2 z-50">
+                <div className="absolute left-0 top-full -mt-1 pt-2 w-64 z-50">
+                  <div className="bg-slate-900 border border-slate-700 rounded-xl shadow-2xl py-2">
                   {countryDropdown.map(item => (
                     <Link key={item.href} href={item.href}
                       className="block px-4 py-2.5 hover:bg-slate-800 transition-colors"
@@ -115,7 +116,8 @@ export default function Navigation() {
                 Tools <ChevronDown size={12} />
               </Link>
               {toolsOpen && (
-                <div className="absolute left-0 top-full mt-1 w-64 bg-slate-900 border border-slate-700 rounded-xl shadow-2xl py-2 z-50">
+                <div className="absolute left-0 top-full -mt-1 pt-2 w-64 z-50">
+                  <div className="bg-slate-900 border border-slate-700 rounded-xl shadow-2xl py-2">
                   {toolsDropdown.map(item => (
                     <Link key={item.href} href={item.href}
                       className="block px-4 py-2.5 hover:bg-slate-800 transition-colors"
