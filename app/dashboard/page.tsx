@@ -72,9 +72,15 @@ export default async function DashboardPage() {
             </div>
             <div className="flex items-center gap-3">
               {isPro ? (
-                <span className="inline-flex items-center gap-2 bg-blue-600/20 border border-blue-500/30 text-blue-300 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full">
-                  <Crown size={12} /> Pro Plan
-                </span>
+                <div className="flex items-center gap-3">
+                  <span className="inline-flex items-center gap-2 bg-blue-600/20 border border-blue-500/30 text-blue-300 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full">
+                    <Crown size={12} /> Pro Plan
+                  </span>
+                  <a href="https://app.lemonsqueezy.com/my-orders" target="_blank" rel="noopener noreferrer"
+                    className="text-slate-400 hover:text-white text-xs font-semibold transition-colors underline underline-offset-2">
+                    Manage billing
+                  </a>
+                </div>
               ) : (
                 <span className="inline-flex items-center gap-2 bg-slate-800 border border-slate-700 text-slate-400 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full">
                   Free Plan
@@ -111,7 +117,7 @@ export default async function DashboardPage() {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
           {[
             { icon: BookmarkCheck, label: 'Saved Calculations', value: savedCalculations.length.toString(), sub: 'in your account' },
-            { icon: Calculator,    label: 'Countries Available', value: '195',  sub: 'full global coverage' },
+            { icon: Calculator,    label: 'Countries Available', value: '20',   sub: 'live — more being added' },
             { icon: TrendingUp,    label: 'Data Points',         value: '10,000+', sub: 'per country record' },
             { icon: Shield,        label: 'Your Plan',           value: isPro ? 'Pro' : 'Free', sub: isPro ? 'Full access' : 'Core access' },
           ].map(s => (
