@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js'
+import { getBreadcrumbStructuredData, jsonLd as toJsonLd } from '@/lib/structured-data'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
@@ -179,8 +180,15 @@ export default async function TopicPage({ params }: { params: Promise<{ topic: s
   const colors = COLOR_MAP[config.color]
   const otherTopics = Object.entries(TOPICS).filter(([k]) => k !== topic)
 
+  const breadcrumb = getBreadcrumbStructuredData([
+    { name: 'Home', href: 'https://hrlake.com' },
+    { name: 'HR Compliance', href: 'https://hrlake.com/hr-compliance/' },
+    { name: config.title, href: `https://hrlake.com/hr-compliance/${topic}/` },
+  ])
   return (
-    <main className="bg-white flex-1">
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: toJsonLd(breadcrumb) }} />
+      <main className="bg-white flex-1">
 
       {/* Hero */}
       <section className="relative bg-slate-950 overflow-hidden">
@@ -255,5 +263,6 @@ export default async function TopicPage({ params }: { params: Promise<{ topic: s
       </section>
 
     </main>
+    </>
   )
 }
