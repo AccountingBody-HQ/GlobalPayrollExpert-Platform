@@ -28,7 +28,6 @@ import MiniCalculator from '@/components/countries/MiniCalculator'
 import AiCountryWidget from '@/components/AiCountryWidget'
 import { auth } from '@clerk/nextjs/server'
 import CountrySubNav from '@/components/CountrySubNav'
-import { createClient } from '@supabase/supabase-js'
 
 // ── Revalidate every 24 hours ──────────────────────────────────────────────
 export const dynamic = "force-dynamic"
@@ -508,7 +507,7 @@ export default async function CountryPage(
                               )}
                             </div>
                             <span className="shrink-0 bg-indigo-50 text-indigo-700 font-bold text-sm px-3 py-1 rounded-full border border-indigo-100">
-                              {row.employee_rate !== 0 ? row.employee_rate : row.employer_rate}%
+                              {row.employer_rate !== 0 ? row.employer_rate : row.employee_rate}%
                             </span>
                           </div>
                         ))}
@@ -671,6 +670,27 @@ export default async function CountryPage(
               countryName={country.name}
               isPro={isPro}
             />
+
+            {/* EOR upsell */}
+            <div className="rounded-2xl p-5 overflow-hidden relative" style={{ backgroundColor: '#0d1f3c' }}>
+              <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at 80% 20%, rgba(20,184,166,0.15) 0%, transparent 60%)' }} />
+              <div className="relative">
+                <p className="text-teal-300 text-xs font-bold uppercase tracking-widest mb-2">EOR Intelligence</p>
+                <h3 className="font-serif text-base font-bold text-white mb-2 leading-snug">
+                  Hire in {country.name} without a local entity.
+                </h3>
+                <p className="text-slate-400 text-xs leading-relaxed mb-4">
+                  An Employer of Record handles compliance, payroll, and contracts on your behalf. Hire in days, not months.
+                </p>
+                <Link
+                  href={`/eor/${code.toLowerCase()}/`}
+                  className="flex items-center justify-between w-full rounded-xl bg-teal-600 hover:bg-teal-500 text-white px-4 py-2.5 text-xs font-bold transition-colors"
+                >
+                  View {country.name} EOR Guide
+                  <ChevronRight size={13} />
+                </Link>
+              </div>
+            </div>
 
             {/* Quick links card */}
             <div className="bg-white border border-slate-200 rounded-2xl p-5">
