@@ -16,7 +16,7 @@ import CountriesClient from '@/components/countries/CountriesClient'
 export const metadata: Metadata = {
   title: 'All Countries — Global HR & Employment Data | HRLake',
   description:
-    'Employment data, payroll rates, social security, and HR compliance for every country in the world. Browse 195 jurisdictions.',
+    'Employment data, payroll rates, social security, and HR compliance for 20 countries — with more being added monthly. Updated from official government sources.',
   alternates: {
     canonical: 'https://hrlake.com/countries/',
   },
@@ -66,7 +66,7 @@ export default async function CountriesPage() {
                 </h1>
                 {/* Count badge */}
                 <span className="bg-blue-600/20 text-blue-300 border border-blue-500/30 text-sm font-bold px-3 py-1 rounded-full">
-                  {count > 0 ? count : countries.length}
+                  {countries.length}
                 </span>
               </div>
               <p className="text-slate-400 text-base max-w-2xl leading-relaxed">
