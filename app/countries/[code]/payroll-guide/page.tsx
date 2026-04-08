@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { createSupabaseServerClient } from '@/lib/supabase'
 import { getEmploymentRules, getPayrollCompliance, getSocialSecurity } from '@/lib/supabase-queries'
 import { ChevronRight, DollarSign, ArrowRight } from 'lucide-react'
+import { getBreadcrumbStructuredData, jsonLd as toJsonLd } from '@/lib/structured-data'
 import { PortableText } from '@portabletext/react'
 import { getCountryArticle } from '@/lib/sanity'
 import type { Metadata } from 'next'
@@ -54,7 +55,7 @@ export default async function PayrollGuidePage({ params }: PageProps) {
   if (!country) notFound()
 
   const [sanityArticle, employmentRules, compliance] = await Promise.all([
-    getCountryArticle(upperCode, 'guide'),
+    getCountryArticle(upperCode, 'payroll-guide'),
     getEmploymentRules(upperCode),
     getPayrollCompliance(upperCode),
   ])
@@ -93,7 +94,17 @@ export default async function PayrollGuidePage({ params }: PageProps) {
   ]
 
   return (
-    <main className="bg-white flex-1">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: toJsonLd(getBreadcrumbStructuredData([
+          { name: 'Home', href: '/' },
+          { name: 'All Countries', href: '/countries/' },
+          { name: country.name, href: '/countries/' + code.toLowerCase() + '/' },
+          { name: country.name + ' Payroll Guide', href: '/countries/' + code.toLowerCase() + '/payroll-guide/' },
+        ])) }}
+      />
+      <main className="bg-white flex-1">
       <CountrySubNav code={code} countryName={country.name} />
       <section className="relative bg-slate-950 overflow-hidden">
         <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at 60% 0%, rgba(30,111,255,0.15) 0%, transparent 60%), radial-gradient(ellipse at 0% 100%, rgba(14,30,80,0.4) 0%, transparent 50%)' }} />
@@ -187,6 +198,17 @@ export default async function PayrollGuidePage({ params }: PageProps) {
                 </div>
               )}
 
+              <div className="rounded-2xl border border-blue-100 bg-blue-50 p-6 flex flex-wrap items-center justify-between gap-4">
+                <div>
+                  <p className="text-blue-600 text-xs font-bold uppercase tracking-widest mb-1">Payroll Calculator</p>
+                  <p className="font-semibold text-slate-900">Calculate exact employer costs for {country.name}.</p>
+                  <p className="text-sm text-slate-500 mt-1">Net salary, income tax, social security, and total cost of hire — instantly.</p>
+                </div>
+                <Link href={`/countries/${code.toLowerCase()}/payroll-calculator/`} className="shrink-0 inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-3 rounded-xl text-sm transition-colors">
+                  Open Calculator <ArrowRight size={14} />
+                </Link>
+              </div>
+
               <div className="rounded-2xl border border-teal-100 bg-teal-50 p-6 flex flex-wrap items-center justify-between gap-4">
                 <div>
                   <p className="text-teal-600 text-xs font-bold uppercase tracking-widest mb-1">EOR Intelligence</p>
@@ -253,5 +275,6 @@ export default async function PayrollGuidePage({ params }: PageProps) {
         </div>
       </section>
     </main>
+    </>
   )
 }
