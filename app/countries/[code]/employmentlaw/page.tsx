@@ -3,6 +3,9 @@ import Link from 'next/link'
 import { createSupabaseServerClient } from '@/lib/supabase'
 import { getEmploymentRules } from '@/lib/supabase-queries'
 import { ChevronRight, Scale, ArrowRight } from 'lucide-react'
+import { PortableText } from '@portabletext/react'
+import { getCountryArticle } from '@/lib/sanity'
+import { getBreadcrumbStructuredData, jsonLd as toJsonLd } from '@/lib/structured-data'
 import type { Metadata } from 'next'
 import CountrySubNav from '@/components/CountrySubNav'
 
@@ -76,6 +79,7 @@ export default async function EmploymentLawPage({ params }: PageProps) {
   if (!country) notFound()
 
   const employmentRules = await getEmploymentRules(upperCode)
+  const sanityArticle = await getCountryArticle(upperCode, 'employment-law')
 
   const ruleCards = [
     { icon: '💰', label: 'Minimum Wage',      value: employmentRules?.minimum_wage ? `${fmtCurrency(employmentRules.minimum_wage, country.currency_code)} ${fmtFrequency(employmentRules.payroll_frequency)}` : '—' },
@@ -91,7 +95,17 @@ export default async function EmploymentLawPage({ params }: PageProps) {
   ]
 
   return (
-    <main className="bg-white flex-1">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: toJsonLd(getBreadcrumbStructuredData([
+          { name: 'Home', href: '/' },
+          { name: 'All Countries', href: '/countries/' },
+          { name: country.name, href: '/countries/' + code.toLowerCase() + '/' },
+          { name: country.name + ' Employment Law', href: '/countries/' + code.toLowerCase() + '/employmentlaw/' },
+        ])) }}
+      />
+      <main className="bg-white flex-1">
       <CountrySubNav code={code} countryName={country.name} />
 
       {/* ══════ HERO ══════ */}
@@ -177,6 +191,42 @@ export default async function EmploymentLawPage({ params }: PageProps) {
                     </div>
                   </div>
 
+                  {/* Sanity article */}
+                  {sanityArticle?.body && (
+                    <div className="prose max-w-none">
+                      <h2 className="font-serif text-2xl font-bold text-slate-900 mb-6">
+                        {country.name} Employment Law — Full Guide
+                      </h2>
+                      <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
+                        <PortableText value={sanityArticle.body} />
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Inline EOR CTA */}
+                  <div className="rounded-2xl border border-teal-100 bg-teal-50 p-6 flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                      <p className="text-teal-600 text-xs font-bold uppercase tracking-widest mb-1">EOR Intelligence</p>
+                      <p className="font-semibold text-slate-900">Outsource employment law compliance in {country.name}.</p>
+                      <p className="text-sm text-slate-500 mt-1">An Employer of Record handles all local obligations — contracts, leave, termination, and more.</p>
+                    </div>
+                    <Link href={`/eor/${code.toLowerCase()}/`} className="shrink-0 inline-flex items-center gap-2 bg-teal-600 hover:bg-teal-500 text-white font-semibold px-5 py-3 rounded-xl text-sm transition-colors">
+                      Explore EOR <ArrowRight size={14} />
+                    </Link>
+                  </div>
+
+                  {/* Inline calculator CTA */}
+                  <div className="rounded-2xl border border-blue-100 bg-blue-50 p-6 flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                      <p className="text-blue-600 text-xs font-bold uppercase tracking-widest mb-1">Payroll Calculator</p>
+                      <p className="font-semibold text-slate-900">Calculate the real cost of employment in {country.name}.</p>
+                      <p className="text-sm text-slate-500 mt-1">Net salary, income tax, employer social security, and total cost of hire.</p>
+                    </div>
+                    <Link href={`/countries/${code.toLowerCase()}/payroll-calculator/`} className="shrink-0 inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-3 rounded-xl text-sm transition-colors">
+                      Open Calculator <ArrowRight size={14} />
+                    </Link>
+                  </div>
+
                   {/* Disclaimer */}
                   <p className="text-xs text-slate-400">
                     Employment law data is sourced from official government publications and updated monthly. This information is for guidance only and does not constitute legal advice. Always consult a qualified employment lawyer for {country.name}-specific obligations.
@@ -241,7 +291,7 @@ export default async function EmploymentLawPage({ params }: PageProps) {
                     Hiring in {country.name} without a local entity?
                   </h3>
                   <p className="text-slate-400 text-sm leading-relaxed mb-5">
-                    An Employer of Record handles local employment law compliance on your behalf. Explore EOR options for {country.name}.
+                    An Employer of Record handles local employment law compliance on your behalf.
                   </p>
                   <Link
                     href={`/eor/${code.toLowerCase()}/`}
@@ -252,11 +302,25 @@ export default async function EmploymentLawPage({ params }: PageProps) {
                 </div>
               </div>
 
+              {/* Pro upsell */}
+              <div className="rounded-2xl p-6 overflow-hidden relative" style={{ backgroundColor: '#0d1f3c' }}>
+                <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at 80% 20%, rgba(30,111,255,0.2) 0%, transparent 60%)' }} />
+                <div className="relative">
+                  <p className="text-blue-300 text-xs font-bold uppercase tracking-widest mb-3">Pro Plan</p>
+                  <h3 className="font-serif text-lg font-bold text-white mb-2 leading-snug">Compare employment law across countries.</h3>
+                  <p className="text-slate-400 text-sm leading-relaxed mb-5">Side-by-side employment rule analysis — leave, notice periods, and obligations across all active countries.</p>
+                  <Link href="/pricing/" className="block rounded-xl bg-blue-600 hover:bg-blue-500 px-4 py-3 text-center text-sm font-bold text-white transition-colors">
+                    View Pro Features
+                  </Link>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
       </section>
 
     </main>
+    </>
   )
 }
