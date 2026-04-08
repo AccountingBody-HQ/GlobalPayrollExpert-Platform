@@ -1,6 +1,21 @@
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { createClient } from "@supabase/supabase-js";
+import type { Metadata } from 'next'
+import { getBreadcrumbStructuredData, jsonLd as toJsonLd } from '@/lib/structured-data'
 import AiChatClient from "./AiChatClient";
+
+export const metadata: Metadata = {
+  title: 'AI Payroll & HR Assistant — Ask Anything | HRLake',
+  description: 'Get instant answers on global payroll, tax rates, employment law, and EOR costs. Powered by live verified data for 20+ countries.',
+  alternates: { canonical: 'https://hrlake.com/ai-assistant/' },
+  openGraph: {
+    title: 'AI Payroll & HR Assistant — Ask Anything | HRLake',
+    description: 'Get instant answers on global payroll, tax rates, employment law, and EOR costs. Powered by live verified data for 20+ countries.',
+    url: 'https://hrlake.com/ai-assistant/',
+    siteName: 'HRLake',
+    type: 'website',
+  },
+}
 
 async function getUserData(userId: string) {
   const supabase = createClient(
@@ -36,8 +51,14 @@ export default async function AiAssistantPage() {
     isPro = data.isPro;
     monthlyUsage = data.monthlyUsage;
   }
+  const breadcrumb = getBreadcrumbStructuredData([
+    { name: 'Home', href: 'https://hrlake.com' },
+    { name: 'AI Assistant', href: 'https://hrlake.com/ai-assistant/' },
+  ])
   return (
-    <AiChatClient
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: toJsonLd(breadcrumb) }} />
+      <AiChatClient
       countries={countries}
       userId={userId || null}
       isPro={isPro}
@@ -45,5 +66,6 @@ export default async function AiAssistantPage() {
       freeAnonLimit={5}
       freeUserLimit={10}
     />
+    </>
   );
 }
