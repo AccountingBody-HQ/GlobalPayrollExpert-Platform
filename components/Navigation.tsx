@@ -101,6 +101,7 @@ export default function Navigation() {
                       <p className="text-xs text-slate-400 mt-0.5">{item.sub}</p>
                     </Link>
                   ))}
+                  </div>
                 </div>
               )}
             </div>
@@ -127,6 +128,7 @@ export default function Navigation() {
                       <p className="text-xs text-slate-400 mt-0.5">{item.sub}</p>
                     </Link>
                   ))}
+                  </div>
                 </div>
               )}
             </div>
