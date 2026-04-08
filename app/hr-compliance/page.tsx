@@ -1,10 +1,19 @@
 import { createClient } from '@supabase/supabase-js'
+import { getBreadcrumbStructuredData, jsonLd as toJsonLd } from '@/lib/structured-data'
 import Link from 'next/link'
 import { ArrowRight, Shield, Globe, FileText, Clock, Users, Baby } from 'lucide-react'
 
 export const metadata = {
   title: 'HR Compliance & Employment Law by Country | HRLake',
   description: 'Global employment law guides covering minimum wage, annual leave, notice periods, maternity leave, and probation periods across 195 countries.',
+  alternates: { canonical: 'https://hrlake.com/hr-compliance/' },
+  openGraph: {
+    title: 'HR Compliance & Employment Law by Country | HRLake',
+    description: 'Global employment law guides covering minimum wage, annual leave, notice periods, maternity leave, and probation periods across 195 countries.',
+    url: 'https://hrlake.com/hr-compliance/',
+    siteName: 'HRLake',
+    type: 'website',
+  },
 }
 
 const TOPICS = [
@@ -116,8 +125,14 @@ export default async function HRCompliancePage() {
     .select('iso2, name, flag_emoji')
     .in('iso2', sampleCodes)
 
+  const breadcrumb = getBreadcrumbStructuredData([
+    { name: 'Home', href: 'https://hrlake.com' },
+    { name: 'HR Compliance', href: 'https://hrlake.com/hr-compliance/' },
+  ])
   return (
-    <main className="bg-white flex-1">
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: toJsonLd(breadcrumb) }} />
+      <main className="bg-white flex-1">
 
       {/* Hero */}
       <section className="relative bg-slate-950 overflow-hidden">
@@ -275,5 +290,6 @@ export default async function HRCompliancePage() {
       </section>
 
     </main>
+    </>
   )
 }
