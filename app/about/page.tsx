@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { ArrowRight, Globe, Shield, Users, BookOpen, ExternalLink } from 'lucide-react'
 
 import type { Metadata } from 'next'
+import { getBreadcrumbStructuredData, jsonLd as toJsonLd } from '@/lib/structured-data'
 
 export const metadata: Metadata = {
   title: 'About HRLake — Methodology, Data Standards & Mission',
@@ -41,8 +42,14 @@ const COVERAGE = [
 ]
 
 export default function AboutPage() {
+  const breadcrumb = getBreadcrumbStructuredData([
+    { name: 'Home', href: 'https://hrlake.com' },
+    { name: 'About', href: 'https://hrlake.com/about/' },
+  ])
   return (
-    <main className="bg-white flex-1">
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: toJsonLd(breadcrumb) }} />
+      <main className="bg-white flex-1">
 
       {/* HERO */}
       <section className="relative bg-slate-950 overflow-hidden">
@@ -212,5 +219,6 @@ export default function AboutPage() {
       </section>
 
     </main>
+    </>
   )
 }
