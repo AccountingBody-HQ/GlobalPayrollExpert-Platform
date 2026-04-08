@@ -340,7 +340,7 @@ export default async function HiringGuidePage({ params }: PageProps) {
                   style={{ background: 'radial-gradient(ellipse at 80% 20%, rgba(30,111,255,0.2) 0%, transparent 60%)' }}
                 />
                 <div className="relative">
-                  <p className="text-blue-300 text-xs font-bold uppercase tracking-widest mb-3">Pro Plan</p>
+                  <p className="text-blue-300 text-xs font-bold uppercase tracking-widest mb-3">Free Tool</p>
                   <h3 className="font-serif text-lg font-bold text-white mb-2 leading-snug">
                     Compare hiring costs across countries.
                   </h3>
@@ -348,10 +348,10 @@ export default async function HiringGuidePage({ params }: PageProps) {
                     Side-by-side employer cost analysis, saved calculations, and PDF reports.
                   </p>
                   <Link
-                    href="/pricing/"
+                    href="/compare/"
                     className="block rounded-xl bg-blue-600 hover:bg-blue-500 px-4 py-3 text-center text-sm font-bold text-white transition-colors"
                   >
-                    View Pro Features
+                    Compare countries
                   </Link>
                 </div>
               </div>

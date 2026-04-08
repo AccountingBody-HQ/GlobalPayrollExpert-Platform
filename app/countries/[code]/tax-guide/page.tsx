@@ -341,15 +341,15 @@ export default async function TaxGuidePage({ params }: PageProps) {
                 </div>
               </div>
 
-              {/* Pro upsell */}
+              {/* Compare CTA */}
               <div className="rounded-2xl p-6 overflow-hidden relative" style={{ backgroundColor: '#0d1f3c' }}>
                 <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at 80% 20%, rgba(30,111,255,0.2) 0%, transparent 60%)' }} />
                 <div className="relative">
-                  <p className="text-blue-300 text-xs font-bold uppercase tracking-widest mb-3">Pro Plan</p>
-                  <h3 className="font-serif text-lg font-bold text-white mb-2 leading-snug">Compare tax rates across countries.</h3>
-                  <p className="text-slate-400 text-sm leading-relaxed mb-5">Side-by-side income tax and employer cost analysis across all active countries.</p>
-                  <Link href="/pricing/" className="block rounded-xl bg-blue-600 hover:bg-blue-500 px-4 py-3 text-center text-sm font-bold text-white transition-colors">
-                    View Pro Features
+                  <p className="text-blue-300 text-xs font-bold uppercase tracking-widest mb-3">Free Tool</p>
+                  <h3 className="font-serif text-lg font-bold text-white mb-2 leading-snug">Compare countries side by side.</h3>
+                  <p className="text-slate-400 text-sm leading-relaxed mb-5">Side-by-side income tax and employer cost analysis across all active countries. Free, no account required.</p>
+                  <Link href="/compare/" className="block rounded-xl bg-blue-600 hover:bg-blue-500 px-4 py-3 text-center text-sm font-bold text-white transition-colors">
+                    Compare countries
                   </Link>
                 </div>
               </div>
