@@ -8,6 +8,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Globe, ChevronRight } from 'lucide-react'
+import { getBreadcrumbStructuredData, jsonLd as toJsonLd } from '@/lib/structured-data'
 import { getAllCountries, getCountryCount } from '@/lib/supabase-queries'
 import { Suspense } from 'react'
 import CountriesClient from '@/components/countries/CountriesClient'
@@ -34,6 +35,13 @@ export default async function CountriesPage() {
 
   return (
     <main className="bg-slate-50 flex-1">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: toJsonLd(getBreadcrumbStructuredData([
+          { name: 'Home', href: '/' },
+          { name: 'All Countries', href: '/countries/' },
+        ])) }}
+      />
 
       {/* ── Page header ── */}
       <section className="relative bg-slate-950 border-b border-slate-800 overflow-hidden">
