@@ -1,9 +1,18 @@
 import { createClient } from '@supabase/supabase-js'
+import { getBreadcrumbStructuredData, jsonLd as toJsonLd } from '@/lib/structured-data'
 import GlobalCalculatorClient from './GlobalCalculatorClient'
 
 export const metadata = {
   title: 'Global Payroll Calculator — All Countries | HRLake',
   description: 'Calculate net salary, income tax, and total employer cost for any country. Full payroll and employment cost breakdown for HR and finance teams — free, no sign-in required.',
+  alternates: { canonical: 'https://hrlake.com/payroll-tools/global-calculator/' },
+  openGraph: {
+    title: 'Global Payroll Calculator — All Countries | HRLake',
+    description: 'Calculate net salary, income tax, and total employer cost for any country. Full payroll and employment cost breakdown for HR and finance teams — free, no sign-in required.',
+    url: 'https://hrlake.com/payroll-tools/global-calculator/',
+    siteName: 'HRLake',
+    type: 'website',
+  },
 }
 
 export const dynamic = 'force-dynamic'
@@ -18,10 +27,18 @@ export default async function GlobalCalculatorPage() {
   const { data: countries } = await supabase
     .from('countries')
     .select('iso2, name, currency_code, flag_emoji')
+    .eq('is_active', true)
     .order('name', { ascending: true })
 
+  const breadcrumb = getBreadcrumbStructuredData([
+    { name: 'Home', href: 'https://hrlake.com' },
+    { name: 'Payroll Tools', href: 'https://hrlake.com/payroll-tools/' },
+    { name: 'Global Calculator', href: 'https://hrlake.com/payroll-tools/global-calculator/' },
+  ])
   return (
-    <main className="flex-1 bg-white">
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: toJsonLd(breadcrumb) }} />
+      <main className="flex-1 bg-white">
 
       {/* Hero */}
       <section className="relative bg-slate-950 overflow-hidden">
@@ -67,5 +84,6 @@ export default async function GlobalCalculatorPage() {
       </section>
 
     </main>
+    </>
   )
 }
