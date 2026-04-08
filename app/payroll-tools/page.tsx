@@ -1,9 +1,18 @@
 import Link from 'next/link'
+import { getBreadcrumbStructuredData, jsonLd as toJsonLd } from '@/lib/structured-data'
 import { ArrowRight, Calculator, Globe, RefreshCw, BarChart2 } from 'lucide-react'
 
 export const metadata = {
   title: 'Payroll Tools | HRLake',
   description: 'Free payroll and HR tools — net pay calculators, employer cost breakdowns, country comparisons, and salary currency conversion for 195 countries.',
+  alternates: { canonical: 'https://hrlake.com/payroll-tools/' },
+  openGraph: {
+    title: 'Payroll Tools | HRLake',
+    description: 'Free payroll and HR tools — net pay calculators, employer cost breakdowns, country comparisons, and salary currency conversion for 195 countries.',
+    url: 'https://hrlake.com/payroll-tools/',
+    siteName: 'HRLake',
+    type: 'website',
+  },
 }
 
 const TOOLS = [
@@ -49,8 +58,14 @@ const ALSO = [
 ]
 
 export default function PayrollToolsPage() {
+  const breadcrumb = getBreadcrumbStructuredData([
+    { name: 'Home', href: 'https://hrlake.com' },
+    { name: 'Payroll Tools', href: 'https://hrlake.com/payroll-tools/' },
+  ])
   return (
-    <main className="flex-1 bg-white">
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: toJsonLd(breadcrumb) }} />
+      <main className="flex-1 bg-white">
 
       {/* Hero */}
       <section className="relative bg-slate-950 overflow-hidden">
@@ -158,5 +173,6 @@ export default function PayrollToolsPage() {
       </section>
 
     </main>
+    </>
   )
 }
