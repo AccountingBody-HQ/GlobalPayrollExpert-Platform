@@ -2,6 +2,9 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { createSupabaseServerClient } from '@/lib/supabase'
 import { ChevronRight, BookOpen, ArrowRight } from 'lucide-react'
+import { PortableText } from '@portabletext/react'
+import { getCountryArticle } from '@/lib/sanity'
+import { getBreadcrumbStructuredData, jsonLd as toJsonLd } from '@/lib/structured-data'
 import type { Metadata } from 'next'
 import CountrySubNav from '@/components/CountrySubNav'
 
@@ -80,8 +83,20 @@ export default async function TaxGuidePage({ params }: PageProps) {
   const ssRates = rawSS ?? []
   const taxYear = new Date().getFullYear()
 
+  const sanityArticle = await getCountryArticle(upperCode, 'tax-guide')
+
   return (
-    <main className="bg-white flex-1">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: toJsonLd(getBreadcrumbStructuredData([
+          { name: 'Home', href: '/' },
+          { name: 'All Countries', href: '/countries/' },
+          { name: country.name, href: '/countries/' + code.toLowerCase() + '/' },
+          { name: country.name + ' Tax Guide', href: '/countries/' + code.toLowerCase() + '/tax-guide/' },
+        ])) }}
+      />
+      <main className="bg-white flex-1">
       <CountrySubNav code={code} countryName={country.name} />
 
       {/* ══════ HERO ══════ */}
@@ -167,7 +182,17 @@ export default async function TaxGuidePage({ params }: PageProps) {
                         {taxBrackets.map((b, i) => (
                           <tr key={i} className="hover:bg-slate-50 transition-colors">
                             <td className="px-6 py-4 text-sm text-slate-700">{b.bracket_name}</td>
-                            <td className="px-6 py-4 text-sm font-bold text-amber-600">{fmtRate(Number(b.rate))}</td>
+                            <td className="px-6 py-4">
+                              <div className="flex items-center gap-3">
+                                <span className="text-sm font-bold text-amber-600 w-12 shrink-0">{fmtRate(Number(b.rate))}</span>
+                                <div className="flex-1 bg-slate-100 rounded-full h-2 min-w-[60px]">
+                                  <div
+                                    className="h-2 rounded-full bg-amber-400"
+                                    style={{ width: `${Math.min(Number(b.rate), 100)}%` }}
+                                  />
+                                </div>
+                              </div>
+                            </td>
                             <td className="px-6 py-4 text-sm text-slate-700">{fmtLimit(Number(b.lower_limit), country.currency_code)}</td>
                             <td className="px-6 py-4 text-sm text-slate-700">{b.upper_limit !== null ? fmtLimit(Number(b.upper_limit), country.currency_code) : 'No upper limit'}</td>
                           </tr>
@@ -195,7 +220,8 @@ export default async function TaxGuidePage({ params }: PageProps) {
                           <th className="px-6 py-3">Type</th>
                           <th className="px-6 py-3">Employee Rate</th>
                           <th className="px-6 py-3">Employer Rate</th>
-                          <th className="px-6 py-3">Annual Cap</th>
+                          <th className="px-6 py-3">Employee Cap</th>
+                          <th className="px-6 py-3">Employer Cap</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-slate-100">
@@ -205,6 +231,7 @@ export default async function TaxGuidePage({ params }: PageProps) {
                             <td className="px-6 py-4 text-sm font-bold text-blue-600">{fmtRate(Number(s.employee_rate))}</td>
                             <td className="px-6 py-4 text-sm font-bold text-purple-600">{fmtRate(Number(s.employer_rate))}</td>
                             <td className="px-6 py-4 text-sm text-slate-700">{fmtLimit(s.employee_cap_annual ? Number(s.employee_cap_annual) : null, country.currency_code)}</td>
+                            <td className="px-6 py-4 text-sm text-slate-700">{fmtLimit(s.employer_cap_annual ? Number(s.employer_cap_annual) : null, country.currency_code)}</td>
                           </tr>
                         ))}
                       </tbody>
@@ -227,6 +254,18 @@ export default async function TaxGuidePage({ params }: PageProps) {
                   Open Calculator <ArrowRight size={14} />
                 </Link>
               </div>
+
+              {/* Sanity article */}
+              {sanityArticle?.body && (
+                <div className="prose max-w-none">
+                  <h2 className="font-serif text-2xl font-bold text-slate-900 mb-6">
+                    {country.name} Tax Guide — Full Overview
+                  </h2>
+                  <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
+                    <PortableText value={sanityArticle.body} />
+                  </div>
+                </div>
+              )}
 
               {/* Disclaimer */}
               <p className="text-xs text-slate-400">
@@ -302,11 +341,25 @@ export default async function TaxGuidePage({ params }: PageProps) {
                 </div>
               </div>
 
+              {/* Pro upsell */}
+              <div className="rounded-2xl p-6 overflow-hidden relative" style={{ backgroundColor: '#0d1f3c' }}>
+                <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at 80% 20%, rgba(30,111,255,0.2) 0%, transparent 60%)' }} />
+                <div className="relative">
+                  <p className="text-blue-300 text-xs font-bold uppercase tracking-widest mb-3">Pro Plan</p>
+                  <h3 className="font-serif text-lg font-bold text-white mb-2 leading-snug">Compare tax rates across countries.</h3>
+                  <p className="text-slate-400 text-sm leading-relaxed mb-5">Side-by-side income tax and employer cost analysis across all active countries.</p>
+                  <Link href="/pricing/" className="block rounded-xl bg-blue-600 hover:bg-blue-500 px-4 py-3 text-center text-sm font-bold text-white transition-colors">
+                    View Pro Features
+                  </Link>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
       </section>
 
     </main>
+    </>
   )
 }
