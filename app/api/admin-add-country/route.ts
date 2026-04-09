@@ -3,7 +3,7 @@ import { createClient } from '@supabase/supabase-js'
 
 export async function POST(req: NextRequest) {
   const body = await req.json()
-  const { iso2, iso3, name, currency_code, flag_emoji, region } = body
+  const { iso2, iso3, name, currency_code, currency_symbol, currency_name, flag_emoji, region } = body
   if (!iso2 || !name || !currency_code) {
     return NextResponse.json({ error: 'iso2, name and currency_code are required' }, { status: 400 })
   }
@@ -15,9 +15,17 @@ export async function POST(req: NextRequest) {
     iso2: iso2.toUpperCase(),
     iso3: iso3 ? iso3.toUpperCase() : iso2.toUpperCase() + 'X',
     name,
+    local_name: name,
     currency_code,
+    currency_symbol: currency_symbol || currency_code,
+    currency_name: currency_name || currency_code,
     flag_emoji: flag_emoji || '',
     region: region || null,
+    sub_region: null,
+    phone_code: '',
+    capital_city: '',
+    tax_year_start_month: 1,
+    payroll_frequency: 'Monthly',
     is_active: false,
     hrlake_coverage_level: 'none'
   })
