@@ -1,4 +1,5 @@
 import { getInsightArticles } from '@/lib/sanity'
+export const dynamic = 'force-dynamic'
 import { getAllCountries } from '@/lib/supabase-queries'
 import Link from 'next/link'
 import { getHomepageStructuredData, jsonLd } from '@/lib/structured-data'
