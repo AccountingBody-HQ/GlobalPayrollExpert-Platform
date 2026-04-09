@@ -97,7 +97,7 @@ export default async function DataQualityPage() {
               <thead>
                 <tr className="border-b border-slate-800">
                   <th className="text-left px-5 py-3 text-xs font-bold text-slate-500 uppercase tracking-wider sticky left-0 bg-slate-900">Country</th>
-                  {AEL_TABLES.map(t => (
+                  {ALL_TABLES.map(t => (
                     <th key={t.key} className="text-center px-2 py-3 text-xs font-bold text-slate-500 uppercase tracking-wider whitespace-nowrap">{t.short}</th>
                   ))}
                   <th className="text-center px-4 py-3 text-xs font-bold text-slate-500 uppercase tracking-wider">Score</th>
