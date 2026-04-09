@@ -81,8 +81,12 @@ export default function CountryBuilderPage() {
   async function handleAdd() {
     setSaving(true); setError(''); setSaved(false)
     try {
-      const { error: e } = await sb.from('countries').insert({ ...newC, is_active: false })
-      if (e) throw e
+      const res = await fetch('/api/admin-add-country', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...newC })
+      })
+      const data = await res.json()
       setSaved(true)
       setNewC({ iso2: '', name: '', currency_code: '', flag_emoji: '', region: '' })
       await loadData()
