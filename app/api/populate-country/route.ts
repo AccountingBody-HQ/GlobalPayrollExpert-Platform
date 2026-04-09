@@ -67,14 +67,18 @@ export async function POST(req: NextRequest) {
 
     let parsed: any
     try {
-      const clean = textContent.replace(/^[\s\S]*?({)/, "$1").replace(/}[\s\S]*$/, "}").trim()
+      let clean = textContent.trim()
+      const fenceMatch = clean.match(/```(?:json)?\s*([\s\S]*?)```/)
+      if (fenceMatch) {
+        clean = fenceMatch[1].trim()
+      } else {
+        const start = clean.indexOf("{")
+        const end = clean.lastIndexOf("}")
+        if (start !== -1 && end !== -1) clean = clean.slice(start, end + 1)
+      }
       parsed = JSON.parse(clean)
     } catch {
-      try {
-        parsed = JSON.parse(textContent.trim())
-      } catch {
-        return NextResponse.json({ error: "Failed to parse AI JSON", raw: textContent.slice(0, 500) }, { status: 500 })
-      }
+      return NextResponse.json({ error: "Failed to parse AI JSON", raw: textContent.slice(0, 800) }, { status: 500 })
     }
 
     return NextResponse.json({ success: true, data: parsed })
