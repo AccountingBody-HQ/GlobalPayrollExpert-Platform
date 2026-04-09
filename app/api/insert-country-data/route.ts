@@ -7,17 +7,22 @@ const sb = createClient(
 )
 
 const HRLAKE_TABLES = [
-  "tax_brackets",
-  "social_security",
-  "employment_rules",
-  "statutory_leave",
-  "public_holidays",
-  "filing_calendar",
-  "payroll_compliance",
-  "working_hours",
-  "termination_rules",
-  "pension_schemes",
+  "tax_brackets", "social_security", "employment_rules", "statutory_leave",
+  "public_holidays", "filing_calendar", "payroll_compliance", "working_hours",
+  "termination_rules", "pension_schemes",
 ]
+
+function applyDefaults(table: string, row: any, countryCode: string) {
+  const base = { ...row, country_code: countryCode.toUpperCase() }
+  const withYear = { tax_year: 2025, is_current: true, tier: "free", ...base }
+  if (table === "tax_brackets") return { currency_code: countryCode === "GB" ? "GBP" : "USD", ...withYear }
+  if (table === "social_security") return { currency_code: "USD", ...withYear }
+  if (table === "public_holidays") return { year: 2025, tier: "free", is_mandatory: true, ...base }
+  if (table === "working_hours") return { is_current: true, tier: "free", tax_year: 2025, ...base }
+  if (table === "termination_rules") return { is_current: true, tier: "free", tax_year: 2025, ...base }
+  if (table === "pension_schemes") return { is_current: true, tier: "free", tax_year: 2025, ...base }
+  return withYear
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -25,20 +30,17 @@ export async function POST(req: NextRequest) {
     if (!data || !countryCode) {
       return NextResponse.json({ error: "Missing data or countryCode" }, { status: 400 })
     }
-
     const errors: string[] = []
-
     for (const table of HRLAKE_TABLES) {
       const rows = data[table]
       if (!rows || rows.length === 0) continue
-      const rowsWithCode = rows.map((r: any) => ({ ...r, country_code: countryCode.toUpperCase(), ...(table === "tax_brackets" && !r.tax_year ? { tax_year: 2025 } : {}) }))
-      const { error } = await sb.schema("hrlake").from(table).insert(rowsWithCode)
+      const rowsWithDefaults = rows.map((r: any) => applyDefaults(table, r, countryCode))
+      const { error } = await sb.schema("hrlake").from(table).insert(rowsWithDefaults)
       if (error) errors.push(table + ": " + error.message)
     }
-
     if (data.sources) {
       const sourceRows = Object.entries(data.sources).map(([cat, s]: [string, any]) => ({
-        country_code: countryCode,
+        country_code: countryCode.toUpperCase(),
         data_category: cat,
         authority_name: s.authority_name,
         source_url: s.source_url,
@@ -47,11 +49,9 @@ export async function POST(req: NextRequest) {
       const { error } = await sb.schema("hrlake").from("official_sources").upsert(sourceRows, { onConflict: "country_code,data_category" })
       if (error) errors.push("official_sources: " + error.message)
     }
-
     if (errors.length > 0) {
       return NextResponse.json({ error: "Some inserts failed", details: errors }, { status: 500 })
     }
-
     return NextResponse.json({ success: true })
   } catch (e: any) {
     return NextResponse.json({ error: e.message ?? "Unknown error" }, { status: 500 })
