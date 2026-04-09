@@ -1,11 +1,11 @@
 'use client'
 import { useState, useEffect, useCallback } from 'react'
 import { createClient } from '@supabase/supabase-js'
-import { Hammer, RefreshCw, Plus, ExternalLink, AlertCircle, Loader2, Database, Check } from 'lucide-react'
+import { Hammer, RefreshCw, Plus, ExternalLink, AlertCircle, Loader2, Database, Check, Sparkles, ChevronDown, ChevronUp } from 'lucide-react'
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-const TABS = ['Countries', 'Source Registry', 'Add Country'] as const
+const TABS = ['Countries', 'Source Registry', 'Add Country', 'AI Populate'] as const
 type Tab = typeof TABS[number]
 const CORE_TABLES = [
   { key: 'tax_brackets',       short: 'Tax',     label: 'Tax Brackets'       },
@@ -34,6 +34,13 @@ export default function CountryBuilderPage() {
   const [saving, setSaving]         = useState(false)
   const [saved, setSaved]           = useState(false)
   const [newC, setNewC]             = useState({ iso2: '', name: '', currency_code: '', flag_emoji: '', region: '' })
+  const [popForm, setPopForm]       = useState({ iso2: '', name: '', currency_code: '' })
+  const [popStatus, setPopStatus]   = useState<'idle'|'loading'|'done'|'error'>('idle')
+  const [popData, setPopData]       = useState<any>(null)
+  const [popMsg, setPopMsg]         = useState('')
+  const [inserting, setInserting]   = useState(false)
+  const [insertDone, setInsertDone] = useState(false)
+  const [expanded, setExpanded]     = useState<Record<string,boolean>>({})
   const sb = createClient(SUPABASE_URL, SUPABASE_KEY)
 
   const loadData = useCallback(async () => {
@@ -84,6 +91,62 @@ export default function CountryBuilderPage() {
     finally { setSaving(false) }
   }
 
+  async function handlePopulate() {
+    setPopStatus('loading'); setPopMsg(''); setPopData(null); setInsertDone(false)
+    try {
+      const res = await fetch('/api/populate-country', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          countryCode: popForm.iso2.toUpperCase(),
+          countryName: popForm.name,
+          currencyCode: popForm.currency_code.toUpperCase(),
+        }),
+      })
+      const json = await res.json()
+      if (!res.ok || !json.success) throw new Error(json.error ?? 'AI populate failed')
+      setPopData(json.data)
+      setPopStatus('done')
+      const exp: Record<string,boolean> = {}
+      CORE_TABLES.forEach(t => { exp[t.key] = true })
+      setExpanded(exp)
+    } catch (e: any) {
+      setPopMsg(e.message ?? 'Error')
+      setPopStatus('error')
+    }
+  }
+
+  async function handleInsert() {
+    if (!popData) return
+    setInserting(true); setPopMsg('')
+    try {
+      for (const t of CORE_TABLES) {
+        const rows = popData[t.key]
+        if (!rows || rows.length === 0) continue
+        const { error: e } = await sb.schema('hrlake').from(t.key).insert(rows)
+        if (e) throw new Error(`Insert failed for ${t.key}: ${e.message}`)
+      }
+      if (popData.sources) {
+        const code = popForm.iso2.toUpperCase()
+        const sourceRows = Object.entries(popData.sources).map(([cat, s]: [string, any]) => ({
+          country_code: code,
+          data_category: cat,
+          authority_name: s.authority_name,
+          source_url: s.source_url,
+          language: 'en',
+        }))
+        const { error: se } = await sb.schema('hrlake').from('official_sources').upsert(sourceRows, { onConflict: 'country_code,data_category' })
+        if (se) throw new Error(`Sources insert failed: ${se.message}`)
+      }
+      setInsertDone(true)
+      await loadData()
+    } catch (e: any) {
+      setPopMsg(e.message ?? 'Insert failed')
+    } finally {
+      setInserting(false)
+    }
+  }
+
   function getScore(iso2: string) {
     const c = counts[iso2] ?? {}
     const filled = CORE_TABLES.filter(t => (c[t.key] ?? 0) > 0).length
@@ -119,10 +182,10 @@ export default function CountryBuilderPage() {
 
       <div className="grid grid-cols-4 gap-4 mb-8">
         {[
-          { label: 'Active Countries', value: active.length,   color: 'text-blue-400',    bg: 'bg-blue-600/10 border-blue-600/20'      },
-          { label: 'Fully Loaded',     value: full,            color: 'text-emerald-400', bg: 'bg-emerald-600/10 border-emerald-600/20' },
-          { label: 'Inactive',         value: inactive.length, color: 'text-slate-400',   bg: 'bg-slate-700/20 border-slate-700/30'     },
-          { label: 'Data Tables',      value: CORE_TABLES.length, color: 'text-amber-400', bg: 'bg-amber-600/10 border-amber-600/20'   },
+          { label: 'Active Countries', value: active.length,      color: 'text-blue-400',    bg: 'bg-blue-600/10 border-blue-600/20'      },
+          { label: 'Fully Loaded',     value: full,               color: 'text-emerald-400', bg: 'bg-emerald-600/10 border-emerald-600/20' },
+          { label: 'Inactive',         value: inactive.length,    color: 'text-slate-400',   bg: 'bg-slate-700/20 border-slate-700/30'     },
+          { label: 'Data Tables',      value: CORE_TABLES.length, color: 'text-amber-400',   bg: 'bg-amber-600/10 border-amber-600/20'     },
         ].map(s => (
           <div key={s.label} className={`border rounded-2xl p-5 ${s.bg}`}>
             <p className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-3">{s.label}</p>
@@ -144,7 +207,7 @@ export default function CountryBuilderPage() {
             className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all ${
               tab === t ? 'bg-blue-600 text-white' : 'bg-slate-800 text-slate-400 hover:text-white hover:bg-slate-700'
             }`}>
-            {t}
+            {t === 'AI Populate' ? '✨ ' + t : t}
           </button>
         ))}
       </div>
@@ -239,7 +302,6 @@ export default function CountryBuilderPage() {
               ))}
             </select>
           </div>
-
           <div className={`${card} overflow-hidden`}>
             <div className="px-6 py-4 border-b border-slate-800">
               <h2 className="text-white font-bold">Official Sources</h2>
@@ -371,7 +433,6 @@ export default function CountryBuilderPage() {
               </button>
             </div>
           </div>
-
           <div className="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-5">
             <p className="text-amber-400 text-xs font-bold uppercase tracking-wider mb-3">After adding — required steps before activating</p>
             <ol className="text-slate-400 text-xs space-y-2 list-decimal list-inside">
@@ -385,6 +446,188 @@ export default function CountryBuilderPage() {
         </div>
       )}
 
+      {tab === 'AI Populate' && (
+        <div className="space-y-6 max-w-4xl">
+          <div className={`${card} p-6`}>
+            <div className="flex items-center gap-2 mb-1">
+              <Sparkles size={16} className="text-blue-400" />
+              <h2 className="text-white font-bold">AI Population Engine</h2>
+            </div>
+            <p className="text-slate-500 text-xs mb-6">
+              Enter a country and Claude will research all 10 data tables from official government sources in one click.
+              Review the proposed data, then insert directly into Supabase.
+            </p>
+            <div className="grid grid-cols-3 gap-4 mb-6">
+              <div>
+                <label className="text-slate-400 text-xs font-bold uppercase tracking-wider block mb-2">ISO2 Code *</label>
+                <input value={popForm.iso2}
+                  onChange={e => setPopForm(p => ({ ...p, iso2: e.target.value.toUpperCase().slice(0,2) }))}
+                  placeholder="e.g. SG" maxLength={2} className={inputCls}
+                  disabled={popStatus === 'loading'} />
+              </div>
+              <div>
+                <label className="text-slate-400 text-xs font-bold uppercase tracking-wider block mb-2">Country Name *</label>
+                <input value={popForm.name}
+                  onChange={e => setPopForm(p => ({ ...p, name: e.target.value }))}
+                  placeholder="e.g. Singapore" className={inputCls}
+                  disabled={popStatus === 'loading'} />
+              </div>
+              <div>
+                <label className="text-slate-400 text-xs font-bold uppercase tracking-wider block mb-2">Currency Code *</label>
+                <input value={popForm.currency_code}
+                  onChange={e => setPopForm(p => ({ ...p, currency_code: e.target.value.toUpperCase().slice(0,3) }))}
+                  placeholder="e.g. SGD" maxLength={3} className={inputCls}
+                  disabled={popStatus === 'loading'} />
+              </div>
+            </div>
+            <div className="flex items-center gap-4 flex-wrap">
+              <button onClick={handlePopulate}
+                disabled={popStatus === 'loading' || !popForm.iso2 || !popForm.name || !popForm.currency_code}
+                className={btnBlue}>
+                {popStatus === 'loading'
+                  ? <><Loader2 size={15} className="animate-spin" /> Researching — up to 60 seconds…</>
+                  : <><Sparkles size={15} /> AI Populate</>}
+              </button>
+              {popStatus === 'done' && !insertDone && (
+                <button onClick={handleInsert} disabled={inserting}
+                  className="bg-emerald-600 hover:bg-emerald-500 disabled:bg-slate-700 disabled:text-slate-500 text-white font-bold px-6 py-2.5 rounded-xl transition-all flex items-center gap-2 text-sm">
+                  {inserting
+                    ? <><Loader2 size={15} className="animate-spin" /> Inserting…</>
+                    : <><Database size={15} /> Insert All Data into Supabase</>}
+                </button>
+              )}
+            </div>
+            {popStatus === 'loading' && (
+              <div className="mt-5 bg-blue-500/10 border border-blue-500/20 rounded-xl p-4">
+                <p className="text-blue-400 text-sm font-semibold">Claude is researching {popForm.name} from official government sources…</p>
+                <p className="text-slate-500 text-xs mt-1">Searching all 10 data categories. This takes 30–60 seconds.</p>
+              </div>
+            )}
+            {popStatus === 'error' && (
+              <div className="mt-5 bg-red-500/10 border border-red-500/20 rounded-xl p-4 flex items-center gap-3">
+                <AlertCircle size={16} className="text-red-400 shrink-0" />
+                <p className="text-red-400 text-sm">{popMsg}</p>
+              </div>
+            )}
+            {insertDone && (
+              <div className="mt-5 bg-emerald-500/10 border border-emerald-500/20 rounded-xl p-4 flex items-center gap-3">
+                <Check size={16} className="text-emerald-400 shrink-0" />
+                <div>
+                  <p className="text-emerald-400 text-sm font-semibold">All data inserted into Supabase successfully!</p>
+                  <p className="text-slate-500 text-xs mt-0.5">Go to Data Quality to verify. Set is_active = true in Supabase when ready to go live.</p>
+                </div>
+              </div>
+            )}
+            {popMsg && !insertDone && popStatus !== 'error' && (
+              <div className="mt-5 bg-red-500/10 border border-red-500/20 rounded-xl p-4 flex items-center gap-3">
+                <AlertCircle size={16} className="text-red-400 shrink-0" />
+                <p className="text-red-400 text-sm">{popMsg}</p>
+              </div>
+            )}
+          </div>
+
+          {popStatus === 'done' && popData && (
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <h3 className="text-white font-bold text-lg">
+                  Proposed Data — {popForm.name} ({popForm.iso2.toUpperCase()})
+                </h3>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => { const e: Record<string,boolean> = {}; CORE_TABLES.forEach(t => { e[t.key] = true }); setExpanded(e) }}
+                    className="text-xs text-slate-400 hover:text-white px-3 py-1.5 rounded-lg bg-slate-800 transition-colors">
+                    Expand All
+                  </button>
+                  <button onClick={() => setExpanded({})}
+                    className="text-xs text-slate-400 hover:text-white px-3 py-1.5 rounded-lg bg-slate-800 transition-colors">
+                    Collapse All
+                  </button>
+                </div>
+              </div>
+              {CORE_TABLES.map(t => {
+                const rows  = popData[t.key] ?? []
+                const src   = popData.sources?.[t.key]
+                const isOpen = expanded[t.key]
+                return (
+                  <div key={t.key} className={card}>
+                    <button
+                      onClick={() => setExpanded(p => ({ ...p, [t.key]: !p[t.key] }))}
+                      className="w-full px-6 py-4 flex items-center justify-between hover:bg-slate-800/40 transition-colors rounded-2xl">
+                      <div className="flex items-center gap-3 flex-wrap">
+                        <span className="text-white font-bold">{t.label}</span>
+                        <span className={`text-xs font-bold px-2.5 py-1 rounded-full border ${
+                          rows.length > 0
+                            ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30'
+                            : 'bg-red-500/20 text-red-400 border-red-500/30'
+                        }`}>
+                          {rows.length} record{rows.length !== 1 ? 's' : ''}
+                        </span>
+                        {src && (
+                          <a href={src.source_url} target="_blank" rel="noopener noreferrer"
+                            onClick={e => e.stopPropagation()}
+                            className="flex items-center gap-1 text-blue-400 hover:text-blue-300 text-xs transition-colors">
+                            <ExternalLink size={10} />
+                            <span>{src.authority_name}</span>
+                          </a>
+                        )}
+                      </div>
+                      {isOpen
+                        ? <ChevronUp size={16} className="text-slate-500 shrink-0" />
+                        : <ChevronDown size={16} className="text-slate-500 shrink-0" />}
+                    </button>
+                    {isOpen && (
+                      <div className="px-6 pb-5 border-t border-slate-800">
+                        {rows.length === 0 ? (
+                          <p className="text-slate-600 text-xs pt-4">No data returned for this table.</p>
+                        ) : (
+                          <div className="overflow-x-auto mt-3">
+                            <table className="w-full text-xs">
+                              <thead>
+                                <tr className="border-b border-slate-800">
+                                  {Object.keys(rows[0]).filter((k: string) => k !== 'country_code').map((k: string) => (
+                                    <th key={k} className="text-left px-3 py-2 text-slate-500 font-bold uppercase tracking-wider whitespace-nowrap">{k}</th>
+                                  ))}
+                                </tr>
+                              </thead>
+                              <tbody className="divide-y divide-slate-800/50">
+                                {rows.map((row: any, i: number) => (
+                                  <tr key={i} className="hover:bg-slate-800/30 transition-colors">
+                                    {Object.entries(row).filter(([k]: [string, any]) => k !== 'country_code').map(([k, v]: [string, any]) => (
+                                      <td key={k} className="px-3 py-2 text-slate-300 whitespace-nowrap">
+                                        {v === null
+                                          ? <span className="text-slate-600">null</span>
+                                          : v === true
+                                            ? <span className="text-emerald-400">true</span>
+                                            : v === false
+                                              ? <span className="text-red-400">false</span>
+                                              : String(v)}
+                                      </td>
+                                    ))}
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
+              {!insertDone && (
+                <div className="pt-2 flex justify-end">
+                  <button onClick={handleInsert} disabled={inserting}
+                    className="bg-emerald-600 hover:bg-emerald-500 disabled:bg-slate-700 disabled:text-slate-500 text-white font-bold px-8 py-3 rounded-xl transition-all flex items-center gap-2 text-sm">
+                    {inserting
+                      ? <><Loader2 size={15} className="animate-spin" /> Inserting all data…</>
+                      : <><Database size={15} /> Insert All Data into Supabase</>}
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   )
 }
