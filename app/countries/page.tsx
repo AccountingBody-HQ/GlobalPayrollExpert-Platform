@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 
 // Revalidate this page every 24 hours
 // Country data does not change minute to minute
-export const revalidate = 86400
+export const dynamic = "force-dynamic"
 
 export default async function CountriesPage() {
   // Both queries run on the server — no loading state needed
