@@ -38,6 +38,9 @@ export async function POST(req: NextRequest) {
     for (const table of HRLAKE_TABLES) {
       const rows = data[table]
       if (!rows || rows.length === 0) continue
+      // Delete existing rows for this country first
+      const { error: delError } = await sb.schema("hrlake").from(table).delete().eq("country_code", countryCode.toUpperCase())
+      if (delError) errors.push(table + " (delete): " + delError.message)
       const rowsWithDefaults = rows.map((r: any) => applyDefaults(table, r, countryCode))
       const { error } = await sb.schema("hrlake").from(table).insert(rowsWithDefaults)
       if (error) errors.push(table + ": " + error.message)
