@@ -17,6 +17,8 @@ export default function AdminSettingsPage() {
     { key: 'SANITY_WRITE_TOKEN',                service: 'Sanity',        status: 'confirmed' },
     { key: 'LEMON_SQUEEZY_WEBHOOK_SECRET',      service: 'Lemon Squeezy', status: 'confirmed' },
     { key: 'NEXT_PUBLIC_SENTRY_DSN',            service: 'Sentry',        status: 'confirmed' },
+    { key: 'ADMIN_SECRET',                      service: 'Admin Auth',    status: 'confirmed' },
+    { key: 'SANITY_API_TOKEN',                  service: 'Sanity',        status: 'confirmed' },
   ]
 
   const CHECKLIST = [
@@ -28,8 +30,8 @@ export default function AdminSettingsPage() {
     { label: 'Canonical tags pointing to hrlake.com',        done: false },
     { label: 'Search Console: submit sitemap',               done: false },
     { label: 'Mobile tested (375px minimum)',                 done: false },
-    { label: 'Priority 1 — numeric RPC fix deployed',        done: false },
-    { label: 'termination_rules seeded for 20 countries',    done: false },
+    { label: 'Priority 1 — numeric RPC fix deployed',        done: true  },
+    { label: 'termination_rules seeded for 20 countries',    done: true  },
   ]
 
   const card = { background: '#0d1424', borderColor: '#1a2238' }
