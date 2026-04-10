@@ -5,9 +5,14 @@ import { ArrowLeft, ExternalLink } from 'lucide-react'
 import VerifyClient from './VerifyClient'
 
 async function getCountryData(iso2: string) {
+  const timeout = new Promise<null>(res => setTimeout(() => res(null), 12000))
+  return Promise.race([fetchCountryData(iso2), timeout])
+}
+
+async function fetchCountryData(iso2: string) {
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
   )
 
   const { data: country } = await supabase
@@ -43,7 +48,7 @@ async function getCountryData(iso2: string) {
     supabase.schema('hrlake').from('working_hours').select('*').eq('country_code', code),
     supabase.schema('hrlake').from('termination_rules').select('*').eq('country_code', code),
     supabase.schema('hrlake').from('pension_schemes').select('*').eq('country_code', code),
-    supabase.schema('hrlake').from('official_sources').select('*').eq('country_code', code),
+    supabase.schema('hrlake').from('official_sources').select('*').eq('country_code', code).then(r => r).catch(() => ({ data: [] })),
   ])
 
   return {
@@ -90,6 +95,16 @@ export default async function VerifyCountryPage({
             <p className="text-slate-400 text-sm">{code.toUpperCase()} · {country.currency_code} · Last verified: {country.last_data_update ?? '—'}</p>
           </div>
         </div>
+      </div>
+
+      {/* Populate Missing Tables shortcut */}
+      <div className="mb-6">
+        
+          href={`/admin/country-builder?tab=AI+Populate&iso2=${code.toUpperCase()}`}
+          className="inline-flex items-center gap-2 text-xs font-bold px-4 py-2 rounded-xl transition-all"
+          style={{ background: 'rgba(167,139,250,0.1)', color: '#a78bfa', border: '1px solid rgba(167,139,250,0.2)' }}>
+          &#9889; Populate Missing Tables
+        </a>
       </div>
 
       {/* AI Verification Panel */}
@@ -262,12 +277,12 @@ export default async function VerifyCountryPage({
 
 function DataCard({ title, count, children }: { title: string; count: number; children: React.ReactNode }) {
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
-      <div className="px-5 py-4 border-b border-slate-800 flex items-center justify-between">
+    <div className="rounded-2xl overflow-hidden" style={{ background: '#0d1424', border: '1px solid #1a2238' }}>
+      <div className="px-5 py-4 flex items-center justify-between" style={{ borderBottom: '1px solid #1a2238' }}>
         <h2 className="text-white font-bold text-sm">{title}</h2>
         <span className="text-slate-500 text-xs">{count} records</span>
       </div>
-      <div className="divide-y divide-slate-800 max-h-64 overflow-y-auto">
+      <div className="max-h-64 overflow-y-auto divide-y" style={{ borderColor: '#1a2238' }}>
         {count === 0
           ? <p className="px-5 py-4 text-slate-500 text-xs">No data</p>
           : children
