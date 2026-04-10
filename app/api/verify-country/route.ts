@@ -6,6 +6,12 @@ export const maxDuration = 120
 export async function POST(req: Request) {
   try {
     const { prompt } = await req.json()
+    if (!prompt || typeof prompt !== 'string') {
+      return NextResponse.json({ error: 'Missing or invalid prompt' }, { status: 400 })
+    }
+    if (prompt.length > 120000) {
+      return NextResponse.json({ error: 'Prompt exceeds maximum length' }, { status: 400 })
+    }
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
