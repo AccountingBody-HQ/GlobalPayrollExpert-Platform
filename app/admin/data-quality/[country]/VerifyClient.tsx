@@ -160,6 +160,7 @@ export default function VerifyClient({
   const [error, setError] = useState('')
   const [decisions, setDecisions] = useState<Record<number, 'approved' | 'rejected' | 'saving' | 'saved'>>({})
   const [allSaved, setAllSaved] = useState(false)
+  const [saving, setSaving] = useState(false)
   const [activeTable, setActiveTable] = useState<string>('all')
 
   async function runVerification() {
@@ -178,11 +179,15 @@ export default function VerifyClient({
     )
 
     try {
+      const controller = new AbortController()
+      const tid = setTimeout(() => controller.abort(), 130000)
       const response = await fetch('/api/verify-country', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ prompt }),
+        signal: controller.signal,
       })
+      clearTimeout(tid)
       const data = await response.json()
       if (data.error) throw new Error(data.error)
       const text = data.content?.[0]?.text ?? ''
@@ -235,6 +240,7 @@ export default function VerifyClient({
   }
 
   async function markVerified() {
+    setSaving(true)
     try {
       await fetch('/api/admin-update-country', {
         method: 'POST',
@@ -244,6 +250,8 @@ export default function VerifyClient({
       setAllSaved(true)
     } catch (e: any) {
       setError('Save failed: ' + e.message)
+    } finally {
+      setSaving(false)
     }
   }
 
@@ -268,9 +276,9 @@ export default function VerifyClient({
   const sourcesWithUrls = Object.keys(sourceMap).length
 
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+    <div className="rounded-2xl overflow-hidden" style={{ background: '#0d1424', border: '1px solid #1a2238' }}>
       {/* Header */}
-      <div className="px-6 py-5 border-b border-slate-800 flex items-center justify-between">
+      <div className="px-6 py-5 flex items-center justify-between" style={{ borderBottom: '1px solid #1a2238' }}>
         <div>
           <h2 className="text-white font-bold">AI Verification — All 10 Tables</h2>
           <p className="text-slate-400 text-xs mt-0.5">
@@ -308,7 +316,7 @@ export default function VerifyClient({
 
           {/* Stats */}
           <div className="grid grid-cols-4 gap-4 mb-6">
-            <div className="bg-slate-800 border border-slate-700 rounded-xl p-3 text-center">
+            <div className="rounded-xl p-3 text-center" style={{ background: '#111827', border: '1px solid #1a2238' }}>
               <p className="text-2xl font-black text-white">{totalFindings}</p>
               <p className="text-slate-400 text-xs font-bold mt-1">Total Checked</p>
             </div>
@@ -327,7 +335,7 @@ export default function VerifyClient({
           </div>
 
           {/* Summary */}
-          <div className="bg-slate-800 rounded-xl p-4 mb-5">
+          <div className="rounded-xl p-4 mb-5" style={{ background: '#111827' }}>
             <p className="text-slate-300 text-sm leading-relaxed">{result.summary}</p>
           </div>
 
@@ -335,7 +343,7 @@ export default function VerifyClient({
           <div className="flex flex-wrap gap-2 mb-5">
             <button
               onClick={() => setActiveTable('all')}
-              className={`text-xs font-bold px-3 py-1.5 rounded-full border transition-all ${activeTable === 'all' ? 'bg-blue-600 border-blue-500 text-white' : 'border-slate-700 text-slate-400 hover:text-white'}`}
+              className={`text-xs font-bold px-3 py-1.5 rounded-full border transition-all ${activeTable === 'all' ? 'bg-blue-600 border-blue-500 text-white' : 'hover:text-white' }` } style={{ borderColor: '#1a2238' }}>
             >
               All ({totalFindings})
             </button>
@@ -343,7 +351,7 @@ export default function VerifyClient({
               <button
                 key={t}
                 onClick={() => setActiveTable(t)}
-                className={`text-xs font-bold px-3 py-1.5 rounded-full border transition-all ${activeTable === t ? 'bg-blue-600 border-blue-500 text-white' : 'border-slate-700 text-slate-400 hover:text-white'}`}
+                className={`text-xs font-bold px-3 py-1.5 rounded-full border transition-all ${activeTable === t ? 'bg-blue-600 border-blue-500 text-white' : 'hover:text-white' }` } style={{ borderColor: '#1a2238' }}>
               >
                 {TABLE_LABELS[t]} ({countByTable[t]})
               </button>
@@ -439,8 +447,8 @@ export default function VerifyClient({
           </div>
 
           {allDecided && !allSaved && (
-            <button onClick={markVerified} className="w-full flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 rounded-xl transition-colors">
-              <Check size={15} /> Mark {countryName} as Fully Verified Today
+            <button onClick={markVerified} disabled={saving} className="w-full flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-60 disabled:cursor-not-allowed text-white font-bold py-3.5 rounded-xl transition-colors">
+              {saving ? <><Loader2 size={15} className="animate-spin" /> Saving...</> : <><Check size={15} /> Mark {countryName} as Fully Verified Today</>}
             </button>
           )}
 
