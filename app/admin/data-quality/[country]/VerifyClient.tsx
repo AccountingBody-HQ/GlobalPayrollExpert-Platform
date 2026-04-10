@@ -200,7 +200,13 @@ export default function VerifyClient({
   }
 
   async function approve(index: number, finding: Finding) {
-    if (finding.status === 'match') {
+    // matches and unverified findings are acknowledged locally — no DB write needed
+    if (finding.status === 'match' || finding.status === 'unverified') {
+      setDecisions(prev => ({ ...prev, [index]: 'approved' }))
+      return
+    }
+    // Only mismatch with a valid raw_value object should write to DB
+    if (!finding.raw_value || typeof finding.raw_value !== 'object' || Array.isArray(finding.raw_value)) {
       setDecisions(prev => ({ ...prev, [index]: 'approved' }))
       return
     }
