@@ -12,6 +12,22 @@ const HRLAKE_TABLES = [
   "termination_rules", "pension_schemes",
 ]
 
+const LEAVE_TYPE_MAP: Record<string, string> = {
+  annual_leave: "annual", annual: "annual",
+  sick_leave: "sick", sick: "sick",
+  maternity_leave: "maternity", maternity: "maternity",
+  paternity_leave: "paternity", paternity: "paternity",
+  parental_leave: "parental", parental: "parental",
+  bereavement_leave: "bereavement", bereavement: "bereavement",
+}
+
+const FREQUENCY_MAP: Record<string, string> = {
+  Monthly: "monthly", monthly: "monthly",
+  Quarterly: "quarterly", quarterly: "quarterly",
+  Annual: "annual", annual: "annual", Annually: "annual",
+  Weekly: "monthly", weekly: "monthly",
+}
+
 function applyDefaults(table: string, row: any, countryCode: string) {
   const base = {
     tax_year: 2025,
@@ -23,6 +39,8 @@ function applyDefaults(table: string, row: any, countryCode: string) {
   }
   if (table === "tax_brackets") return { currency_code: "USD", ...base }
   if (table === "social_security") return { currency_code: "USD", ...base }
+  if (table === "statutory_leave") return { ...base, leave_type: LEAVE_TYPE_MAP[row.leave_type] ?? row.leave_type }
+  if (table === "filing_calendar") return { ...base, frequency: FREQUENCY_MAP[row.frequency] ?? row.frequency.toLowerCase() }
   if (table === "payroll_compliance") return { compliance_type: "payroll", ...base }
   if (table === "public_holidays") return { year: 2025, tier: "free", is_mandatory: true, ...row, country_code: countryCode.toUpperCase() }
   return base
