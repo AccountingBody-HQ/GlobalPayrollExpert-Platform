@@ -29,7 +29,7 @@ export async function POST(req: Request) {
     if (action === 'approve_all') {
       const { error } = await supabase
         .from('countries')
-        .update({ last_data_update: new Date().toISOString().split('T')[0] })
+        .update({ last_data_update: new Date().toISOString().split('T')[0], hrlake_coverage_level: 'full' })
         .eq('iso2', countryCode)
       if (error) return NextResponse.json({ error: error.message }, { status: 500 })
       return NextResponse.json({ ok: true })
