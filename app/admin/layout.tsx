@@ -1,4 +1,5 @@
 'use client'
+import { Suspense } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import {
@@ -95,7 +96,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   <p className="text-sm font-semibold" style={{ color: active ? '#ffffff' : '#64748b' }}>
                     {item.label}
                   </p>
-                  <p className="text-xs" style={{ color: active ? 'rgba(255,255,255,0.45)' : '#1e293b' }}>
+                  <p className="text-xs" style={{ color: active ? 'rgba(255,255,255,0.45)' : '#334155' }}>
                     {item.sub}
                   </p>
                 </div>
@@ -153,7 +154,20 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
         {/* Page content */}
         <main className="flex-1 overflow-auto">
-          {children}
+          <Suspense fallback={
+            <div className="p-8 space-y-4 animate-pulse">
+              <div className="h-8 w-64 rounded-xl" style={{ background: '#0d1424' }} />
+              <div className="h-4 w-96 rounded-lg" style={{ background: '#0d1424' }} />
+              <div className="grid grid-cols-4 gap-4 mt-6">
+                {[...Array(4)].map((_,i) => (
+                  <div key={i} className="h-28 rounded-2xl" style={{ background: '#0d1424' }} />
+                ))}
+              </div>
+              <div className="h-64 rounded-2xl mt-4" style={{ background: '#0d1424' }} />
+            </div>
+          }>
+            {children}
+          </Suspense>
         </main>
       </div>
     </div>
