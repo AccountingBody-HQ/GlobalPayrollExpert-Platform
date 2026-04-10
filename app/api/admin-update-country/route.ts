@@ -12,7 +12,6 @@ const NUMERIC_FIELDS = new Set([
   'overtime_threshold_daily', 'overtime_threshold_weekly',
   'overtime_rate_multiplier',
   'notice_period_min_days', 'probation_period_max_months',
-  'severance_weeks_per_year',
   'tax_year', 'year',
 ])
 
@@ -65,6 +64,18 @@ export async function POST(req: Request) {
       const { table, raw_value, record_id } = finding
       if (!record_id) return NextResponse.json({ error: 'No record_id provided' }, { status: 400 })
       if (!table) return NextResponse.json({ error: 'No table provided' }, { status: 400 })
+      const ALLOWED_TABLES = new Set([
+        'tax_brackets','social_security','employment_rules','statutory_leave',
+        'public_holidays','filing_calendar','payroll_compliance',
+        'working_hours','termination_rules','pension_schemes',
+      ])
+      if (!ALLOWED_TABLES.has(table)) {
+        return NextResponse.json({ error: 'Invalid table: ' + table }, { status: 400 })
+      }
+      const VALID_ACTIONS = new Set(['approve_all','update_value'])
+      if (!countryCode || typeof countryCode !== 'string' || countryCode.length > 3) {
+        return NextResponse.json({ error: 'Invalid countryCode' }, { status: 400 })
+      }
 
       // raw_value should be an object — but if AI returns a scalar, wrap it using field name
       let valueObj: Record<string, unknown>
