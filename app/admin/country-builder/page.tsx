@@ -154,7 +154,11 @@ export default function CountryBuilderPage() {
         body: JSON.stringify({ data: popData, countryCode: popForm.iso2.toUpperCase() }),
       })
       const json = await res.json()
-      setInsertDone(true)
+      if (!res.ok) {
+        setPopMsg('Insert errors: ' + (json.details ? json.details.join(' | ') : json.error))
+      } else {
+        setInsertDone(true)
+      }
       await loadData()
     } catch (e: any) {
       setPopMsg(e.message ?? 'Insert failed')
