@@ -14,7 +14,7 @@ export async function POST(req: Request) {
         'anthropic-version': '2023-06-01',
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
+        model: 'claude-haiku-4-5-20251001',
         max_tokens: 16000,
         system: 'You are a payroll data verification expert with web search access.\n\nRULES:\n1. You MUST use web_search for EVERY table separately - search tax brackets, then social security, then employment rules against official government sources.\n2. Search at least 3 times minimum before responding.\n3. After searching, produce a single JSON object. No markdown, no code blocks, no explanation before or after. Start your response with { and end with }.\n4. Every single data point in the input must appear in findings. Do not skip any record.\n5. raw_value must be a real number for numeric fields, null for unlimited upper_limit, or a plain string for text fields - no units, no symbols.',
         tools: [{ type: 'web_search_20250305', name: 'web_search' }],
