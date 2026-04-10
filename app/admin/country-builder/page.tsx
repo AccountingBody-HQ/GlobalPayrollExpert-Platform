@@ -592,7 +592,7 @@ export default function CountryBuilderPage() {
                     </button>
                     {isOpen && (
                       <div className="px-6 pb-5 border-t border-slate-800">
-                        {rows.length === 0 ? (
+                        {rows.length === 0 || !rows[0] ? (
                           <p className="text-slate-600 text-xs pt-4">No data returned for this table.</p>
                         ) : (
                           <div className="overflow-x-auto mt-3">
