@@ -1,0 +1,16 @@
+import { createSupabaseServerClient } from '@/lib/supabase'
+import AnnualUpdateClient from './AnnualUpdateClient'
+
+export const dynamic = 'force-dynamic'
+
+export default async function AnnualUpdatePage() {
+  const supabase = await createSupabaseServerClient()
+
+  const { data: countries } = await supabase
+    .from('countries')
+    .select('iso2, name, flag_emoji, currency_code, hrlake_coverage_level, last_data_update, is_active')
+    .eq('is_active', true)
+    .order('name')
+
+  return <AnnualUpdateClient countries={countries ?? []} />
+}

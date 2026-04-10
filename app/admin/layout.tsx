@@ -4,7 +4,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import {
   LayoutDashboard, Globe, ShieldCheck, Sparkles,
   BarChart3, Settings, LogOut, ExternalLink,
-  ChevronRight, Layers
+  ChevronRight, Layers, RefreshCw
 } from 'lucide-react'
 
 const NAV = [
@@ -28,6 +28,7 @@ function getBreadcrumb(pathname: string) {
     '/admin/data-quality':    'Data Quality',
     '/admin/content-factory': 'Content Factory',
     '/admin/coverage':        'Coverage Map',
+    '/admin/annual-update':   'Annual Update',
     '/admin/settings':        'Settings',
   }
   const base  = '/' + pathname.split('/').slice(1, 3).join('/')
