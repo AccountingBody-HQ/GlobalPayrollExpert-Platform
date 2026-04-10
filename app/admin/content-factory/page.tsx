@@ -64,6 +64,7 @@ export default function ContentFactoryPage() {
   }
 
   async function handlePublish() {
+    if (publishing) return
     setPublishing(true); setError('')
     try {
       const res  = await fetch('/api/content-factory/publish', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...config, content: edited || generated, showOnSites, canonicalOwner: canonical }) })
