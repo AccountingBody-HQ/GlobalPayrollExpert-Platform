@@ -48,7 +48,7 @@ async function fetchCountryData(iso2: string) {
     supabase.schema('hrlake').from('working_hours').select('*').eq('country_code', code),
     supabase.schema('hrlake').from('termination_rules').select('*').eq('country_code', code),
     supabase.schema('hrlake').from('pension_schemes').select('*').eq('country_code', code),
-    supabase.schema('hrlake').from('official_sources').select('*').eq('country_code', code).then(r => r).catch(() => ({ data: [] })),
+    Promise.resolve(supabase.schema('hrlake').from('official_sources').select('*').eq('country_code', code)).catch(() => ({ data: [] })),
   ])
 
   return {
