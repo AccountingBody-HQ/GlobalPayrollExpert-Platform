@@ -53,7 +53,7 @@ export default function CountrySubNav({ code, countryName }: Props) {
           </div>
           <div
             ref={scrollRef}
-            className="flex items-center gap-1 overflow-x-auto py-2.5 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] flex-1"
+            className="flex items-center justify-center gap-1 overflow-x-auto py-2.5 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] flex-1"
           >
             {tabs.map(tab => {
               const href = tab.label === 'EOR Guide'

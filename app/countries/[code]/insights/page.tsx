@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { getCountryByCode } from '@/lib/supabase-queries'
-import { ArrowRight, BookOpen, Layers } from 'lucide-react'
+import { ArrowRight, BookOpen, Layers, ChevronRight } from 'lucide-react'
 import { createClient } from '@sanity/client'
 import CountrySubNav from '@/components/CountrySubNav'
 
@@ -47,6 +47,42 @@ export default async function CountryInsightsPage(
   return (
     <main className="bg-slate-50 flex-1">
       <CountrySubNav code={code} countryName={country.name} />
+
+      {/* HERO */}
+      <section className="relative bg-slate-950 overflow-hidden">
+        <div className="absolute inset-0" style={{
+          background: 'radial-gradient(ellipse at 60% 0%, rgba(30,111,255,0.15) 0%, transparent 60%)'
+        }} />
+        <div className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-12 pb-14">
+          <nav className="flex items-center gap-2 text-xs text-slate-500 mb-8">
+            <Link href="/" className="hover:text-slate-300 transition-colors">Home</Link>
+            <ChevronRight size={12} />
+            <Link href="/countries/" className="hover:text-slate-300 transition-colors">Countries</Link>
+            <ChevronRight size={12} />
+            <Link href={`/countries/${code.toLowerCase()}/`} className="hover:text-slate-300 transition-colors">{country.name}</Link>
+            <ChevronRight size={12} />
+            <span className="text-slate-400">Insights</span>
+          </nav>
+          <div className="flex items-center gap-5 mb-4">
+            <img
+              src={`https://flagcdn.com/64x48/${code.toLowerCase()}.png`}
+              alt={`${country.name} flag`}
+              width={48}
+              height={36}
+              className="rounded-md shadow-lg border border-white/10"
+            />
+            <div>
+              <p className="text-blue-400 text-xs font-bold uppercase tracking-widest mb-1">Intelligence</p>
+              <h1 className="font-serif text-3xl lg:text-5xl font-bold text-white tracking-tight">
+                {country.name} Insights
+              </h1>
+            </div>
+          </div>
+          <p className="text-slate-400 text-lg max-w-2xl mt-4">
+            Expert analysis on HR, payroll, EOR, and employment law in {country.name}. Updated as published.
+          </p>
+        </div>
+      </section>
 
       <section className="max-w-7xl mx-auto px-6 lg:px-8 py-16">
         <div className="flex items-center gap-3 mb-10">
