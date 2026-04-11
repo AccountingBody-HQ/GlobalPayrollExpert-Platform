@@ -9,6 +9,8 @@ import { notFound } from 'next/navigation'
 import EORCostEstimator from '@/components/EORCostEstimator'
 import CountrySubNav from '@/components/CountrySubNav'
 
+export const dynamic = 'force-dynamic'
+
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -49,13 +51,6 @@ async function getCountry(countryCode: string) {
   return data ?? null
 }
 
-export async function generateStaticParams() {
-  const { data } = await supabase.schema('hrlake')
-    .from('eor_guides')
-    .select('country_code')
-    .eq('is_current', true)
-  return (data ?? []).map(row => ({ country: row.country_code.toLowerCase() }))
-}
 
 export async function generateMetadata({ params }: { params: Promise<{ country: string }> }) {
   const { country } = await params
@@ -86,17 +81,113 @@ export default async function EORCountryPage({ params }: { params: Promise<{ cou
     ? await getCountryArticle(countryData.iso2, 'eor-guide').catch(() => null)
     : null
 
-  if (!guide || !countryData) {
+  if (!countryData) notFound()
+
+  if (!guide) {
     return (
-      <main className="bg-white flex items-center justify-center">
-        <div className="text-center max-w-md px-6">
-          <p className="text-5xl mb-6">🌍</p>
-          <h1 className="font-serif text-3xl font-bold text-slate-900 mb-4">EOR guide coming soon</h1>
-          <p className="text-slate-500 mb-8">We are building detailed EOR guides for all 195 countries. This one is in progress.</p>
-          <Link href="/eor/" className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-bold px-6 py-3 rounded-xl transition-colors text-sm">
-            <ArrowLeft size={15} /> Back to EOR hub
-          </Link>
-        </div>
+      <main className="bg-white flex-1">
+        <CountrySubNav code={countryData.iso2} countryName={countryData.name} />
+        <section className="relative bg-slate-950 overflow-hidden">
+          <div className="absolute inset-0" style={{background: 'radial-gradient(ellipse at 60% 0%, rgba(30,111,255,0.15) 0%, transparent 60%), radial-gradient(ellipse at 0% 100%, rgba(14,30,80,0.4) 0%, transparent 50%)'}} />
+          <div className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-12 pb-16">
+            <nav className="flex items-center gap-2 text-sm text-slate-500 mb-8">
+              <Link href="/countries" className="hover:text-slate-300 transition-colors">Countries</Link>
+              <ChevronRight size={13} className="text-slate-700" />
+              <Link href="/eor/" className="hover:text-slate-300 transition-colors">EOR</Link>
+              <ChevronRight size={13} className="text-slate-700" />
+              <span className="text-slate-400">{countryData.name}</span>
+            </nav>
+            <div className="flex items-center gap-4 mb-6">
+              <span className="text-5xl">{countryData.flag_emoji}</span>
+              <div>
+                <h1 className="font-serif text-4xl lg:text-5xl font-bold text-white tracking-tight">{countryData.name}</h1>
+                <p className="text-slate-400 mt-1">Employer of Record Guide</p>
+              </div>
+            </div>
+            <div className="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/20 rounded-full px-4 py-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+              <span className="text-amber-300 text-xs font-semibold tracking-wide">Detailed EOR guide in preparation</span>
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-slate-50 border-b border-slate-200">
+          <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16">
+            <div className="grid lg:grid-cols-3 gap-10">
+              <div className="lg:col-span-2 space-y-8">
+                <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
+                  <p className="text-blue-600 text-xs font-bold uppercase tracking-widest mb-4">What is an EOR?</p>
+                  <h2 className="font-serif text-2xl font-bold text-slate-900 mb-4">Hire in {countryData.name} without a local entity</h2>
+                  <p className="text-slate-500 leading-relaxed mb-4">An Employer of Record (EOR) is a third-party organisation that legally employs workers on your behalf in {countryData.name}. The EOR handles all local compliance — contracts, payroll, social security, tax filings, and HR obligations — while you retain full day-to-day management of the employee.</p>
+                  <p className="text-slate-500 leading-relaxed">This means you can hire talent in {countryData.name} within days, without the cost and complexity of setting up a local legal entity.</p>
+                </div>
+
+                <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
+                  <p className="text-blue-600 text-xs font-bold uppercase tracking-widest mb-6">Why use an EOR in {countryData.name}?</p>
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    {[
+                      { title: "No entity required", body: "Hire legally without incorporating a local company." },
+                      { title: "Fast time to hire", body: "Get employees onboarded in days rather than months." },
+                      { title: "Full compliance", body: "All local tax, payroll, and HR obligations handled." },
+                      { title: "Reduced risk", body: "Employment liability sits with the EOR, not your business." },
+                    ].map(item => (
+                      <div key={item.title} className="flex gap-3">
+                        <CheckCircle size={16} className="text-teal-500 shrink-0 mt-0.5" />
+                        <div>
+                          <p className="font-semibold text-slate-900 text-sm mb-1">{item.title}</p>
+                          <p className="text-slate-500 text-xs leading-relaxed">{item.body}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="rounded-2xl border border-amber-200 bg-amber-50 p-6">
+                  <p className="text-amber-700 text-xs font-bold uppercase tracking-widest mb-2">Guide in preparation</p>
+                  <p className="text-amber-800 text-sm leading-relaxed">Our detailed {countryData.name} EOR guide — including provider fees, compliance risks, hire speed, and our recommendation — is being prepared and will be published shortly.</p>
+                </div>
+
+                <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
+                  <p className="text-blue-600 text-xs font-bold uppercase tracking-widest mb-4">EOR Cost Estimator</p>
+                  <h2 className="font-serif text-2xl font-bold text-slate-900 mb-6">Estimate your {countryData.name} EOR cost</h2>
+                  <EORCostEstimator defaultCountryCode={countryData.iso2} />
+                </div>
+              </div>
+
+              <div className="space-y-5">
+                <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+                  <p className="text-blue-600 text-xs font-bold uppercase tracking-widest mb-4">More for {countryData.name}</p>
+                  <ul className="space-y-1">
+                    {[
+                      { label: "Country Overview", href: `/countries/${country}/` },
+                      { label: "Payroll Calculator", href: `/countries/${country}/payroll-calculator/` },
+                      { label: "Tax Guide", href: `/countries/${country}/tax-guide/` },
+                      { label: "Employment Law", href: `/countries/${country}/employmentlaw/` },
+                      { label: "Hiring Guide", href: `/countries/${country}/hiring-guide/` },
+                      { label: "Leave & Benefits", href: `/countries/${country}/leave-benefits/` },
+                    ].map(link => (
+                      <li key={link.href}>
+                        <Link href={link.href} className="flex items-center justify-between rounded-lg px-3 py-2.5 text-sm text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition-colors group">
+                          {link.label}
+                          <ArrowRight size={13} className="text-slate-300 group-hover:text-blue-400 transition-colors" />
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="rounded-2xl p-6 overflow-hidden relative" style={{ backgroundColor: "#0d1f3c" }}>
+                  <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at 80% 20%, rgba(20,184,166,0.15) 0%, transparent 60%)" }} />
+                  <div className="relative">
+                    <p className="text-teal-300 text-xs font-bold uppercase tracking-widest mb-3">EOR Hub</p>
+                    <h3 className="font-serif text-lg font-bold text-white mb-2 leading-snug">Browse all EOR country guides.</h3>
+                    <p className="text-slate-400 text-sm leading-relaxed mb-5">Detailed EOR guides, provider fees, compliance risks and recommendations for all active countries.</p>
+                    <Link href="/eor/" className="block rounded-xl bg-teal-600 hover:bg-teal-500 px-4 py-3 text-center text-sm font-bold text-white transition-colors">View all EOR guides</Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
     )
   }
