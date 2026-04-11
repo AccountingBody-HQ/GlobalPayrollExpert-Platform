@@ -8,7 +8,7 @@ import { ArrowRight, ArrowLeft, CheckCircle, XCircle, AlertCircle, Building2, Ch
 import EORCostEstimator from '@/components/EORCostEstimator'
 import CountrySubNav from '@/components/CountrySubNav'
 
-// Updated for uniform template - force all sections v3 - 1775949637
+// FIXED ROUTE: Remove guide conditionals hiding sections - 1775949637
 export const dynamic = 'force-dynamic'
 
 const supabase = createClient(
@@ -179,7 +179,7 @@ export default async function EORCountryPage({ params }: { params: Promise<{ cou
         {/* ══════ KEY FACTS ══════ */}
         <section className="bg-slate-50 border-b border-slate-200">
           <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12">
-            {guide && keyFacts.length > 0 ? (
+            {keyFacts.length > 0 ? (
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
                 {keyFacts.map((f: { label: string; value: string }) => (
                   <div key={f.label} className="bg-white border border-slate-200 rounded-xl p-4">
@@ -309,7 +309,7 @@ export default async function EORCountryPage({ params }: { params: Promise<{ cou
             <p className="text-slate-500 mb-10 max-w-2xl">
               {guide ? 'Discuss each of these with your chosen provider before signing.' : 'Detailed compliance risks will be available when our guide is published.'}
             </p>
-            {guide && risks.length > 0 ? (
+            {risks.length > 0 ? (
               <div className="grid sm:grid-cols-2 gap-5">
                 {risks.map((r: { risk: string; detail: string; severity: string }) => (
                   <div key={r.risk} className={`border-l-4 rounded-r-2xl p-6 ${severityColour[r.severity]}`}>
