@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation'
 import { useRef, useEffect } from 'react'
 import {
   LayoutDashboard, Calculator, BookOpen, TrendingUp,
-  Scale, Briefcase, Shield, Calendar, CheckCircle, Globe
+  Scale, Briefcase, Shield, Calendar, CheckCircle, Globe, Newspaper
 } from 'lucide-react'
 
 interface Props {
@@ -13,16 +13,17 @@ interface Props {
 }
 
 const tabs = [
-  { label: 'Overview',            path: '',                    icon: LayoutDashboard },
-  { label: 'Calculator',          path: '/payroll-calculator', icon: Calculator },
-  { label: 'Tax Guide',           path: '/tax-guide',          icon: BookOpen },
-  { label: 'Payroll Guide',       path: '/payroll-guide',      icon: TrendingUp },
-  { label: 'Employment Law',      path: '/employmentlaw',      icon: Scale },
-  { label: 'Hiring Guide',        path: '/hiring-guide',       icon: Briefcase },
-  { label: 'HR Compliance',       path: '/hr-compliance',      icon: Shield },
-  { label: 'Leave & Benefits',    path: '/leave-benefits',     icon: Calendar },
-  { label: 'Compliance Calendar', path: '/compliance-calendar',icon: CheckCircle },
-  { label: 'EOR Guide',           path: '/eor',                icon: Globe },
+  { label: 'Overview',       path: '',                    icon: LayoutDashboard },
+  { label: 'Calculator',     path: '/payroll-calculator', icon: Calculator },
+  { label: 'Tax',            path: '/tax-guide',          icon: BookOpen },
+  { label: 'Payroll',        path: '/payroll-guide',      icon: TrendingUp },
+  { label: 'Employment Law', path: '/employmentlaw',      icon: Scale },
+  { label: 'Hiring',         path: '/hiring-guide',       icon: Briefcase },
+  { label: 'HR Compliance',  path: '/hr-compliance',      icon: Shield },
+  { label: 'Leave',          path: '/leave-benefits',     icon: Calendar },
+  { label: 'Compliance',     path: '/compliance-calendar',icon: CheckCircle },
+  { label: 'EOR Guide',      path: '/eor',                icon: Globe },
+  { label: 'Insights',       path: '/insights',           icon: Newspaper },
 ]
 
 export default function CountrySubNav({ code, countryName }: Props) {
@@ -65,6 +66,8 @@ export default function CountrySubNav({ code, countryName }: Props) {
             {tabs.map(tab => {
               const href = tab.label === 'EOR Guide'
                 ? `/eor/${code.toLowerCase()}/`
+                : tab.label === 'Insights'
+                ? `/insights/?country=${code.toLowerCase()}`
                 : `${base}${tab.path}/`
               const isActive = pathname === href || pathname === href.slice(0, -1)
               const Icon = tab.icon
