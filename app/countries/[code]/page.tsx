@@ -298,7 +298,7 @@ export default async function CountryPage(
                 <div className="divide-y divide-white/[0.06]">
                   {[
                     { label: 'Income Tax',         value: incomeTaxRange ?? '—' },
-                    { label: 'Employer SS',         value: employerSSRate ?? '—' },
+                    { label: 'Employer Contribution', value: employerSSRate ?? '—' },
                     { label: 'Employee SS',         value: employeeSSRate ?? '—' },
                     { label: 'Currency',            value: country.currency_code ?? '—' },
                   ].map(row => (
@@ -553,10 +553,9 @@ export default async function CountryPage(
                     { label: 'Payroll Frequency', value: (() => {
                       const freq = employmentRules.payroll_frequency ?? ''
                       const map: Record<string, string> = {
-                        'GBP_per_hour': 'Per hour', 'USD_per_hour': 'Per hour',
-                        'EUR_per_hour': 'Per hour', 'monthly': 'Monthly',
-                        'weekly': 'Weekly', 'annually': 'Annually',
-                        'bi-weekly': 'Bi-weekly', 'fortnightly': 'Fortnightly',
+                        'monthly': 'Monthly', 'weekly': 'Weekly',
+                        'annually': 'Annually', 'bi-weekly': 'Bi-weekly',
+                        'fortnightly': 'Fortnightly',
                       }
                       return map[freq] ?? (freq || '—')
                     })(), icon: '📅' },
