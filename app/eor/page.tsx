@@ -220,40 +220,32 @@ export default async function EORHubPage() {
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {countries.map((c: any) => (
-                c.hasGuide ? (
-                  <Link key={c.country_code} href={`/eor/${c.country_code.toLowerCase()}/`}
-                    className="group bg-white border border-slate-200 hover:border-blue-300 hover:shadow-lg rounded-2xl p-6 transition-all duration-200 flex flex-col">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex items-center gap-3">
-                        <span className="text-2xl">{c.flagEmoji}</span>
-                        <span className="font-bold text-slate-900 group-hover:text-blue-700 transition-colors">{c.countryName}</span>
-                      </div>
-                      <span className={`text-xs font-bold px-2.5 py-1 rounded-full border ${riskColour[c.risk_level] ?? 'bg-slate-50 text-slate-600 border-slate-200'}`}>{c.risk_level} risk</span>
-                    </div>
-                    <p className="text-slate-500 text-sm leading-relaxed flex-1">{c.recommendation_title}</p>
-                    <div className="mt-5 flex items-center justify-between">
-                      <span className="text-xs text-slate-400">Speed: <span className={`font-bold ${speedColour[c.hire_speed] ?? 'text-slate-500'}`}>{c.hire_speed}</span></span>
-                      <span className="flex items-center gap-1 text-blue-600 text-xs font-bold uppercase tracking-wide opacity-0 group-hover:opacity-100 transition-opacity">Full guide <ChevronRight size={11} /></span>
-                    </div>
-                  </Link>
-                ) : (
-                  <div key={c.country_code} className="bg-slate-50 border border-slate-200 border-dashed rounded-2xl p-6 flex flex-col opacity-60">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex items-center gap-3">
-                        <span className="text-2xl">{c.flagEmoji}</span>
-                        <span className="font-bold text-slate-700">{c.countryName}</span>
-                      </div>
-                      <span className="text-xs font-bold px-2.5 py-1 rounded-full border bg-slate-100 text-slate-400 border-slate-200">Coming soon</span>
-                    </div>
-                    <p className="text-slate-400 text-sm leading-relaxed flex-1">Full EOR guide for {c.countryName} is being prepared.</p>
-                    <div className="mt-5">
-                      <Link href={`/countries/${c.country_code.toLowerCase()}/`} className="text-xs text-blue-500 hover:text-blue-600 font-semibold">
-                        View country data →
-                      </Link>
-                    </div>
+              <Link key={c.country_code} href={`/eor/${c.country_code.toLowerCase()}/`}
+                className="group bg-white border border-slate-200 hover:border-blue-300 hover:shadow-lg rounded-2xl p-6 transition-all duration-200 flex flex-col">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">{c.flagEmoji}</span>
+                    <span className="font-bold text-slate-900 group-hover:text-blue-700 transition-colors">{c.countryName}</span>
                   </div>
-                )
-              ))}
+                  <span className={`text-xs font-bold px-2.5 py-1 rounded-full border ${c.hasGuide ? (riskColour[c.risk_level] ?? 'bg-slate-50 text-slate-600 border-slate-200') : 'bg-amber-50 text-amber-600 border-amber-200'}`}>
+                    {c.hasGuide ? `${c.risk_level} risk` : 'Guide in prep'}
+                  </span>
+                </div>
+                <p className="text-slate-500 text-sm leading-relaxed flex-1">
+                  {c.hasGuide ? c.recommendation_title : `EOR guide for ${c.countryName} is being prepared and will be published shortly.`}
+                </p>
+                <div className="mt-5 flex items-center justify-between">
+                  <span className="text-xs text-slate-400">
+                    Speed: <span className={`font-bold ${c.hasGuide ? (speedColour[c.hire_speed] ?? 'text-slate-500') : 'text-slate-400'}`}>
+                      {c.hasGuide ? c.hire_speed : 'TBD'}
+                    </span>
+                  </span>
+                  <span className="flex items-center gap-1 text-blue-600 text-xs font-bold uppercase tracking-wide opacity-0 group-hover:opacity-100 transition-opacity">
+                    {c.hasGuide ? 'Full guide' : 'View guide'} <ChevronRight size={11} />
+                  </span>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
