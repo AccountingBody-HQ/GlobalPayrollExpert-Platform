@@ -32,12 +32,22 @@ const PREVIEW_COUNTRIES = [
   { code: 'ae', name: 'UAE',            tax: '0%',     ss: '12.5%' },
 ]
 
-const REGIONS = [
-  { name: 'Europe',       slug: 'europe',       count: 12 },
-  { name: 'Americas',     slug: 'americas',     count: 2 },
-  { name: 'Asia Pacific', slug: 'asia-pacific', count: 4 },
-  { name: 'Middle East',  slug: 'middle-east',  count: 1 },
-  { name: 'Africa',       slug: 'africa',       count: 0 },
+const REGION_MAP: Record<string, string> = {
+  be: 'europe', dk: 'europe', fr: 'europe', de: 'europe', ie: 'europe',
+  it: 'europe', nl: 'europe', no: 'europe', pl: 'europe', pt: 'europe',
+  es: 'europe', se: 'europe', ch: 'europe', gb: 'europe',
+  br: 'americas', ca: 'americas', co: 'americas', us: 'americas',
+  au: 'asia-pacific', jp: 'asia-pacific', sg: 'asia-pacific',
+  ae: 'middle-east',
+  et: 'africa',
+}
+
+const REGION_LABELS = [
+  { name: 'Europe',       slug: 'europe' },
+  { name: 'Americas',     slug: 'americas' },
+  { name: 'Asia Pacific', slug: 'asia-pacific' },
+  { name: 'Middle East',  slug: 'middle-east' },
+  { name: 'Africa',       slug: 'africa' },
 ]
 
 const CAPABILITIES = [
@@ -100,6 +110,19 @@ const UPDATE_ITEMS = [
 export default async function HomePage() {
   const insights = await getInsightArticles({ limit: 3 })
   const countries = await getAllCountries()
+  const regionCounts = countries.reduce((acc: Record<string, number>, c: any) => {
+    const region = REGION_MAP[(c.code ?? '').toLowerCase()]
+    if (region) acc[region] = (acc[region] || 0) + 1
+    return acc
+  }, {})
+  const REGIONS = REGION_LABELS
+    .map(r => ({ ...r, count: regionCounts[r.slug] || 0 }))
+    .filter(r => r.count > 0)
+  const dynamicCapabilities = CAPABILITIES.map(cap =>
+    cap.title === 'Payroll Calculator'
+      ? { ...cap, body: `Net pay, employer on-costs, income tax, and social security — full line-by-line cost breakdowns for ${countries.length} countries and growing.` }
+      : cap
+  )
 
   return (
     <main className="bg-white flex-1">
@@ -141,7 +164,7 @@ export default async function HomePage() {
               {/* Subheading */}
               <p className="text-lg text-slate-400 leading-relaxed max-w-xl mb-8">
                 Country employment data, payroll calculations, and EOR intelligence
-                for 20 countries and growing — the reference platform for HR directors,
+                for {countries.length} countries and growing — the reference platform for HR directors,
                 global law firms, EOR providers, and finance teams worldwide.
               </p>
 
@@ -210,7 +233,7 @@ export default async function HomePage() {
                     <div className="w-2 h-2 rounded-full bg-teal-400 animate-pulse" />
                     <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Live Data</span>
                   </div>
-                  <span className="text-xs text-slate-600">20 countries</span>
+                  <span className="text-xs text-slate-600">{countries.length} countries</span>
                 </div>
                 <div className="grid grid-cols-[1fr_70px_60px] px-5 py-2 border-b border-white/5">
                   <span className="text-xs font-bold text-slate-600 uppercase tracking-wider">Country</span>
@@ -277,7 +300,7 @@ export default async function HomePage() {
             </div>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {CAPABILITIES.map(cap => (
+            {dynamicCapabilities.map(cap => (
               <Link key={cap.title} href={cap.href}
                 className={`group bg-white border border-slate-200 ${cap.border} rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-200 flex flex-col`}>
                 <div className={`h-1.5 ${cap.top}`} />
@@ -309,7 +332,7 @@ export default async function HomePage() {
             </div>
             <Link href="/countries/"
               className="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-semibold text-sm transition-colors">
-              All 20 countries <ArrowRight size={15} />
+              All {countries.length} countries <ArrowRight size={15} />
             </Link>
           </div>
 
