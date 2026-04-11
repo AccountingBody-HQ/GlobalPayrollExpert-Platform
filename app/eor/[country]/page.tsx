@@ -383,7 +383,7 @@ export default async function EORCountryPage({ params }: { params: Promise<{ cou
               </div>
             </div>
           </div>
-        )}
+        </section>
 
       </main>
     </>
