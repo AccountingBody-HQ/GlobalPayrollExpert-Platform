@@ -10,6 +10,7 @@ import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
+import { createClient } from '@supabase/supabase-js'
 import './globals.css'
 import CookieConsent from '@/components/CookieConsent'
 
@@ -148,11 +149,27 @@ function GoogleTagManagerBody() {
 }
 
 // --- ROOT LAYOUT ---
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  // Fetch active country count once — passed to Nav and Footer
+  let countryCount = 23
+  try {
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    )
+    const { count } = await supabase
+      .from('countries')
+      .select('*', { count: 'exact', head: true })
+      .eq('is_active', true)
+    if (count !== null) countryCount = count
+  } catch {
+    // fallback to default
+  }
+
   return (
     <ClerkProvider>
       <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
@@ -161,9 +178,9 @@ export default function RootLayout({
         </head>
         <body className="bg-white font-sans antialiased">
           <GoogleTagManagerBody />
-          <Navigation />
+          <Navigation countryCount={countryCount} />
           {children}
-          <Footer />
+          <Footer countryCount={countryCount} />
           <Analytics />
           <SpeedInsights />
           <CookieConsent />

@@ -2,12 +2,13 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Menu, X, Globe, User, LayoutDashboard, LogOut, ChevronDown, Crown } from 'lucide-react'
+import { Menu, X, Globe, User, LayoutDashboard, LogOut, ChevronDown } from 'lucide-react'
 import SearchBar from '@/components/SearchBar'
+import { usePathname } from 'next/navigation'
 import { useUser, useClerk } from '@clerk/nextjs'
 
 const countryDropdown = [
-  { label: 'All Countries', href: '/countries/', sub: 'Browse all 20 countries' },
+  { label: 'All Countries', href: '/countries/', sub: 'COUNTRY_COUNT_PLACEHOLDER' },
   { label: 'Compare Countries', href: '/compare/', sub: 'Side-by-side cost comparison' },
   { label: 'Global Calculator', href: '/payroll-tools/global-calculator/', sub: 'Multi-country payroll tool' },
   { label: 'EOR Intelligence', href: '/eor/', sub: 'Employer of Record guides' },
@@ -55,7 +56,10 @@ function MobileSection({ label, links, onClose }: {
   )
 }
 
-export default function Navigation() {
+export default function Navigation({ countryCount = 23 }: { countryCount?: number }) {
+  const pathname = usePathname()
+  const isActive = (href: string) => pathname === href || pathname.startsWith(href.replace(/\/$/, '') + '/')
+  const navLink = (href: string) => `px-3 py-1.5 text-sm font-medium rounded-lg transition-all ${isActive(href) ? 'text-white bg-white/10' : 'text-slate-400 hover:text-white hover:bg-white/5'}`
   const [mobileOpen, setMobileOpen] = useState(false)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
   const [countriesOpen, setCountriesOpen] = useState(false)
@@ -98,15 +102,15 @@ export default function Navigation() {
                       onClick={() => setCountriesOpen(false)}
                     >
                       <p className="text-sm font-semibold text-white">{item.label}</p>
-                      <p className="text-xs text-slate-400 mt-0.5">{item.sub}</p>
+                      <p className="text-xs text-slate-400 mt-0.5">{item.sub === 'COUNTRY_COUNT_PLACEHOLDER' ? `Browse all ${countryCount} countries` : item.sub}</p>
                     </Link>
                   ))}
                   </div>
                 </div>
               )}
             </div>
-            <Link href="/eor/" className="px-3 py-1.5 text-sm font-medium text-slate-400 rounded-lg hover:text-white hover:bg-white/5 transition-all">EOR</Link>
-            <Link href="/hr-compliance/" className="px-3 py-1.5 text-sm font-medium text-slate-400 rounded-lg hover:text-white hover:bg-white/5 transition-all">HR Compliance</Link>
+            <Link href="/eor/" className={navLink('/eor/')}>EOR</Link>
+            <Link href="/hr-compliance/" className={navLink('/hr-compliance/')}>HR Compliance</Link>
             <div className="relative"
               onMouseEnter={() => setToolsOpen(true)}
               onMouseLeave={() => setToolsOpen(false)}
@@ -132,8 +136,8 @@ export default function Navigation() {
                 </div>
               )}
             </div>
-            <Link href="/insights/" className="px-3 py-1.5 text-sm font-medium text-slate-400 rounded-lg hover:text-white hover:bg-white/5 transition-all">Insights</Link>
-            <Link href="/insights/?topic=education" className="px-3 py-1.5 text-sm font-medium text-slate-400 rounded-lg hover:text-white hover:bg-white/5 transition-all">Learning</Link>
+            <Link href="/insights/" className={navLink('/insights/')}>Insights</Link>
+            <Link href="/insights/?topic=education" className={navLink('/insights/')}>Learning</Link>
           </nav>
 
           {/* SEARCH — desktop */}
