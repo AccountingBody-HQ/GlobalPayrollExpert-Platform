@@ -119,7 +119,7 @@ export async function getEmploymentRules(iso2: string) {
     maternity_leave_weeks: rules['maternity_leave']?.value_numeric ?? null,
     paternity_leave_weeks: rules['paternity_leave']?.value_numeric ?? null,
     overtime_rate:        rules['overtime_rate']?.value_numeric ?? null,
-    payroll_frequency:    rules['minimum_wage']?.value_unit ?? null,
+    payroll_frequency:    rules['payroll_frequency']?.value_text ?? null,
     thirteenth_month_pay: !!rules['thirteenth_month_pay'],
     working_hours_max:    rules['working_hours_max']?.value_numeric ?? null,
   }
