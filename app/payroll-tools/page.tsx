@@ -4,11 +4,11 @@ import { ArrowRight, Calculator, Globe, RefreshCw, BarChart2 } from 'lucide-reac
 
 export const metadata = {
   title: 'Payroll Tools | HRLake',
-  description: 'Free payroll and HR tools — net pay calculators, employer cost breakdowns, country comparisons, and salary currency conversion for 195 countries.',
+  description: 'Free payroll and HR tools — net pay calculators, employer cost breakdowns, country comparisons, and salary currency conversion across all active countries.',
   alternates: { canonical: 'https://hrlake.com/payroll-tools/' },
   openGraph: {
     title: 'Payroll Tools | HRLake',
-    description: 'Free payroll and HR tools — net pay calculators, employer cost breakdowns, country comparisons, and salary currency conversion for 195 countries.',
+    description: 'Free payroll and HR tools — net pay calculators, employer cost breakdowns, country comparisons, and salary currency conversion across all active countries.',
     url: 'https://hrlake.com/payroll-tools/',
     siteName: 'HRLake',
     type: 'website',
@@ -81,13 +81,13 @@ export default function PayrollToolsPage() {
               Payroll calculators<br />and <span className="text-blue-400">tools</span>.
             </h1>
             <p className="text-slate-400 text-lg leading-relaxed max-w-2xl">
-              Free tools for HR and finance teams — net pay, employer costs, and salary conversions built on verified government data for 195 countries.
+              Free tools for HR and finance teams — net pay, employer costs, and salary conversions built on verified government data from official sources.
             </p>
           </div>
 
           <div className="mt-14 pt-10 border-t border-slate-800 grid grid-cols-2 sm:grid-cols-4 gap-8">
             {[
-              { value: '195',    label: 'Countries',    sub: 'Full global coverage' },
+              { value: '23+',    label: 'Countries',    sub: 'And growing monthly' },
               { value: 'Free',   label: 'No sign-in',   sub: 'Core tools always free' },
               { value: 'Live',   label: 'Exchange rates', sub: 'Updated daily' },
               { value: 'PDF',    label: 'Export ready', sub: 'Download any result' },
