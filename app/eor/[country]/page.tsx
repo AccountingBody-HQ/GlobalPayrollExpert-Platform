@@ -307,11 +307,16 @@ export default async function EORCountryPage({ params }: { params: Promise<{ cou
               Key EOR compliance risks in {countryData.name}.
             </h2>
             <p className="text-slate-500 mb-10 max-w-2xl">
-              {guide ? 'Discuss each of these with your chosen provider before signing.' : 'Detailed compliance risks will be available when our guide is published.'}
+              {risks.length > 0 
+                ? 'Discuss each of these with your chosen provider before signing.'
+                : 'Detailed compliance risks will be available when our guide is published.'
+              }
             </p>
-            {risks.length > 0 ? (
-              <div className="grid sm:grid-cols-2 gap-5">
-                {risks.map((r: { risk: string; detail: string; severity: string }) => (
+            
+            {/* UNIFORM GRID - Always the same structure */}
+            <div className="grid sm:grid-cols-2 gap-5">
+              {risks.length > 0 ? (
+                risks.map((r: { risk: string; detail: string; severity: string }) => (
                   <div key={r.risk} className={`border-l-4 rounded-r-2xl p-6 ${severityColour[r.severity]}`}>
                     <div className="flex items-start justify-between gap-3 mb-3">
                       <p className="font-bold text-slate-900 text-sm">{r.risk}</p>
@@ -321,16 +326,38 @@ export default async function EORCountryPage({ params }: { params: Promise<{ cou
                     </div>
                     <p className="text-slate-600 text-sm leading-relaxed">{r.detail}</p>
                   </div>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center">
-                <div className="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/20 rounded-full px-4 py-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-                  <span className="text-amber-700 text-sm font-semibold">Compliance risk analysis coming soon</span>
-                </div>
-              </div>
-            )}
+                ))
+              ) : (
+                // Placeholder cards with same visual structure
+                <>
+                  <div className="border-l-4 rounded-r-2xl p-6 border-l-slate-300 bg-slate-50">
+                    <div className="flex items-center justify-center h-24">
+                      <div className="text-center opacity-60">
+                        <div className="w-8 h-8 rounded-full bg-slate-200 mx-auto mb-2 flex items-center justify-center">
+                          <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                          </svg>
+                        </div>
+                        <p className="text-slate-400 text-xs">Risk analysis in preparation</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="border-l-4 rounded-r-2xl p-6 border-l-slate-300 bg-slate-50">
+                    <div className="flex items-center justify-center h-24">
+                      <div className="text-center opacity-60">
+                        <div className="w-8 h-8 rounded-full bg-slate-200 mx-auto mb-2 flex items-center justify-center">
+                          <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        </div>
+                        <p className="text-slate-400 text-xs">Content coming soon</p>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
         </section>
 
