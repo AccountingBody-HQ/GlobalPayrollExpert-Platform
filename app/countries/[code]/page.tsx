@@ -29,6 +29,7 @@ import AiCountryWidget from '@/components/AiCountryWidget'
 import { auth } from '@clerk/nextjs/server'
 import CountrySubNav from '@/components/CountrySubNav'
 import { createClient } from '@supabase/supabase-js'
+import { createSupabaseServerClient } from '@/lib/supabase'
 
 // ── Revalidate every 24 hours ──────────────────────────────────────────────
 export const dynamic = "force-dynamic"
@@ -120,10 +121,13 @@ export default async function CountryPage(
 
   // Fetch tax brackets for most recent year + related countries
   const latestYear = taxYears[0] ?? null
-  const [taxBrackets, relatedCountries] = await Promise.all([
+  const supabase = await createSupabaseServerClient()
+  const [taxBrackets, relatedCountries, healthInsuranceRows] = await Promise.all([
     getTaxBrackets(iso2, latestYear ?? undefined),
     getRelatedCountries(iso2, country.region ?? ''),
+    supabase.schema('hrlake').from('health_insurance').select('*').eq('country_code', iso2).eq('is_current', true).order('is_mandatory', { ascending: false }),
   ])
+  const healthInsurance = healthInsuranceRows.data ?? []
 
   // Social security split
   const employeeSS = socialSecurity.filter(r =>
@@ -623,6 +627,60 @@ export default async function CountryPage(
                       </div>
                     </div>
                   ))}
+                </div>
+              </div>
+            )}
+
+            {/* ══════ SECTION 7C — HEALTH INSURANCE ══════ */}
+            {healthInsurance.length > 0 && (
+              <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden">
+                <div className="px-6 py-5 border-b border-slate-100 flex items-center justify-between">
+                  <div>
+                    <h2 className="font-bold text-slate-900 text-lg">Health Insurance Schemes</h2>
+                    <p className="text-slate-400 text-xs mt-0.5">Employer obligations in {country.name}</p>
+                  </div>
+                  <Link
+                    href={`/countries/${code}/hr-compliance/`}
+                    className="flex items-center gap-1.5 text-blue-600 hover:text-blue-700 text-xs font-bold transition-colors"
+                  >
+                    Full HR compliance <ChevronRight size={13} />
+                  </Link>
+                </div>
+                <div className="divide-y divide-slate-100">
+                  {healthInsurance.map((h: any, i: number) => {
+                    const typeColour: Record<string, string> = {
+                      public: 'bg-blue-50 text-blue-700',
+                      private_mandatory: 'bg-red-50 text-red-700',
+                      private_optional: 'bg-slate-100 text-slate-600',
+                    }
+                    const typeLabel: Record<string, string> = {
+                      public: 'Public',
+                      private_mandatory: 'Private — Mandatory',
+                      private_optional: 'Private — Optional',
+                    }
+                    const empCost = h.employer_rate_percentage
+                      ? `${h.employer_rate_percentage}%`
+                      : h.employer_flat_amount
+                      ? `${country.currency_code} ${h.employer_flat_amount}`
+                      : '—'
+                    return (
+                      <div key={i} className="px-6 py-4 flex items-start justify-between gap-4">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-1 flex-wrap">
+                            <p className="text-sm font-semibold text-slate-800">{h.scheme_name}</p>
+                            <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${typeColour[h.scheme_type] ?? 'bg-slate-100 text-slate-600'}`}>
+                              {typeLabel[h.scheme_type] ?? h.scheme_type}
+                            </span>
+                          </div>
+                          {h.notes && <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed">{h.notes}</p>}
+                        </div>
+                        <div className="shrink-0 text-right">
+                          <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-0.5">Employer</p>
+                          <p className="text-sm font-bold text-slate-900">{empCost}</p>
+                        </div>
+                      </div>
+                    )
+                  })}
                 </div>
               </div>
             )}
