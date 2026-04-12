@@ -1,6 +1,9 @@
 import Link from 'next/link'
+import { createClient } from '@supabase/supabase-js'
 import { getBreadcrumbStructuredData, jsonLd as toJsonLd } from '@/lib/structured-data'
 import { ArrowRight, Calculator, Globe, RefreshCw, BarChart2 } from 'lucide-react'
+
+export const dynamic = 'force-dynamic'
 
 export const metadata = {
   title: 'Payroll Tools | HRLake',
@@ -57,7 +60,16 @@ const ALSO = [
   },
 ]
 
-export default function PayrollToolsPage() {
+export default async function PayrollToolsPage() {
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
+  const { count } = await supabase
+    .from('countries')
+    .select('*', { count: 'exact', head: true })
+    .eq('is_active', true)
+  const countryCount = count ?? 23
   const breadcrumb = getBreadcrumbStructuredData([
     { name: 'Home', href: 'https://hrlake.com' },
     { name: 'Payroll Tools', href: 'https://hrlake.com/payroll-tools/' },
@@ -87,7 +99,7 @@ export default function PayrollToolsPage() {
 
           <div className="mt-14 pt-10 border-t border-slate-800 grid grid-cols-2 sm:grid-cols-4 gap-8">
             {[
-              { value: '23+',    label: 'Countries',    sub: 'And growing monthly' },
+              { value: `${countryCount}+`, label: 'Countries', sub: 'And growing monthly' },
               { value: 'Free',   label: 'No sign-in',   sub: 'Core tools always free' },
               { value: 'Live',   label: 'Exchange rates', sub: 'Updated daily' },
               { value: 'PDF',    label: 'Export ready', sub: 'Download any result' },
