@@ -24,11 +24,13 @@ type SortOption = 'az' | 'region' | 'complexity'
 
 // These values must exactly match what is stored in the database
 const REGION_TABS = [
-  { label: 'All',       value: 'all' },
-  { label: 'Europe',    value: 'Europe' },
-  { label: 'Americas',  value: 'Americas' },
-  { label: 'Asia',      value: 'Asia' },
-  { label: 'Oceania',   value: 'Oceania' },
+  { label: 'All',          value: 'all' },
+  { label: 'Europe',       value: 'Europe' },
+  { label: 'Americas',     value: 'Americas' },
+  { label: 'Asia',         value: 'Asia' },
+  { label: 'Middle East',  value: 'Middle East' },
+  { label: 'Africa',       value: 'Africa' },
+  { label: 'Oceania',      value: 'Oceania' },
 ]
 
 // Map URL slugs (from homepage links) to exact database region values
@@ -149,12 +151,12 @@ export default function CountriesClient({ countries }: CountriesClientProps) {
       </div>
 
       {/* Region tabs */}
-      <div className="flex gap-1 flex-wrap mb-8">
+      <div className="flex gap-2 mb-8 overflow-x-auto pb-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
         {REGION_TABS.map(tab => (
           <button
             key={tab.value}
             onClick={() => setRegion(tab.value)}
-            className={`px-4 py-2 rounded-full text-sm font-semibold transition-all ${
+            className={`px-4 py-2 rounded-full text-sm font-semibold transition-all shrink-0 min-w-[100px] text-center ${
               region === tab.value
                 ? 'bg-blue-600 text-white shadow-sm'
                 : 'bg-white text-slate-600 border border-slate-200 hover:border-blue-300 hover:text-blue-600'
