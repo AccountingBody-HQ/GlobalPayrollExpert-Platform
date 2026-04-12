@@ -242,3 +242,65 @@ export async function getCountryArticle(countryCode: string, contentType: string
     return null
   }
 }
+
+// --- GET ARTICLES FOR A SPECIFIC COUNTRY (broad match) ---
+export async function getCountryInsightArticles(options: {
+  countryCode: string
+  countryName: string
+  limit?: number
+  offset?: number
+}): Promise<SanityArticleCard[]> {
+  const { countryCode, countryName, limit = 9, offset = 0 } = options
+  const rangeEnd = offset + limit
+  const query = `*[
+    _type == "article" &&
+    "hrlake" in showOnSites &&
+    (
+      $country in coalesce(countries, []) ||
+      relatedCountryCode == $country ||
+      title match $nameSearch ||
+      excerpt match $nameSearch
+    )
+  ] | order(publishedAt desc) [${offset}...${rangeEnd}] {
+    _id, title, slug, publishedAt, excerpt,
+    "category": categories[0]->title,
+    "categorySlug": categories[0]->slug.current
+  }`
+  try {
+    return await sanityClient.fetch(query, {
+      country: countryCode.toUpperCase(),
+      nameSearch: countryName + '*',
+    })
+  } catch (error) {
+    console.error('Failed to fetch country insights:', error)
+    return []
+  }
+}
+
+// --- GET COUNTRY ARTICLE COUNT (broad match) ---
+export async function getCountryInsightCount(options: {
+  countryCode: string
+  countryName: string
+}): Promise<number> {
+  const { countryCode, countryName } = options
+  const query = `count(*[
+    _type == "article" &&
+    "hrlake" in showOnSites &&
+    (
+      $country in coalesce(countries, []) ||
+      relatedCountryCode == $country ||
+      title match $nameSearch ||
+      excerpt match $nameSearch
+    )
+  ])`
+  try {
+    return await sanityClient.fetch(query, {
+      country: countryCode.toUpperCase(),
+      nameSearch: countryName + '*',
+    })
+  } catch (error) {
+    console.error('Failed to fetch country insight count:', error)
+    return 0
+  }
+}
+
