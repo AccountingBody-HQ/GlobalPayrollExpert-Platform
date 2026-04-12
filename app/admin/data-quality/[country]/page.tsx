@@ -42,7 +42,7 @@ async function fetchCountryData(iso2: string) {
     supabase.schema('hrlake').from('social_security').select('*').eq('country_code', code).eq('is_current', true),
     supabase.schema('hrlake').from('employment_rules').select('*').eq('country_code', code).eq('is_current', true),
     supabase.schema('hrlake').from('statutory_leave').select('*').eq('country_code', code),
-    supabase.schema('hrlake').from('public_holidays').select('*').eq('country_code', code).order('holiday_date'),
+    supabase.schema('hrlake').from('public_holidays').select('*').eq('country_code', code).eq('year', 2025).order('holiday_date'),
     supabase.schema('hrlake').from('filing_calendar').select('*').eq('country_code', code),
     supabase.schema('hrlake').from('payroll_compliance').select('*').eq('country_code', code),
     supabase.schema('hrlake').from('working_hours').select('*').eq('country_code', code),
