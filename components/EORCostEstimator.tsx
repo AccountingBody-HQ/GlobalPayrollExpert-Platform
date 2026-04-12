@@ -50,11 +50,23 @@ export default function EORCostEstimator({ defaultCountryCode = "GB" }: { defaul
           .select('iso2, name, flag_emoji, currency_code, currency_symbol')
 
         const countryMap = Object.fromEntries((countryRows ?? []).map(c => [c.iso2, c]))
+        const guidesMap = Object.fromEntries((guides ?? []).map(g => [g.country_code, g]))
 
-        const merged = (guides ?? []).map(g => ({
-          ...g,
-          countries: countryMap[g.country_code] ?? null,
-        }))
+        // Default EOR data for countries without specific guides
+        const defaultEORData = {
+          ss_employer_rate: 0.20,
+          provider_fee_low: 8,
+          provider_fee_high: 15,
+          risk_level: 'Medium'
+        }
+
+        // Include ALL countries - use guide data where available, defaults otherwise
+        const merged = (countryRows ?? []).map(country => ({
+          country_code: country.iso2,
+          ...(guidesMap[country.iso2] || defaultEORData),
+          countries: country,
+        })).sort((a, b) => a.countries.name.localeCompare(b.countries.name))
+
         setCountries(merged as unknown as Country[])
       } catch (e) {
         console.error('Failed to fetch EOR countries', e)
