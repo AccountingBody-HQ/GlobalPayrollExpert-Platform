@@ -2,7 +2,7 @@ import { auth, currentUser } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@supabase/supabase-js'
-import { User, Calculator, ArrowRight, BookmarkCheck, TrendingUp, Shield } from 'lucide-react'
+import { User, Calculator, ArrowRight, BookmarkCheck, TrendingUp, Shield, Crown } from 'lucide-react'
 
 export const metadata = {
   title: 'Dashboard | HRLake',
