@@ -360,13 +360,16 @@ export default async function CountryPage(
                   ? fmtCurrency(employmentRules.minimum_wage, country.currency_code)
                   : '—',
                 sub: (() => {
-                const freq = employmentRules?.payroll_frequency ?? ''
+                const unit = employmentRules?.minimum_wage_unit ?? ''
                 const map: Record<string, string> = {
                   'GBP_per_hour': 'Per hour', 'USD_per_hour': 'Per hour',
-                  'EUR_per_hour': 'Per hour', 'monthly': 'Per month',
+                  'EUR_per_hour': 'Per hour', 'AUD_per_hour': 'Per hour',
+                  'CAD_per_hour': 'Per hour', 'JPY_per_hour': 'Per hour',
+                  'EUR_per_month': 'Per month', 'BRL_per_month': 'Per month',
+                  'PLN_per_month': 'Per month', 'monthly': 'Per month',
                   'weekly': 'Per week', 'annually': 'Per annum',
                 }
-                return map[freq] ?? (freq || 'Per annum')
+                return map[unit] ?? (unit || '—')
               })(),
                 icon: Scale,
                 color: 'text-teal-600',
