@@ -545,7 +545,18 @@ export default async function CountryPage(
               ) : (
                 <div className="grid sm:grid-cols-2 gap-0 divide-y sm:divide-y-0 sm:divide-x divide-slate-100">
                   {[
-                    { label: 'Minimum Wage',       value: fmtCurrency(employmentRules.minimum_wage, country.currency_code),         icon: '💰' },
+                    { label: 'Minimum Wage', value: (() => {
+                      const base = fmtCurrency(employmentRules.minimum_wage, country.currency_code)
+                      const unit = employmentRules.minimum_wage_unit ?? ''
+                      const unitMap: Record<string, string> = {
+                        'GBP_per_hour': 'per hour', 'USD_per_hour': 'per hour',
+                        'EUR_per_hour': 'per hour', 'AUD_per_hour': 'per hour',
+                        'CAD_per_hour': 'per hour', 'JPY_per_hour': 'per hour',
+                        'EUR_per_month': 'per month', 'BRL_per_month': 'per month',
+                        'PLN_per_month': 'per month', 'monthly': 'per month',
+                      }
+                      return unitMap[unit] ? `${base} ${unitMap[unit]}` : base
+                    })(), icon: '💰' },
                     { label: 'Annual Leave', value: employmentRules.annual_leave_days ? `${employmentRules.annual_leave_days} ${employmentRules.annual_leave_days === 1 ? 'day' : 'days'}` : '—', icon: '🏖️' },
                     { label: 'Sick Leave',          value: fmt(employmentRules.sick_leave_days, ' days'),                        icon: '🏥' },
                     { label: 'Notice Period', value: employmentRules.notice_period_days ? `${employmentRules.notice_period_days} ${employmentRules.notice_period_days === 1 ? 'day' : 'days'}` : '—', icon: '📋' },
