@@ -82,6 +82,22 @@ RETURN THIS EXACT JSON STRUCTURE:
     // MUST include at minimum 1 record for the main mandatory scheme
     // Fields: scheme_name (string), employer_rate (number), employee_rate (number), is_mandatory (boolean)
   ],
+  "mandatory_benefits": [
+    // ALL mandatory employer benefits in ${countryName}
+    // MUST include at minimum: the primary social security / national insurance contribution, main pension scheme, and any mandatory insurance
+    // Include every benefit that employers are legally required to provide or contribute to
+    // Fields:
+    //   benefit_name (string): clear name e.g. "Superannuation", "Employer National Insurance"
+    //   benefit_type (string): MUST be one of exactly: cash | voucher | in_kind | leave
+    //   calculation_method (string): MUST be one of exactly: fixed | percentage_of_salary | government_defined
+    //   employer_cost_percentage (number or null): e.g. 11.5 for 11.5% - null if fixed amount or government_defined
+    //   employer_cost_amount (number or null): fixed amount per period - null if percentage based
+    //   frequency (string): MUST be one of exactly: monthly | quarterly | annual | one_off
+    //   applies_to (string): e.g. "all_employees", "nationals", "expatriate_employees"
+    //   tax_treatment (string): MUST be one of exactly: tax_exempt | taxable | partially_exempt
+    //   notes (string): brief explanation including rate details and any conditions
+    //   source_url (string): official government or authority URL
+  ],
   "sources": {
     "tax_brackets": { "authority_name": "Official tax authority name", "source_url": "https://..." },
     "social_security": { "authority_name": "Official authority name", "source_url": "https://..." },
@@ -149,7 +165,7 @@ Return the JSON now. Start immediately with {`
     }
 
     // Validate all required keys are present and non-empty
-    const required = ["tax_brackets","social_security","employment_rules","statutory_leave","public_holidays","filing_calendar","payroll_compliance","working_hours","termination_rules","pension_schemes"]
+    const required = ["tax_brackets","social_security","employment_rules","statutory_leave","public_holidays","filing_calendar","payroll_compliance","working_hours","termination_rules","pension_schemes","mandatory_benefits"]
     const empty = required.filter(k => !parsed[k] || parsed[k].length === 0)
     if (empty.length > 0) {
       return NextResponse.json({ error: "AI returned empty arrays for: " + empty.join(", "), raw: textContent.slice(0, 800) }, { status: 500 })
