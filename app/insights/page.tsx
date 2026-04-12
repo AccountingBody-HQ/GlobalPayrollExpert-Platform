@@ -1,10 +1,12 @@
 import type { Metadata } from "next"
+import { createClient } from "@supabase/supabase-js"
 import Link from "next/link"
 import { ArrowRight, BookOpen, Layers } from "lucide-react"
 import { getInsightArticles, getInsightCount } from "@/lib/sanity"
 import { getBreadcrumbStructuredData, jsonLd } from "@/lib/structured-data"
 import InsightsClient from "./InsightsClient"
-import EmailCapture from "@/components/EmailCapture"
+
+export const dynamic = "force-dynamic"
 
 export const metadata: Metadata = {
   title: "Insights — Global HR, EOR & Payroll Intelligence",
@@ -24,6 +26,16 @@ export default async function InsightsPage({
 }: {
   searchParams: Promise<{ topic?: string; q?: string; page?: string }>
 }) {
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
+  const { count: countryCount } = await supabase
+    .from('countries')
+    .select('*', { count: 'exact', head: true })
+    .eq('is_active', true)
+  const liveCountries = countryCount ?? 23
+
   const params = await searchParams
   const topic = params.topic || "all"
   const search = params.q || ""
@@ -76,12 +88,12 @@ export default async function InsightsPage({
             </h1>
             <p className="text-lg text-slate-400 leading-relaxed max-w-2xl">
               Expert analysis on payroll regulations, employment law changes, EOR
-              strategy, tax compliance, and HR policy across 20 live countries and growing.
+              strategy, tax compliance, and HR policy across {liveCountries} live countries and growing.
             </p>
           </div>
           <div className="mt-16 pt-10 border-t border-slate-800 grid grid-cols-2 sm:grid-cols-4 gap-8">
             {[
-              { value: "20",  label: "Countries Covered" },
+              { value: String(liveCountries), label: "Countries Covered" },
               { value: "Expert",  label: "Verified Content"  },
               { value: "Monthly", label: "New Analysis"      },
               { value: "Free",    label: "Full Access"       },

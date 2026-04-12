@@ -2,10 +2,10 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { PortableText } from "@portabletext/react"
-import { ArrowLeft, ArrowRight, Calendar, Clock, Globe, Tag, User } from "lucide-react"
+import { ArrowLeft, ArrowRight, Globe, Tag, User } from "lucide-react"
 import { getInsightBySlug, getRelatedArticles, urlFor } from "@/lib/sanity"
+import { getFlag } from "@/lib/flag"
 import { getArticleStructuredData, getBreadcrumbStructuredData, jsonLd } from "@/lib/structured-data"
-import EmailCapture from "@/components/EmailCapture"
 
 export async function generateMetadata({
   params,
@@ -430,13 +430,7 @@ export default async function InsightArticlePage({
                           href={"/countries/" + country.code + "/"}
                           className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white hover:shadow-sm border border-transparent hover:border-slate-200 transition-all group"
                         >
-                          <img
-                            src={"https://flagcdn.com/20x15/" + country.code + ".png"}
-                            alt={country.name}
-                            width={20}
-                            height={15}
-                            className="rounded-sm"
-                          />
+                          <span className="text-base leading-none">{getFlag(country.code.toUpperCase())}</span>
                           <span className="text-sm font-medium text-slate-700 group-hover:text-blue-700 transition-colors">
                             {country.name}
                           </span>
