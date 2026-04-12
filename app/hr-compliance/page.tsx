@@ -160,7 +160,7 @@ export default async function HRCompliancePage() {
             <div className="flex flex-wrap gap-3">
               {TOPICS.map(t => (
                 <Link key={t.slug} href={`/hr-compliance/${t.slug}/`}
-                  className="flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-blue-400/50 rounded-xl px-4 py-2.5 transition-all group">
+                  className="flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-blue-400/50 rounded-xl px-4 py-2.5 transition-all group min-w-[140px]">
                   <span className="text-xs font-semibold text-slate-300 group-hover:text-white transition-colors">{t.title}</span>
                   <ArrowRight size={11} className="text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity" />
                 </Link>
