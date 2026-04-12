@@ -58,7 +58,7 @@ export default async function ComplianceCalendarPage({ params }: PageProps) {
   const [sanityArticle, compliance, filingCalendarRows] = await Promise.all([
     getCountryArticle(upperCode, 'compliance-calendar'),
     getPayrollCompliance(upperCode),
-    supabase.from('filing_calendar').select('*').eq('country_code', upperCode).order('due_month', { ascending: true }),
+    supabase.schema('hrlake').from('filing_calendar').select('*').eq('country_code', upperCode).eq('is_current', true).order('due_month', { ascending: true }),
   ])
 
   const filingCalendar = filingCalendarRows.data ?? []
@@ -146,9 +146,9 @@ export default async function ComplianceCalendarPage({ params }: PageProps) {
                         <tbody className="divide-y divide-slate-100">
                           {items.map((c: any, i: number) => (
                             <tr key={i} className="hover:bg-slate-50 transition-colors">
-                              <td className="px-6 py-4 text-sm font-medium text-slate-900 capitalize">{c.obligation_type?.replace(/_/g, " ") ?? "—"}</td>
-                              <td className="px-6 py-4 text-sm text-slate-600">{c.deadline ?? "—"}</td>
-                              <td className="px-6 py-4 text-sm text-slate-500">{c.notes ?? "—"}</td>
+                              <td className="px-6 py-4 text-sm font-medium text-slate-900 capitalize">{c.compliance_type?.replace(/_/g, " ") ?? "—"}</td>
+                              <td className="px-6 py-4 text-sm text-slate-600">{c.deadline_description ?? "—"}</td>
+                              <td className="px-6 py-4 text-sm text-slate-500">{c.description ?? "—"}</td>
                             </tr>
                           ))}
                         </tbody>
@@ -170,8 +170,8 @@ export default async function ComplianceCalendarPage({ params }: PageProps) {
                             <div key={i} className="flex items-start gap-3">
                               <span className="mt-1.5 w-2 h-2 rounded-full bg-blue-400 shrink-0" />
                               <div>
-                                <p className="text-sm font-medium text-slate-800 capitalize">{item.obligation_type?.replace(/_/g, " ") ?? "—"}</p>
-                                {item.notes && <p className="text-xs text-slate-500 mt-0.5">{item.notes}</p>}
+                                <p className="text-sm font-medium text-slate-800 capitalize">{item.filing_type?.replace(/_/g, " ") ?? "—"}</p>
+                                {item.description && <p className="text-xs text-slate-500 mt-0.5">{item.description}</p>}
                               </div>
                             </div>
                           ))}
