@@ -52,7 +52,6 @@ export default function CountrySubNav({ code, countryName }: Props) {
             <span className="hidden sm:block text-xs font-bold text-slate-700 whitespace-nowrap">{countryName}</span>
           </div>
           <div className="relative flex-1 min-w-0">
-            <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-6 bg-gradient-to-r from-white to-transparent z-10" />
             <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-white to-transparent z-10" />
             <div
               ref={scrollRef}
