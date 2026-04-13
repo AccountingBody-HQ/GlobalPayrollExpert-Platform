@@ -65,11 +65,13 @@ export default async function HiringGuidePage({ params }: PageProps) {
 
   if (!country) notFound()
 
-  const [sanityArticle, employmentRules, compliance] = await Promise.all([
+  const [sanityArticle, employmentRules, compliance, contractorRow] = await Promise.all([
     getCountryArticle(upperCode, 'hiring-guide'),
     getEmploymentRules(upperCode),
     getPayrollCompliance(upperCode),
+    supabase.schema('hrlake').from('contractor_rules').select('*').eq('country_code', upperCode).eq('is_current', true).limit(1).then(r => ({ data: r.data?.[0] ?? null })),
   ])
+  const contractorRules = contractorRow.data
 
   const hiringSteps = [
     {
@@ -252,6 +254,67 @@ export default async function HiringGuidePage({ params }: PageProps) {
                         ))}
                       </tbody>
                     </table>
+                  </div>
+                </div>
+              )}
+
+              {/* Contractor rules */}
+              {contractorRules && (
+                <div>
+                  <h2 className="font-serif text-2xl font-bold text-slate-900 mb-2">Contractor Classification Rules — {country.name}</h2>
+                  <p className="text-sm text-slate-500 mb-6">How {country.name} distinguishes employees from independent contractors, and the risks of misclassification.</p>
+                  <div className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+                    <div className="px-6 py-5 border-b border-slate-100">
+                      <p className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-1">Classification Test</p>
+                      <p className="text-sm font-semibold text-slate-900">{contractorRules.classification_test}</p>
+                    </div>
+                    {contractorRules.key_factors && contractorRules.key_factors.length > 0 && (
+                      <div className="px-6 py-5 border-b border-slate-100">
+                        <p className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-3">Key Classification Factors</p>
+                        <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-1.5">
+                          {contractorRules.key_factors.map((factor: string, i: number) => (
+                            <li key={i} className="flex items-start gap-2 text-sm text-slate-600">
+                              <span className="text-blue-400 mt-0.5 shrink-0">✓</span>
+                              {factor}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                    {contractorRules.misclassification_penalty && (
+                      <div className="px-6 py-4 border-b border-slate-100 bg-red-50">
+                        <p className="text-xs font-bold uppercase tracking-widest text-red-600 mb-1">Misclassification Penalties</p>
+                        <p className="text-sm text-slate-700 leading-relaxed">{contractorRules.misclassification_penalty}</p>
+                      </div>
+                    )}
+                    {contractorRules.ir35_equivalent && (
+                      <div className="px-6 py-4 border-b border-slate-100 bg-amber-50">
+                        <p className="text-xs font-bold uppercase tracking-widest text-amber-700 mb-1">Off-Payroll / IR35 Equivalent</p>
+                        <p className="text-sm text-slate-700 leading-relaxed">{contractorRules.ir35_equivalent}</p>
+                      </div>
+                    )}
+                    {contractorRules.platform_worker_law && (
+                      <div className="px-6 py-4 border-b border-slate-100">
+                        <p className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-1">Platform Worker Law</p>
+                        <p className="text-sm text-slate-600 leading-relaxed">{contractorRules.platform_worker_law}</p>
+                      </div>
+                    )}
+                    {contractorRules.safe_harbour_criteria && (
+                      <div className="px-6 py-4 border-b border-slate-100">
+                        <p className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-1">Safe Harbour Criteria</p>
+                        <p className="text-sm text-slate-600 leading-relaxed">{contractorRules.safe_harbour_criteria}</p>
+                      </div>
+                    )}
+                    {contractorRules.notes && (
+                      <div className="px-6 py-4 bg-slate-50">
+                        <p className="text-xs text-slate-500 leading-relaxed">{contractorRules.notes}</p>
+                      </div>
+                    )}
+                    {contractorRules.official_url && (
+                      <div className="px-6 py-3 border-t border-slate-100">
+                        <a href={contractorRules.official_url} target="_blank" rel="noopener noreferrer" className="text-xs text-blue-600 hover:underline">Official source ↗</a>
+                      </div>
+                    )}
                   </div>
                 </div>
               )}
