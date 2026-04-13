@@ -202,6 +202,22 @@ RETURN THIS EXACT JSON STRUCTURE:
     //   notes (string): brief explanation including rate details and any conditions
     //   source_url (string): official government or authority URL
   ],
+  "tax_credits": [
+    // ALL main tax credits, allowances, and deductions available to employees and employers in ${countryName}
+    // MUST include at minimum: personal allowance/basic exemption, employment credit/deduction, and any family or child credits
+    // Fields:
+    //   credit_type (string): category e.g. "personal_allowance", "employment_credit", "child_tax_credit", "standard_deduction"
+    //   credit_name (string): official name e.g. "Personal Allowance", "Arbeidskorting", "Child Tax Credit"
+    //   amount (number or null): fixed credit/allowance amount in local currency - null if percentage-based
+    //   rate_percentage (number or null): percentage rate e.g. 10 for 10% deduction - null if fixed amount
+    //   applies_to (string): who qualifies e.g. "all_employees", "low_income_workers", "married_couples", "per_child"
+    //   income_threshold (number or null): income ceiling above which credit phases out - null if no threshold
+    //   currency_code (string or null): currency code e.g. "GBP", "EUR" - null if no fixed amount
+    //   tax_year (integer): tax year this applies to - use 2025
+    //   tier (string): MUST be exactly "free"
+    //   notes (string): clear explanation including phase-out rules, eligibility conditions, and practical impact
+    //   source_url (string): official government tax authority URL
+  ],
   "entity_setup": [
     // ALL main legal entity types available for foreign companies to establish in \${countryName}
     // MUST include at minimum: the primary subsidiary type (e.g. Limited Company, GmbH, SAS), Branch Office, and Representative Office where applicable
@@ -291,7 +307,7 @@ Return the JSON now. Start immediately with {`
     }
 
     // Validate all required keys are present and non-empty
-    const required = ["tax_brackets","social_security","employment_rules","statutory_leave","public_holidays","filing_calendar","payroll_compliance","working_hours","termination_rules","pension_schemes","mandatory_benefits","health_insurance","payslip_requirements","record_retention","remote_work_rules","expense_rules","contractor_rules","work_permits","entity_setup"]
+    const required = ["tax_brackets","social_security","employment_rules","statutory_leave","public_holidays","filing_calendar","payroll_compliance","working_hours","termination_rules","pension_schemes","mandatory_benefits","health_insurance","payslip_requirements","record_retention","remote_work_rules","expense_rules","contractor_rules","work_permits","entity_setup","tax_credits"]
     const empty = required.filter(k => !parsed[k] || parsed[k].length === 0)
     if (empty.length > 0) {
       return NextResponse.json({ error: "AI returned empty arrays for: " + empty.join(", "), raw: textContent.slice(0, 800) }, { status: 500 })
