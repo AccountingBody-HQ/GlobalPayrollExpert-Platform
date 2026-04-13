@@ -259,6 +259,11 @@ export default async function HiringGuidePage({ params }: PageProps) {
                 </div>
               )}
 
+              {/* DEBUG — remove after */}
+              <div className="rounded-2xl border border-red-300 bg-red-50 p-4 text-xs text-red-800 font-mono">
+                contractorRules = {JSON.stringify(contractorRules)}
+              </div>
+
               {/* Contractor rules */}
               {contractorRules && (
                 <div>
