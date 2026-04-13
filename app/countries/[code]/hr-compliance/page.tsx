@@ -64,18 +64,25 @@ export default async function HRCompliancePage({ params }: PageProps) {
     .limit(1)
     .then(r => ({ data: r.data?.[0] ?? null }))
 
-  const [sanityArticle, employmentRules, compliance, healthInsuranceRows, recordRetentionRows, remoteWorkRow] = await Promise.all([
+  const [sanityArticle, employmentRules, compliance, healthInsuranceRows, recordRetentionRows] = await Promise.all([
     getCountryArticle(upperCode, 'hr-compliance-guide'),
     getEmploymentRules(upperCode),
     getPayrollCompliance(upperCode),
     supabase.schema('hrlake').from('health_insurance').select('*').eq('country_code', upperCode).eq('is_current', true).order('is_mandatory', { ascending: false }),
     supabase.schema('hrlake').from('record_retention').select('*').eq('country_code', upperCode).eq('is_current', true).order('retention_years', { ascending: false }),
-    supabase.schema('hrlake').from('remote_work_rules').select('*').eq('country_code', upperCode).eq('is_current', true).limit(1).then(r => ({ data: r.data?.[0] ?? null })),
   ])
 
   const healthInsurance = healthInsuranceRows.data ?? []
   const recordRetention = recordRetentionRows.data ?? []
-  const remoteWork = remoteWorkRow.data
+
+  const { data: remoteWorkData } = await supabase
+    .schema('hrlake')
+    .from('remote_work_rules')
+    .select('*')
+    .eq('country_code', upperCode)
+    .eq('is_current', true)
+    .limit(1)
+  const remoteWork = remoteWorkData?.[0] ?? null
 
   const complianceAreas = [
     {
