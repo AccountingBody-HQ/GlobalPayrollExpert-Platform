@@ -342,12 +342,12 @@ export default async function EORCountryPage({ params }: { params: Promise<{ cou
               <p className="text-slate-500 mb-10 max-w-2xl">
                 If you outgrow EOR or prefer direct employment, these are the main legal structures available in {countryData.name} for foreign companies.
               </p>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid sm:grid-cols-2 gap-6">
                 {(entitySetups as any[]).map((e) => (
                   <div key={e.id} className="bg-slate-50 border border-slate-200 rounded-2xl p-6 flex flex-col gap-5">
                     <div>
-                      <p className="font-bold text-slate-900 text-base mb-2">{e.entity_type}</p>
-                      {e.notes && <p className="text-slate-500 text-sm leading-relaxed line-clamp-3">{e.notes}</p>}
+                      <p className="font-bold text-slate-900 text-lg mb-1">{e.entity_type}</p>
+                      
                     </div>
                     <div className="grid grid-cols-3 gap-2">
                       <div className="bg-white border border-slate-200 rounded-xl p-3">
@@ -417,6 +417,12 @@ export default async function EORCountryPage({ params }: { params: Promise<{ cou
                             </li>
                           ))}
                         </ul>
+                      </div>
+                    )}
+                    {e.notes && (
+                      <div className="border-t border-slate-200 pt-4">
+                        <p className="text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">Overview</p>
+                        <p className="text-slate-600 text-sm leading-relaxed">{e.notes}</p>
                       </div>
                     )}
                     {e.official_registry_url && (
