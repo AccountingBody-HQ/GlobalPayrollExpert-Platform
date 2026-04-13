@@ -64,16 +64,18 @@ export default async function HRCompliancePage({ params }: PageProps) {
     .limit(1)
     .then(r => ({ data: r.data?.[0] ?? null }))
 
-  const [sanityArticle, employmentRules, compliance, healthInsuranceRows, recordRetentionRows] = await Promise.all([
+  const [sanityArticle, employmentRules, compliance, healthInsuranceRows, recordRetentionRows, remoteWorkRow] = await Promise.all([
     getCountryArticle(upperCode, 'hr-compliance-guide'),
     getEmploymentRules(upperCode),
     getPayrollCompliance(upperCode),
     supabase.schema('hrlake').from('health_insurance').select('*').eq('country_code', upperCode).eq('is_current', true).order('is_mandatory', { ascending: false }),
     supabase.schema('hrlake').from('record_retention').select('*').eq('country_code', upperCode).eq('is_current', true).order('retention_years', { ascending: false }),
+    supabase.schema('hrlake').from('remote_work_rules').select('*').eq('country_code', upperCode).eq('is_current', true).limit(1).then(r => ({ data: r.data?.[0] ?? null })),
   ])
 
   const healthInsurance = healthInsuranceRows.data ?? []
   const recordRetention = recordRetentionRows.data ?? []
+  const remoteWork = remoteWorkRow.data
 
   const complianceAreas = [
     {
@@ -342,6 +344,60 @@ export default async function HRCompliancePage({ params }: PageProps) {
                         })}
                       </tbody>
                     </table>
+                  </div>
+                </div>
+              )}
+
+              {remoteWork && (
+                <div>
+                  <h2 className="font-serif text-2xl font-bold text-slate-900 mb-2">Remote Work Rules — {country.name}</h2>
+                  <p className="text-sm text-slate-500 mb-6">Permanent establishment risk, tax thresholds, and digital nomad visa information for {country.name}.</p>
+                  <div className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 divide-x divide-slate-100 border-b border-slate-100">
+                      {[
+                        { label: 'PE Risk Threshold', value: remoteWork.pe_risk_threshold_days ? `${remoteWork.pe_risk_threshold_days} days` : 'No income tax' },
+                        { label: 'Tax Liability After', value: remoteWork.tax_liability_threshold_days ? `${remoteWork.tax_liability_threshold_days} days` : 'No income tax' },
+                        { label: 'Work Permit After', value: remoteWork.work_permit_required_after_days ? `${remoteWork.work_permit_required_after_days} days` : 'From day 1' },
+                        { label: 'Digital Nomad Visa', value: remoteWork.digital_nomad_visa_available ? `Yes — ${remoteWork.digital_nomad_visa_duration_months} months` : 'Not available' },
+                      ].map((stat) => (
+                        <div key={stat.label} className="px-5 py-4">
+                          <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">{stat.label}</p>
+                          <p className="text-sm font-bold text-slate-900">{stat.value}</p>
+                        </div>
+                      ))}
+                    </div>
+                    {remoteWork.social_security_implications && (
+                      <div className="px-6 py-4 border-b border-slate-100">
+                        <p className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">Social Security Implications</p>
+                        <p className="text-sm text-slate-600 leading-relaxed">{remoteWork.social_security_implications}</p>
+                      </div>
+                    )}
+                    {remoteWork.digital_nomad_visa_available && remoteWork.digital_nomad_visa_requirements && (
+                      <div className="px-6 py-4 border-b border-slate-100 bg-green-50">
+                        <p className="text-xs font-bold uppercase tracking-widest text-green-700 mb-2">Digital Nomad Visa Requirements</p>
+                        <p className="text-sm text-slate-700 leading-relaxed">{remoteWork.digital_nomad_visa_requirements}</p>
+                      </div>
+                    )}
+                    {remoteWork.bilateral_agreements && remoteWork.bilateral_agreements.length > 0 && (
+                      <div className="px-6 py-4 border-b border-slate-100">
+                        <p className="text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">Bilateral Agreements</p>
+                        <div className="flex flex-wrap gap-2">
+                          {remoteWork.bilateral_agreements.map((country: string, i: number) => (
+                            <span key={i} className="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600">{country}</span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    {remoteWork.notes && (
+                      <div className="px-6 py-4 bg-slate-50">
+                        <p className="text-xs text-slate-500 leading-relaxed">{remoteWork.notes}</p>
+                      </div>
+                    )}
+                    {remoteWork.source_url && (
+                      <div className="px-6 py-3 border-t border-slate-100">
+                        <a href={remoteWork.source_url} target="_blank" rel="noopener noreferrer" className="text-xs text-blue-600 hover:underline">Official source ↗</a>
+                      </div>
+                    )}
                   </div>
                 </div>
               )}
