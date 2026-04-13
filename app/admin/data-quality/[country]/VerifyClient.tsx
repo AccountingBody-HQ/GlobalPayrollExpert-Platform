@@ -163,63 +163,63 @@ ${src('pension_schemes')}
 ${fmtRows(pension, ['scheme_name','employer_rate','employee_rate','is_mandatory'])}
 
 === MANDATORY BENEFITS ===
-\${src('mandatory_benefits')}
-\${fmtRows(mandatoryBenefits, ['benefit_name','benefit_type','employer_cost_percentage','frequency'])}
+${src('mandatory_benefits')}
+${fmtRows(mandatoryBenefits, ['benefit_name','benefit_type','employer_cost_percentage','frequency'])}
 
 === HEALTH INSURANCE ===
-\${src('health_insurance')}
-\${fmtRows(healthInsurance, ['scheme_name','scheme_type','employer_rate_percentage','is_mandatory'])}
+${src('health_insurance')}
+${fmtRows(healthInsurance, ['scheme_name','scheme_type','employer_rate_percentage','is_mandatory'])}
 
 === PAYSLIP REQUIREMENTS ===
-\${src('payslip_requirements')}
-\${fmtRows(payslipRequirements, ['format_requirements','delivery_deadline_days','retention_period_years'])}
+${src('payslip_requirements')}
+${fmtRows(payslipRequirements, ['format_requirements','delivery_deadline_days','retention_period_years'])}
 
 === RECORD RETENTION ===
-\${src('record_retention')}
-\${fmtRows(recordRetention, ['record_type','retention_years','retention_basis'])}
+${src('record_retention')}
+${fmtRows(recordRetention, ['record_type','retention_years','retention_basis'])}
 
 === REMOTE WORK RULES ===
-\${src('remote_work_rules')}
-\${fmtRows(remoteWorkRules, ['pe_risk_threshold_days','tax_liability_threshold_days','digital_nomad_visa_available'])}
+${src('remote_work_rules')}
+${fmtRows(remoteWorkRules, ['pe_risk_threshold_days','tax_liability_threshold_days','digital_nomad_visa_available'])}
 
 === EXPENSE RULES ===
-\${src('expense_rules')}
-\${fmtRows(expenseRules, ['expense_type','tax_treatment','exempt_amount','mileage_rate_per_km'])}
+${src('expense_rules')}
+${fmtRows(expenseRules, ['expense_type','tax_treatment','exempt_amount','mileage_rate_per_km'])}
 
 === CONTRACTOR RULES ===
-\${src('contractor_rules')}
-\${fmtRows(contractorRules, ['classification_test','misclassification_penalty'])}
+${src('contractor_rules')}
+${fmtRows(contractorRules, ['classification_test','misclassification_penalty'])}
 
 === WORK PERMITS ===
-\${src('work_permits')}
-\${fmtRows(workPermits, ['permit_type','processing_days_min','processing_days_max','validity_months'])}
+${src('work_permits')}
+${fmtRows(workPermits, ['permit_type','processing_days_min','processing_days_max','validity_months'])}
 
 === ENTITY SETUP ===
-\${src('entity_setup')}
-\${fmtRows(entitySetup, ['entity_type','corporate_tax_rate','withholding_tax_rate','vat_rate'])}
+${src('entity_setup')}
+${fmtRows(entitySetup, ['entity_type','corporate_tax_rate','withholding_tax_rate','vat_rate'])}
 
 === TAX CREDITS ===
-\${src('tax_credits')}
-\${fmtRows(taxCredits, ['credit_name','credit_type','amount','rate_percentage'])}
+${src('tax_credits')}
+${fmtRows(taxCredits, ['credit_name','credit_type','amount','rate_percentage'])}
 
 === REGIONAL TAX RATES ===
-\${src('regional_tax_rates')}
-\${fmtRows(regionalTaxRates, ['region_name','tax_type','rate','applies_above'])}
+${src('regional_tax_rates')}
+${fmtRows(regionalTaxRates, ['region_name','tax_type','rate','applies_above'])}
 
 === SALARY BENCHMARKS ===
-\${src('salary_benchmarks')}
-\${fmtRows(salaryBenchmarks, ['job_family','job_level','percentile_50','currency_code'])}
+${src('salary_benchmarks')}
+${fmtRows(salaryBenchmarks, ['job_family','job_level','percentile_50','currency_code'])}
 
 === GOVERNMENT BENEFIT PAYMENTS ===
-\${src('government_benefit_payments')}
-\${fmtRows(govBenefits, ['benefit_type','paid_by','government_rate_percentage','maximum_duration_weeks'])}
+${src('government_benefit_payments')}
+${fmtRows(govBenefits, ['benefit_type','paid_by','government_rate_percentage','maximum_duration_weeks'])}
 
 Respond ONLY with raw JSON (no markdown, start with {, end with }):
 {
   "summary": "What you searched and key findings",
   "findings": [
     {
-      "table": "tax_brackets|social_security|employment_rules|statutory_leave|public_holidays|filing_calendar|payroll_compliance|working_hours|termination_rules|pension_schemes",
+      "table": "tax_brackets|social_security|employment_rules|statutory_leave|public_holidays|filing_calendar|payroll_compliance|working_hours|termination_rules|pension_schemes|mandatory_benefits|health_insurance|payslip_requirements|record_retention|remote_work_rules|expense_rules|contractor_rules|work_permits|entity_setup|tax_credits|regional_tax_rates|salary_benchmarks|government_benefit_payments",
       "record_id": "exact uuid from above",
       "field": "exact_single_column_name",
       "current_value": "human readable current value",
