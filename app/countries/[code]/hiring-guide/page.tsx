@@ -72,6 +72,7 @@ export default async function HiringGuidePage({ params }: PageProps) {
     supabase.schema('hrlake').from('contractor_rules').select('*').eq('country_code', upperCode).eq('is_current', true).limit(1).then(r => ({ data: r.data?.[0] ?? null })),
   ])
   const contractorRules = contractorRow.data
+  console.log('[DEBUG] contractorRules:', JSON.stringify(contractorRules))
 
   const hiringSteps = [
     {
