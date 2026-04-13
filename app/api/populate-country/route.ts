@@ -82,6 +82,19 @@ RETURN THIS EXACT JSON STRUCTURE:
     // MUST include at minimum 1 record for the main mandatory scheme
     // Fields: scheme_name (string), employer_rate (number), employee_rate (number), is_mandatory (boolean)
   ],
+  "contractor_rules": {
+    // EXACTLY ONE object with contractor classification rules for ${countryName}
+    // Fields:
+    //   classification_test (string): name and description of the test used to determine contractor vs employee status
+    //   key_factors (array of strings): list of key factors considered in the classification test
+    //   misclassification_penalty (string): description of penalties for misclassifying employees as contractors
+    //   deemed_employment_threshold (string): description of thresholds or conditions that trigger employment presumption
+    //   platform_worker_law (string or null): description of any platform/gig worker specific legislation
+    //   ir35_equivalent (string or null): description of any IR35-equivalent off-payroll working rules
+    //   safe_harbour_criteria (string): conditions under which a contractor arrangement is considered safe
+    //   official_url (string): official government or authority URL
+    //   notes (string): comprehensive explanation of the contractor classification landscape including key cases and enforcement priorities
+  },
   "expense_rules": [
     // ALL key employer expense reimbursement rules for ${countryName}
     // MUST include at minimum: mileage/vehicle, meal allowance, and home office
@@ -239,7 +252,7 @@ Return the JSON now. Start immediately with {`
     }
 
     // Validate all required keys are present and non-empty
-    const required = ["tax_brackets","social_security","employment_rules","statutory_leave","public_holidays","filing_calendar","payroll_compliance","working_hours","termination_rules","pension_schemes","mandatory_benefits","health_insurance","payslip_requirements","record_retention","remote_work_rules","expense_rules"]
+    const required = ["tax_brackets","social_security","employment_rules","statutory_leave","public_holidays","filing_calendar","payroll_compliance","working_hours","termination_rules","pension_schemes","mandatory_benefits","health_insurance","payslip_requirements","record_retention","remote_work_rules","expense_rules","contractor_rules"]
     const empty = required.filter(k => !parsed[k] || parsed[k].length === 0)
     if (empty.length > 0) {
       return NextResponse.json({ error: "AI returned empty arrays for: " + empty.join(", "), raw: textContent.slice(0, 800) }, { status: 500 })
