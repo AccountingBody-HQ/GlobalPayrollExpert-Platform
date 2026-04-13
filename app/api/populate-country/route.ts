@@ -202,6 +202,28 @@ RETURN THIS EXACT JSON STRUCTURE:
     //   notes (string): brief explanation including rate details and any conditions
     //   source_url (string): official government or authority URL
   ],
+  "entity_setup": [
+    // ALL main legal entity types available for foreign companies to establish in \${countryName}
+    // MUST include at minimum: the primary subsidiary type (e.g. Limited Company, GmbH, SAS), Branch Office, and Representative Office where applicable
+    // Fields:
+    //   entity_type (string): official name e.g. "Private Limited Company", "Branch Office", "Representative Office"
+    //   minimum_capital_local (number or null): minimum share capital in local currency - null if none required
+    //   minimum_capital_usd (number or null): minimum share capital in USD equivalent - null if none required
+    //   setup_timeline_days_min (integer or null): minimum days to incorporate
+    //   setup_timeline_days_max (integer or null): maximum days to incorporate
+    //   setup_cost_usd_approx (number or null): approximate total setup cost in USD including fees
+    //   local_director_required (boolean): true if a local resident director is legally required
+    //   loc`l/shareholder_required (boolean): true if a local shareholder is legally required
+    //   registered_address_required (boolean): true if a local registered address is required
+    //   corporate_tax_rate (number or null): applicable corporate income tax rate as a percentage e.g. 25 for 25%
+    //   withholding_tax_rate (number or null): standard dividend withholding tax rate as a percentage
+    //   vat_rate (number or null): standard VAT/GST rate as a percentage
+    //   vat_registration_threshold (number or null): annual turnover threshold in local currency above which VAT registration is mandatory
+    //   annual_filing_requirements (array of strings): list of annual compliance obligations e.g. ["Annual accounts filing", "Corporate tax return", "Annual general meeting"]
+    //   official_registry_url (string): official government company registry URL
+    //   tier (string): MUST be exactly "free"
+    //   notes (string): comprehensive description including liability protection, foreign ownership rules, repatriation of profits, and key advantages/disadvantages
+  ],
   "sources": {
     "tax_brackets": { "authority_name": "Official tax authority name", "source_url": "https://..." },
     "social_security": { "authority_name": "Official authority name", "source_url": "https://..." },
@@ -269,7 +291,7 @@ Return the JSON now. Start immediately with {`
     }
 
     // Validate all required keys are present and non-empty
-    const required = ["tax_brackets","social_security","employment_rules","statutory_leave","public_holidays","filing_calendar","payroll_compliance","working_hours","termination_rules","pension_schemes","mandatory_benefits","health_insurance","payslip_requirements","record_retention","remote_work_rules","expense_rules","contractor_rules","work_permits"]
+    const required = ["tax_brackets","social_security","employment_rules","statutory_leave","public_holidays","filing_calendar","payroll_compliance","working_hours","termination_rules","pension_schemes","mandatory_benefits","health_insurance","payslip_requirements","record_retention","remote_work_rules","expense_rules","contractor_rules","work_permits","entity_setup"]
     const empty = required.filter(k => !parsed[k] || parsed[k].length === 0)
     if (empty.length > 0) {
       return NextResponse.json({ error: "AI returned empty arrays for: " + empty.join(", "), raw: textContent.slice(0, 800) }, { status: 500 })
