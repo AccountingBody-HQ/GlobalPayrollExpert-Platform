@@ -82,6 +82,17 @@ export default async function TaxGuidePage({ params }: PageProps) {
 
   const taxBrackets = rawBrackets ?? []
   const ssRates = rawSS ?? []
+
+  const { data: rawCredits } = await supabase
+    .schema('hrlake')
+    .from('tax_credits')
+    .select('credit_type, credit_name, amount, rate_percentage, applies_to, income_threshold, currency_code, notes, source_url')
+    .eq('country_code', upperCode)
+    .eq('is_current', true)
+    .eq('tier', 'free')
+    .eq('tax_year', 2025)
+    .order('credit_type', { ascending: true })
+  const taxCredits = rawCredits ?? []
   const taxYear = new Date().getFullYear()
 
   const sanityArticle = await getCountryArticle(upperCode, 'tax-guide')
@@ -240,6 +251,55 @@ export default async function TaxGuidePage({ params }: PageProps) {
                   </div>
                 )}
               </div>
+
+              {/* Tax Credits & Allowances */}
+              {taxCredits.length > 0 && (
+                <div>
+                  <h2 className="font-serif text-2xl font-bold text-slate-900 mb-6">
+                    Tax Credits &amp; Allowances — {taxYear}
+                  </h2>
+                  <div className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+                    <table className="w-full">
+                      <thead>
+                        <tr className="border-b border-slate-100 bg-slate-50 text-left text-xs font-medium uppercase tracking-wider text-slate-500">
+                          <th className="px-6 py-3">Credit / Allowance</th>
+                          <th className="px-6 py-3">Amount</th>
+                          <th className="px-6 py-3">Applies To</th>
+                          <th className="px-6 py-3">Notes</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100">
+                        {taxCredits.map((c: any, i: number) => (
+                          <tr key={i} className="hover:bg-slate-50 transition-colors">
+                            <td className="px-6 py-4">
+                              <p className="text-sm font-semibold text-slate-900">{c.credit_name}</p>
+                              {c.source_url && (
+                                <a href={c.source_url} target="_blank" rel="noopener noreferrer" className="text-xs text-blue-500 hover:underline">Official source ↗</a>
+                              )}
+                            </td>
+                            <td className="px-6 py-4 text-sm font-bold text-emerald-600 whitespace-nowrap">
+                              {c.amount != null
+                                ? `${c.currency_code ?? ''} ${Number(c.amount).toLocaleString('en-GB')}`.trim()
+                                : c.rate_percentage != null
+                                ? `${c.rate_percentage}%`
+                                : '—'}
+                            </td>
+                            <td className="px-6 py-4 text-sm text-slate-500 capitalize">
+                              {c.applies_to?.replace(/_/g, ' ') ?? '—'}
+                              {c.income_threshold != null && (
+                                <span className="block text-xs text-slate-400 mt-0.5">
+                                  Threshold: {c.currency_code ?? ''} {Number(c.income_threshold).toLocaleString('en-GB')}
+                                </span>
+                              )}
+                            </td>
+                            <td className="px-6 py-4 text-xs text-slate-500 leading-relaxed max-w-xs">{c.notes ?? '—'}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
 
               {/* CTA to calculator */}
               <div className="rounded-2xl border border-blue-100 bg-blue-50 p-6 flex flex-wrap items-center justify-between gap-4">
