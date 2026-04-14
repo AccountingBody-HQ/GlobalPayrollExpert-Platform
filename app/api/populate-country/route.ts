@@ -304,7 +304,20 @@ RETURN THIS EXACT JSON STRUCTURE:
     "payroll_compliance": { "authority_name": "Official authority name", "source_url": "https://..." },
     "working_hours": { "authority_name": "Official authority name", "source_url": "https://..." },
     "termination_rules": { "authority_name": "Official authority name", "source_url": "https://..." },
-    "pension_schemes": { "authority_name": "Official authority name", "source_url": "https://..." }
+    "pension_schemes": { "authority_name": "Official authority name", "source_url": "https://..." },
+    "mandatory_benefits": { "authority_name": "Official authority name", "source_url": "https://..." },
+    "health_insurance": { "authority_name": "Official health authority name", "source_url": "https://..." },
+    "payslip_requirements": { "authority_name": "Official labour authority name", "source_url": "https://..." },
+    "record_retention": { "authority_name": "Official authority name", "source_url": "https://..." },
+    "remote_work_rules": { "authority_name": "Official tax or labour authority name", "source_url": "https://..." },
+    "expense_rules": { "authority_name": "Official tax authority name", "source_url": "https://..." },
+    "contractor_rules": { "authority_name": "Official labour or tax authority name", "source_url": "https://..." },
+    "work_permits": { "authority_name": "Official immigration authority name", "source_url": "https://..." },
+    "entity_setup": { "authority_name": "Official company registry name", "source_url": "https://..." },
+    "tax_credits": { "authority_name": "Official tax authority name", "source_url": "https://..." },
+    "regional_tax_rates": { "authority_name": "Official regional tax authority name", "source_url": "https://..." },
+    "salary_benchmarks": { "authority_name": "Official statistics or labour authority name", "source_url": "https://..." },
+    "government_benefit_payments": { "authority_name": "Official social security authority name", "source_url": "https://..." }
   }
 }
 
