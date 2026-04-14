@@ -1,16 +1,23 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
-import { timingSafeEqual, createHash } from 'crypto'
 
 const ADMIN_SECRET = process.env.ADMIN_SECRET
 if (!ADMIN_SECRET) throw new Error('ADMIN_SECRET env var is not set')
 
-function tokenValid(token: string | undefined): boolean {
+async function tokenValid(token: string | undefined): Promise<boolean> {
   if (!token) return false
   try {
-    const a = createHash('sha256').update(token).digest()
-    const b = createHash('sha256').update(ADMIN_SECRET!).digest()
-    return timingSafeEqual(a, b)
+    const enc = new TextEncoder()
+    const [a, b] = await Promise.all([
+      crypto.subtle.digest('SHA-256', enc.encode(token)),
+      crypto.subtle.digest('SHA-256', enc.encode(ADMIN_SECRET!)),
+    ])
+    const ua = new Uint8Array(a)
+    const ub = new Uint8Array(b)
+    if (ua.length !== ub.length) return false
+    let diff = 0
+    for (let i = 0; i < ua.length; i++) diff |= ua[i] ^ ub[i]
+    return diff === 0
   } catch {
     return false
   }
@@ -24,7 +31,7 @@ export default clerkMiddleware(async (auth, request) => {
   // Admin pages — redirect to login if no valid token
   if (path.startsWith('/admin') && !path.startsWith('/admin-login')) {
     const token = request.cookies.get('admin_token')?.value
-    if (!tokenValid(token)) {
+    if (!await tokenValid(token)) {
       return NextResponse.redirect(new URL('/admin-login', request.url))
     }
   }
@@ -37,7 +44,7 @@ export default clerkMiddleware(async (auth, request) => {
     !path.startsWith('/api/admin-logout')
   ) {
     const token = request.cookies.get('admin_token')?.value
-    if (!tokenValid(token)) {
+    if (!await tokenValid(token)) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
   }
