@@ -364,16 +364,25 @@ export default function CountryBuilderPage() {
                             </div>
                           </div>
                         </td>
-                        {CORE_TABLES.map(t => (
-                          <td key={t.key} className="px-2 py-3.5 text-center">
-                            {(cc[t.key] ?? 0) > 0
-                              ? <span className="text-xs font-bold" style={{ color: '#10b981' }}>{cc[t.key]}</span>
-                              : <span style={{ color: '#1f2937' }}>\u2014</span>}
-                          </td>
-                        ))}
+                        <td className="px-4 py-3.5">
+                          <div className="flex items-center gap-1.5">
+                            <div className="w-10 rounded-full h-1" style={{ background: '#1e293b' }}>
+                              <div className="h-1 rounded-full" style={{ width: `${(coreCount/CORE_COUNT)*100}%`, background: coreCount===CORE_COUNT?'#10b981':coreCount>5?'#f59e0b':'#ef4444' }} />
+                            </div>
+                            <span className="text-xs font-bold tabular-nums" style={{ color: coreCount===CORE_COUNT?'#10b981':coreCount>5?'#f59e0b':'#ef4444' }}>{coreCount}/10</span>
+                          </div>
+                        </td>
+                        <td className="px-4 py-3.5">
+                          <div className="flex items-center gap-1.5">
+                            <div className="w-10 rounded-full h-1" style={{ background: '#1e293b' }}>
+                              <div className="h-1 rounded-full" style={{ width: `${(premiumCount/PREMIUM_COUNT)*100}%`, background: premiumCount===PREMIUM_COUNT?'#10b981':premiumCount>6?'#f59e0b':'#ef4444' }} />
+                            </div>
+                            <span className="text-xs font-bold tabular-nums" style={{ color: premiumCount===PREMIUM_COUNT?'#10b981':premiumCount>6?'#f59e0b':'#ef4444' }}>{premiumCount}/13</span>
+                          </div>
+                        </td>
                         <td className="px-4 py-3.5 text-center">
                           <div className="flex items-center gap-2 justify-center">
-                            <div className="w-14 rounded-full h-1.5" style={{ background: '#1e293b' }}>
+                            <div className="w-12 rounded-full h-1.5" style={{ background: '#1e293b' }}>
                               <div className="h-1.5 rounded-full" style={{ width: `${pct}%`, background: scoreColor }} />
                             </div>
                             <span className="text-xs font-bold tabular-nums" style={{ color: scoreColor }}>{pct}%</span>
