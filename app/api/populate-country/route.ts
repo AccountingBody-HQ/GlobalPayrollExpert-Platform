@@ -375,7 +375,12 @@ Return the JSON now. Start immediately with {`
 
     // Validate all required keys are present and non-empty
     const required = ["tax_brackets","social_security","employment_rules","statutory_leave","public_holidays","filing_calendar","payroll_compliance","working_hours","termination_rules","pension_schemes","mandatory_benefits","health_insurance","payslip_requirements","record_retention","remote_work_rules","expense_rules","contractor_rules","work_permits","entity_setup","tax_credits","regional_tax_rates","salary_benchmarks","government_benefit_payments"]
-    const empty = required.filter(k => !parsed[k] || parsed[k].length === 0)
+    const OBJECT_TABLES = new Set(["payslip_requirements", "remote_work_rules", "contractor_rules"])
+    const empty = required.filter(k => {
+      if (!parsed[k]) return true
+      if (OBJECT_TABLES.has(k)) return Object.keys(parsed[k]).length === 0
+      return parsed[k].length === 0
+    })
     if (empty.length > 0) {
       return NextResponse.json({ error: "AI returned empty arrays for: " + empty.join(", "), raw: textContent.slice(0, 800) }, { status: 500 })
     }
