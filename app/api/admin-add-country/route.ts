@@ -77,7 +77,16 @@ export async function DELETE(req: NextRequest) {
     process.env.SUPABASE_SERVICE_ROLE_KEY!
   )
   // Delete all hrlake table data in parallel
-  const hrlakeTables = ['tax_brackets','social_security','employment_rules','statutory_leave','public_holidays','filing_calendar','payroll_compliance','working_hours','termination_rules','pension_schemes']
+  const hrlakeTables = [
+    'tax_brackets','social_security','employment_rules','statutory_leave',
+    'public_holidays','filing_calendar','payroll_compliance',
+    'working_hours','termination_rules','pension_schemes',
+    'mandatory_benefits','health_insurance','payslip_requirements',
+    'record_retention','remote_work_rules','expense_rules',
+    'contractor_rules','work_permits','entity_setup',
+    'tax_credits','regional_tax_rates','salary_benchmarks',
+    'government_benefit_payments',
+  ]
   await Promise.all(hrlakeTables.map(table =>
     supabase.schema('hrlake').from(table).delete().eq('country_code', iso2.toUpperCase())
   ))
