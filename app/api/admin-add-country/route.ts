@@ -100,6 +100,8 @@ export async function DELETE(req: NextRequest) {
   await Promise.all(hrlakeTables.map(table =>
     supabase.schema('hrlake').from(table).delete().eq('country_code', iso2.toUpperCase())
   ))
+  // Delete embeddings (foreign key constraint on countries table)
+  await supabase.schema('hrlake').from('embeddings').delete().eq('country_code', iso2.toUpperCase())
   // Delete official sources
   await supabase.schema('hrlake').from('official_sources').delete().eq('country_code', iso2.toUpperCase())
   // Delete the country row
