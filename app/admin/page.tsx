@@ -133,7 +133,7 @@ export default async function AdminCommandCentre() {
     {
       label: 'DB Records',
       value: d.totalRecords.toLocaleString(),
-      sub: 'across 23 hrlake tables',
+      sub: 'country-table coverage points',
       color: '#a78bfa',
       bg: 'rgba(167,139,250,0.08)',
       border: 'rgba(167,139,250,0.2)',

@@ -152,12 +152,13 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: 'Failed to parse AI response' }, { status: 500 })
       }
 
-      // Validate required fields
+      // Validate required fields — use nullish check so eor_available:false passes
       const required = ['eor_available','eor_maturity','risk_level','hire_speed',
         'provider_fee_low','provider_fee_high','ss_employer_rate','ss_employer_display',
         'income_tax_range','recommendation_title','recommendation_detail',
-        'eor_pros','eor_cons','direct_pros','direct_cons','compliance_risks','key_facts']
-      const missing = required.filter(k => !parsed[k])
+        'eor_pros','eor_cons','direct_pros','direct_cons','compliance_risks','key_facts',
+        'source_url']
+      const missing = required.filter(k => parsed[k] === undefined || parsed[k] === null || parsed[k] === '')
       if (missing.length > 0) {
         return NextResponse.json({ error: 'AI response missing fields: ' + missing.join(', ') }, { status: 500 })
       }
