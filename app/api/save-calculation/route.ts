@@ -59,6 +59,7 @@ export async function POST(req: Request) {
       results: calculation_result,
       data_snapshot: calculation_result,
       rates_valid_as_of: new Date().toISOString().split('T')[0],
+      calculated_at: new Date().toISOString(),
       calculation_hash,
     })
 
@@ -93,6 +94,7 @@ export async function POST(req: Request) {
           results: calculation_result,
           data_snapshot: calculation_result,
           rates_valid_as_of: new Date().toISOString().split('T')[0],
+          calculated_at: new Date().toISOString(),
           calculation_hash,
         })
       if (retryError && retryError.code !== '23505') {
