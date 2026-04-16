@@ -13,15 +13,18 @@ const MISSING_COUNTRIES = [
 export async function POST(req: NextRequest) {
   const authHeader = req.headers.get("x-admin-seed-key")
   const secret = process.env.ADMIN_SECRET
+  if (!authHeader || !secret) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
   }
   const a = createHash("sha256").update(authHeader).digest()
   const b = createHash("sha256").update(secret).digest()
   const match = a.length === b.length && a.every((v, i) => v === b[i])
+  if (!match) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
   }
 
   const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_ROLE_KEY!
   )
   const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
