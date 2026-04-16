@@ -98,7 +98,6 @@ export async function POST(req: Request) {
       if (!ALLOWED_TABLES.has(table)) {
         return NextResponse.json({ error: 'Invalid table: ' + table }, { status: 400 })
       }
-      const VALID_ACTIONS = new Set(['approve_all','update_value'])
       if (!countryCode || typeof countryCode !== 'string' || countryCode.length > 3) {
         return NextResponse.json({ error: 'Invalid countryCode' }, { status: 400 })
       }
