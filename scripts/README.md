@@ -293,7 +293,6 @@ As of 6 April 2026
 | pension_schemes | 35 | 20 |
 | payroll_compliance | 60 | 20 |
 | data_sources | 47 | 20 |
-| country_coverage | 20 | 20 |
 | data_quality | 120 | 20 |
 
 ---
