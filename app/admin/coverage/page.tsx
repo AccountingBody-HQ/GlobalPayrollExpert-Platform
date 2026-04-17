@@ -1,4 +1,4 @@
-import { createClient } from '@supabase/supabase-js'
+import { createSupabaseAdminClient } from '@/lib/supabase'
 import Link from 'next/link'
 import { BarChart3, CheckCircle, AlertCircle, XCircle, ArrowRight } from 'lucide-react'
 
@@ -41,10 +41,7 @@ async function getCoverageData() {
 
 async function fetchCoverageData() {
   try {
-    const sb = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!
-    )
+    const sb = createSupabaseAdminClient()
 
     const { data: countries } = await sb
       .from('countries')
