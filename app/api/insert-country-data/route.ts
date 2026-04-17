@@ -1,10 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { createClient } from "@supabase/supabase-js"
-
-const sb = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
+import { createSupabaseAdminClient } from "@/lib/supabase"
 
 const HRLAKE_TABLES = [
   "tax_brackets", "social_security", "employment_rules", "statutory_leave",
@@ -68,6 +63,7 @@ export async function POST(req: NextRequest) {
     if (!data || !countryCode) {
       return NextResponse.json({ error: "Missing data or countryCode" }, { status: 400 })
     }
+    const sb = createSupabaseAdminClient()
     const errors: string[] = []
     for (const table of HRLAKE_TABLES) {
       const rows = data[table]
