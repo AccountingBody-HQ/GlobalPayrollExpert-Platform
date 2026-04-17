@@ -8,8 +8,8 @@ const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY!
 export async function POST(req: NextRequest) {
   try {
     const { countryCode, countryName, currencyCode } = await req.json()
-    if (!countryCode || !countryName) {
-      return NextResponse.json({ error: "Missing countryCode or countryName" }, { status: 400 })
+    if (!countryCode || !countryName || !currencyCode) {
+      return NextResponse.json({ error: "Missing countryCode, countryName or currencyCode" }, { status: 400 })
     }
     if (typeof countryCode !== 'string' || !/^[A-Za-z]{2,3}$/.test(countryCode)) {
       return NextResponse.json({ error: "Invalid countryCode format" }, { status: 400 })
