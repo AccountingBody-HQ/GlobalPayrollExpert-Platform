@@ -1,14 +1,17 @@
 'use client'
 import { useState, useEffect, useCallback } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { createSupabaseBrowserClient } from '@/lib/supabase'
+import { createClient } from '@supabase/supabase-js'
 import {
   Layers, RefreshCw, Plus, ExternalLink, AlertCircle, Loader2,
   Database, Check, Sparkles, ChevronDown, ChevronUp, ArrowRight,
   CheckCircle, XCircle, Power, Trash2, AlertTriangle
 } from 'lucide-react'
 
-const sb = createSupabaseBrowserClient()
+const sb = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+)
 
 const TABS = ['Countries', 'Source Registry', 'Add Country', 'AI Populate', 'EOR Guides'] as const
 type Tab = typeof TABS[number]
