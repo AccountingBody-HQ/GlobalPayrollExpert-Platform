@@ -127,6 +127,10 @@ export default function CountryBuilderPage() {
     if (tab === 'Source Registry') loadSources(filterCode)
   }, [tab, filterCode, loadSources])
 
+  useEffect(() => {
+    if (tab === 'EOR Guides' && !eorGuidesLoaded) loadEorGuides()
+  }, [tab, eorGuidesLoaded])
+
   async function handleAdd() {
     setSaving(true); setError(''); setSaved(false)
     try {
@@ -889,8 +893,7 @@ export default function CountryBuilderPage() {
 
       {/* ── EOR GUIDES TAB ── */}
       {tab === 'EOR Guides' && (() => {
-        if (!eorGuidesLoaded) { loadEorGuides() }
-        return (
+          return (
           <div className="space-y-6">
 
             {/* Existing guides summary */}
