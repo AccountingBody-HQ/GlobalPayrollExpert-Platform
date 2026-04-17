@@ -31,7 +31,7 @@ const FREQUENCY_MAP: Record<string, string> = {
   Monthly: "monthly", monthly: "monthly",
   Quarterly: "quarterly", quarterly: "quarterly",
   Annual: "annual", annual: "annual", Annually: "annual",
-  Weekly: "monthly", weekly: "monthly",
+  Weekly: "weekly", weekly: "weekly",
 }
 
 function applyDefaults(table: string, row: any, countryCode: string, currencyCode: string = "USD") {
