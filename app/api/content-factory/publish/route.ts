@@ -143,7 +143,7 @@ export async function POST(req: NextRequest) {
     const mappedOwner = SITE_MAP[canonicalOwner] ?? canonicalOwner.toLowerCase()
     const mappedType  = CONTENT_TYPE_MAP[contentType] ?? 'article'
     const keyTermsArr = keyTerms ? keyTerms.split(',').map((t: string) => t.trim()).filter(Boolean) : []
-    const countryTags = country && country.length <= 3 ? [country.toUpperCase()] : []
+    const countryTags = country && country.length === 2 ? [country.toUpperCase()] : []
 
     const doc: any = {
       _type:                   'article',
