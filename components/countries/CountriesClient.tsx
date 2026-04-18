@@ -151,7 +151,8 @@ export default function CountriesClient({ countries }: CountriesClientProps) {
       </div>
 
       {/* Region tabs */}
-      <div className="flex gap-2 mb-8 overflow-x-auto pb-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] -mx-6 px-6 sm:mx-0 sm:px-0">
+      <div className="relative mb-8 -mx-6 px-6 sm:mx-0 sm:px-0 after:content-[''] after:absolute after:right-0 after:top-0 after:bottom-0 after:w-8 after:bg-gradient-to-l after:from-slate-50 after:to-transparent after:pointer-events-none sm:after:hidden">
+      <div className="flex gap-2 overflow-x-auto pb-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
         {REGION_TABS.map(tab => (
           <button
             key={tab.value}
@@ -167,6 +168,7 @@ export default function CountriesClient({ countries }: CountriesClientProps) {
         ))}
       </div>
 
+      </div>
       {/* Results count */}
       <div className="flex items-center justify-between mb-5">
         <p className="text-sm text-slate-500">
