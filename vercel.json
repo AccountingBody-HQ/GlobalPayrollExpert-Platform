@@ -20,6 +20,9 @@
     },
     "app/api/insert-country-data/route.ts": {
       "maxDuration": 60
+    },
+    "app/api/admin-backfill-holidays/route.ts": {
+      "maxDuration": 300
     }
   },
   "headers": [
