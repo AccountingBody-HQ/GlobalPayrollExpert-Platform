@@ -90,7 +90,7 @@ export default async function TaxGuidePage({ params }: PageProps) {
     .eq('country_code', upperCode)
     .eq('is_current', true)
     .eq('tier', 'free')
-    .eq('tax_year', 2025)
+    .eq('tax_year', new Date().getFullYear())
     .order('credit_type', { ascending: true })
   const taxCredits = rawCredits ?? []
 
@@ -101,7 +101,7 @@ export default async function TaxGuidePage({ params }: PageProps) {
     .eq('country_code', upperCode)
     .eq('is_current', true)
     .eq('tier', 'free')
-    .eq('tax_year', 2025)
+    .eq('tax_year', new Date().getFullYear())
     .order('tax_type', { ascending: true })
     .order('rate', { ascending: false })
   const regionalRates = rawRegional ?? []
