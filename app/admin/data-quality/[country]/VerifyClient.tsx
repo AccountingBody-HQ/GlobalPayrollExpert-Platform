@@ -194,6 +194,7 @@ export default function VerifyClient(props: Props) {
   const [activeFilter,    setActiveFilter]   = useState<string>('all')
   const [statusFilter,    setStatusFilter]   = useState<string>('all')
   const [globalError,     setGlobalError]    = useState('')
+  const [countdown,       setCountdown]      = useState<number | null>(null)
 
   // ── Derived ──────────────────────────────────────────────────────────────────
   const groupsToRun    = GROUPS.filter(g => selectedGroups.has(g.key))
@@ -277,19 +278,28 @@ export default function VerifyClient(props: Props) {
   }
 
   // ── Run verification ───────────────────────────────────────────────────────────
-  async function runVerification() {
-    if (selectedGroups.size === 0) return
-    setIsRunning(true); setDecisions({})
-    setAllSaved(false); setGlobalError(''); setActiveFilter('all'); setStatusFilter('all')
-    // Only clear groups being re-run — preserve completed groups
-    setGroupResults(prev => {
-      const next = { ...prev }
-      groupsToRun.forEach(g => { delete next[g.key] })
-      return next
-    })
-    for (const group of groupsToRun) {
+
+  async function waitWithCountdown(ms: number) {
+    const steps = Math.ceil(ms / 1000)
+    for (let i = steps; i > 0; i--) {
+      setCountdown(i)
+      await new Promise(r => setTimeout(r, 1000))
+    }
+    setCountdown(null)
+  }
+
+  async function runGroup(group: typeof GROUPS[0]): Promise<boolean> {
+    const MAX_ATTEMPTS = 3
+    for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
       setCurrentGroupKey(group.key)
-      setGroupResults(p => ({ ...p, [group.key]: { status: 'running', findings: [] } }))
+      setGroupResults(p => ({
+        ...p,
+        [group.key]: {
+          status: 'running',
+          findings: [],
+          error: attempt > 1 ? `Attempt ${attempt - 1} failed — retrying…` : undefined,
+        },
+      }))
       try {
         const prompt = buildGroupPrompt(group, countryName, countryCode, props)
         const controller = new AbortController()
@@ -308,13 +318,36 @@ export default function VerifyClient(props: Props) {
         const parsed = JSON.parse(text.slice(start, end + 1))
         if (!parsed.findings) throw new Error('Missing findings array')
         setGroupResults(p => ({ ...p, [group.key]: { status: 'done', findings: parsed.findings } }))
+        return true
       } catch (e: any) {
-        setGroupResults(p => ({ ...p, [group.key]: { status: 'error', findings: [], error: e.message } }))
+        if (attempt === MAX_ATTEMPTS) {
+          setGroupResults(p => ({ ...p, [group.key]: { status: 'error', findings: [], error: e.message } }))
+          return false
+        }
+        setGroupResults(p => ({ ...p, [group.key]: { status: 'running', findings: [], error: `Attempt ${attempt} failed — waiting before retry…` } }))
+        await waitWithCountdown(90000)
       }
-      // 65s pause between groups — Anthropic TPM rate limit window is 60s
+    }
+    return false
+  }
+
+  async function runVerification() {
+    if (selectedGroups.size === 0) return
+    setIsRunning(true); setDecisions({})
+    setAllSaved(false); setGlobalError(''); setActiveFilter('all'); setStatusFilter('all')
+    setCountdown(null)
+    // Only clear groups being re-run — preserve completed groups
+    setGroupResults(prev => {
+      const next = { ...prev }
+      groupsToRun.forEach(g => { delete next[g.key] })
+      return next
+    })
+    for (const group of groupsToRun) {
+      await runGroup(group)
+      // 90s pause between groups — safely clears Anthropic TPM window
       // Skip pause after the last group — no next group to protect
       const isLastGroup = group.key === groupsToRun[groupsToRun.length - 1].key
-      if (!isLastGroup) await new Promise(r => setTimeout(r, 65000))
+      if (!isLastGroup) await waitWithCountdown(90000)
     }
     setCurrentGroupKey(null); setIsRunning(false)
   }
@@ -395,6 +428,18 @@ export default function VerifyClient(props: Props) {
         </div>
       </div>
 
+      {/* Countdown banner — visible during inter-group and retry waits */}
+      {isRunning && countdown !== null && (
+        <div className="px-6 py-3 border-b flex items-center gap-3"
+          style={{ background: 'rgba(245,158,11,0.08)', borderColor: '#1a2238' }}>
+          <Loader2 size={13} className="animate-spin" style={{ color: '#f59e0b' }} />
+          <p className="text-sm" style={{ color: '#f59e0b' }}>
+            Waiting <span className="font-black tabular-nums">{countdown}s</span>
+            <span className="ml-2 text-xs" style={{ color: '#64748b' }}>— resetting Anthropic rate limit window before next request</span>
+          </p>
+        </div>
+      )}
+
       {/* Global error */}
       {globalError && (
         <div className="px-6 py-3 border-b" style={{ background: 'rgba(239,68,68,0.08)', borderColor: 'rgba(239,68,68,0.2)' }}>
@@ -424,18 +469,22 @@ export default function VerifyClient(props: Props) {
             ))}
           </div>
 
-          {/* Running indicator */}
-          {isRunning && currentGroupKey && (() => {
+          {/* Running indicator — hidden during countdown (countdown banner handles that) */}
+          {isRunning && currentGroupKey && countdown === null && (() => {
             const g = GROUPS.find(x => x.key === currentGroupKey)!
             const idx = groupsToRun.findIndex(x => x.key === currentGroupKey)
+            const retryMsg = groupResults[currentGroupKey]?.error
             return (
               <div className="rounded-xl px-4 py-3 mb-4 flex items-center gap-3 border"
                 style={{ background: 'rgba(37,99,235,0.08)', borderColor: 'rgba(37,99,235,0.2)' }}>
                 <Loader2 size={14} className="animate-spin" style={{ color: '#3b82f6' }} />
-                <p className="text-sm" style={{ color: '#3b82f6' }}>
-                  Verifying {g.label}
-                  <span className="ml-2" style={{ color: '#334155' }}>({idx + 1} of {groupsToRun.length})</span>
-                </p>
+                <div>
+                  <p className="text-sm" style={{ color: '#3b82f6' }}>
+                    Verifying {g.label}
+                    <span className="ml-2 text-xs" style={{ color: '#334155' }}>({idx + 1} of {groupsToRun.length})</span>
+                  </p>
+                  {retryMsg && <p className="text-xs mt-0.5 font-bold" style={{ color: '#f59e0b' }}>{retryMsg}</p>}
+                </div>
               </div>
             )
           })()}
