@@ -45,6 +45,7 @@ export default clerkMiddleware(async (auth, request) => {
     path.startsWith('/api/verify-country') ||
     path.startsWith('/api/populate-country') ||
     path.startsWith('/api/insert-country-data') ||
+    path.startsWith('/api/verify-table') ||
     path.startsWith('/api/populate-table') ||
     path.startsWith('/api/content-factory/')
   )
