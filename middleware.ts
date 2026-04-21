@@ -29,7 +29,7 @@ export default clerkMiddleware(async (auth, request) => {
   const path = request.nextUrl.pathname
 
   // Admin pages — redirect to login if no valid token
-  if (path.startsWith('/admin') && !path.startsWith('/admin-login')) {
+  if (path.startsWith('/roodber8')) {
     const token = request.cookies.get('admin_token')?.value
     if (!await tokenValid(token)) {
       return NextResponse.redirect(new URL('/admin-login', request.url))
