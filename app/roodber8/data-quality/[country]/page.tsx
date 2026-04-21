@@ -129,7 +129,7 @@ export default async function VerifyCountryPage({
 
       {/* Header */}
       <div className="flex items-center gap-4 mb-8">
-        <Link href="/admin/data-quality" className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors text-sm">
+        <Link href="/roodber8/data-quality" className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors text-sm">
           <ArrowLeft size={16} /> Back
         </Link>
         <div className="flex items-center gap-3">
@@ -144,7 +144,7 @@ export default async function VerifyCountryPage({
       {/* Populate Missing Tables shortcut */}
       <div className="mb-6">
         <a
-          href={`/admin/country-builder?tab=AI+Populate&iso2=${code.toUpperCase()}`}
+          href={`/roodber8/country-builder?tab=AI+Populate&iso2=${code.toUpperCase()}`}
           className="inline-flex items-center gap-2 text-xs font-bold px-4 py-2 rounded-xl transition-all"
           style={{ background: 'rgba(167,139,250,0.1)', color: '#a78bfa', border: '1px solid rgba(167,139,250,0.2)' }}>
           ⚩ Populate Missing Tables

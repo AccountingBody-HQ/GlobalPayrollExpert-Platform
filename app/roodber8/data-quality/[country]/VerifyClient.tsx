@@ -230,7 +230,7 @@ export default function VerifyClient(props: Props) {
     }
     setDecisions(p => ({ ...p, [`${index}`]: 'saving' }))
     try {
-      const res = await fetch('/api/admin-update-country', {
+      const res = await fetch('/api/roodber8-update-country', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ countryCode, action: 'update_value',
           finding: { table: finding.table, field: finding.field, raw_value: finding.raw_value, record_id: finding.record_id } }),
@@ -255,7 +255,7 @@ export default function VerifyClient(props: Props) {
     }
     setSaving(true)
     try {
-      const res = await fetch('/api/admin-update-country', {
+      const res = await fetch('/api/roodber8-update-country', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ countryCode, action: 'approve_all' }),
       })

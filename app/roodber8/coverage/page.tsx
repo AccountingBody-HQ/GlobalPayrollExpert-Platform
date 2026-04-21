@@ -229,7 +229,7 @@ export default async function CoverageMapPage() {
                         </p>
                       </td>
                       <td className="px-4 py-3.5">
-                        <Link href={`/admin/data-quality/${c.iso2.toLowerCase()}`}
+                        <Link href={`/roodber8/data-quality/${c.iso2.toLowerCase()}`}
                           className="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg transition-all"
                           style={{ background: 'rgba(59,130,246,0.1)', color: '#3b82f6', border: '1px solid rgba(59,130,246,0.2)' }}>
                           Verify <ArrowRight size={10} />

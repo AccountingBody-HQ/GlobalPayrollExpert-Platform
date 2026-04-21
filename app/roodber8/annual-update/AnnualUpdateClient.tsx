@@ -51,7 +51,7 @@ export default function AnnualUpdateClient({ countries }: { countries: Country[]
   async function verifyCountry(iso2: string) {
     setStatuses(prev => ({ ...prev, [iso2]: { status: 'running' } }))
     try {
-      const res = await fetch('/api/admin-update-country', {
+      const res = await fetch('/api/roodber8-update-country', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ countryCode: iso2, action: 'approve_all' }),

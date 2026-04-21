@@ -9,13 +9,13 @@ import {
 } from 'lucide-react'
 
 const NAV = [
-  { href: '/admin',                exact: true,  icon: LayoutDashboard, label: 'Command Centre',  sub: 'Overview & actions'       },
-  { href: '/admin/country-builder', exact: false, icon: Layers,          label: 'Country Manager', sub: 'Add, populate, activate'  },
-  { href: '/admin/data-quality',    exact: false, icon: ShieldCheck,     label: 'Data Quality',    sub: 'Verify country data'      },
-  { href: '/admin/content-factory', exact: false, icon: Sparkles,        label: 'Content Factory', sub: 'AI article generation'    },
-  { href: '/admin/coverage',        exact: false, icon: BarChart3,       label: 'Coverage Map',    sub: 'Platform coverage status' },
-  { href: '/admin/annual-update',    exact: false, icon: RefreshCw,       label: 'Annual Update',   sub: 'Bulk re-verification'     },
-  { href: '/admin/settings',        exact: false, icon: Settings,        label: 'Settings',        sub: 'Config & environment'     },
+  { href: '/roodber8',                exact: true,  icon: LayoutDashboard, label: 'Command Centre',  sub: 'Overview & actions'       },
+  { href: '/roodber8/country-builder', exact: false, icon: Layers,          label: 'Country Manager', sub: 'Add, populate, activate'  },
+  { href: '/roodber8/data-quality',    exact: false, icon: ShieldCheck,     label: 'Data Quality',    sub: 'Verify country data'      },
+  { href: '/roodber8/content-factory', exact: false, icon: Sparkles,        label: 'Content Factory', sub: 'AI article generation'    },
+  { href: '/roodber8/coverage',        exact: false, icon: BarChart3,       label: 'Coverage Map',    sub: 'Platform coverage status' },
+  { href: '/roodber8/annual-update',    exact: false, icon: RefreshCw,       label: 'Annual Update',   sub: 'Bulk re-verification'     },
+  { href: '/roodber8/settings',        exact: false, icon: Settings,        label: 'Settings',        sub: 'Config & environment'     },
 ]
 
 function isActive(pathname: string, href: string, exact: boolean) {
@@ -25,13 +25,13 @@ function isActive(pathname: string, href: string, exact: boolean) {
 
 function getBreadcrumb(pathname: string) {
   const map: Record<string, string> = {
-    '/admin':                 'Command Centre',
-    '/admin/country-builder': 'Country Manager',
-    '/admin/data-quality':    'Data Quality',
-    '/admin/content-factory': 'Content Factory',
-    '/admin/coverage':        'Coverage Map',
-    '/admin/annual-update':   'Annual Update',
-    '/admin/settings':        'Settings',
+    '/roodber8':                 'Command Centre',
+    '/roodber8/country-builder': 'Country Manager',
+    '/roodber8/data-quality':    'Data Quality',
+    '/roodber8/content-factory': 'Content Factory',
+    '/roodber8/coverage':        'Coverage Map',
+    '/roodber8/annual-update':   'Annual Update',
+    '/roodber8/settings':        'Settings',
   }
   const base  = '/' + pathname.split('/').slice(1, 3).join('/')
   const label = map[base] ?? 'Admin'
@@ -46,8 +46,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const crumb    = getBreadcrumb(pathname)
 
   async function handleLogout() {
-    await fetch('/api/admin-logout', { method: 'POST' })
-    router.push('/admin-login')
+    await fetch('/api/roodber8-logout', { method: 'POST' })
+    router.push('/roodber8-login')
   }
 
   return (

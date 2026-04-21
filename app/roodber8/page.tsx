@@ -105,7 +105,7 @@ export default async function AdminCommandCentre() {
       bg: 'rgba(59,130,246,0.08)',
       border: 'rgba(59,130,246,0.2)',
       icon: Globe,
-      href: '/admin/country-builder',
+      href: '/roodber8/country-builder',
     },
     {
       label: 'Fully Verified',
@@ -115,7 +115,7 @@ export default async function AdminCommandCentre() {
       bg: 'rgba(16,185,129,0.08)',
       border: 'rgba(16,185,129,0.2)',
       icon: ShieldCheck,
-      href: '/admin/data-quality',
+      href: '/roodber8/data-quality',
     },
     {
       label: 'Avg Data Score',
@@ -125,7 +125,7 @@ export default async function AdminCommandCentre() {
       bg: d.avgScore >= 90 ? 'rgba(16,185,129,0.08)' : 'rgba(245,158,11,0.08)',
       border: d.avgScore >= 90 ? 'rgba(16,185,129,0.2)' : 'rgba(245,158,11,0.2)',
       icon: TrendingUp,
-      href: '/admin/coverage',
+      href: '/roodber8/coverage',
     },
     {
       label: 'DB Records',
@@ -135,15 +135,15 @@ export default async function AdminCommandCentre() {
       bg: 'rgba(167,139,250,0.08)',
       border: 'rgba(167,139,250,0.2)',
       icon: Zap,
-      href: '/admin/data-quality',
+      href: '/roodber8/data-quality',
     },
   ]
 
   const QUICK_ACTIONS = [
-    { label: 'Add New Country',      sub: 'Register + populate via AI',  href: '/admin/country-builder', icon: Layers,      color: '#3b82f6' },
-    { label: 'Run Data Quality',     sub: 'Verify country data tables',   href: '/admin/data-quality',    icon: ShieldCheck, color: '#10b981' },
-    { label: 'Generate Content',     sub: 'AI article generation',        href: '/admin/content-factory', icon: Sparkles,    color: '#f59e0b' },
-    { label: 'View Coverage Map',    sub: 'Platform coverage status',     href: '/admin/coverage',        icon: BarChart3,   color: '#a78bfa' },
+    { label: 'Add New Country',      sub: 'Register + populate via AI',  href: '/roodber8/country-builder', icon: Layers,      color: '#3b82f6' },
+    { label: 'Run Data Quality',     sub: 'Verify country data tables',   href: '/roodber8/data-quality',    icon: ShieldCheck, color: '#10b981' },
+    { label: 'Generate Content',     sub: 'AI article generation',        href: '/roodber8/content-factory', icon: Sparkles,    color: '#f59e0b' },
+    { label: 'View Coverage Map',    sub: 'Platform coverage status',     href: '/roodber8/coverage',        icon: BarChart3,   color: '#a78bfa' },
   ]
 
   return (
@@ -193,7 +193,7 @@ export default async function AdminCommandCentre() {
                 {d.needsAttention.length} countries
               </span>
             </div>
-            <Link href="/admin/data-quality"
+            <Link href="/roodber8/data-quality"
               className="text-xs font-semibold flex items-center gap-1 transition-colors"
               style={{ color: '#475569' }}>
               View all <ArrowRight size={11} />
@@ -231,7 +231,7 @@ export default async function AdminCommandCentre() {
                         {c.score}%
                       </span>
                     </div>
-                    <Link href={`/admin/data-quality/${c.iso2.toLowerCase()}`}
+                    <Link href={`/roodber8/data-quality/${c.iso2.toLowerCase()}`}
                       className="text-xs font-bold px-3 py-1.5 rounded-lg transition-all"
                       style={{ background: 'rgba(59,130,246,0.1)', color: '#3b82f6', border: '1px solid rgba(59,130,246,0.2)' }}>
                       Verify

@@ -108,7 +108,7 @@ export default function CountryBuilderPage() {
     setLoading(true); setError('')
     try {
       // Use admin route to fetch ALL countries including inactive (bypasses RLS)
-      const res = await fetch('/api/admin-countries')
+      const res = await fetch('/api/roodber8-countries')
       const json = await res.json()
       if (json.error) throw new Error(json.error)
       setCountries(json.countries ?? [])
@@ -147,7 +147,7 @@ export default function CountryBuilderPage() {
   async function handleAdd() {
     setSaving(true); setError(''); setSaved(false)
     try {
-      const res = await fetch('/api/admin-add-country', {
+      const res = await fetch('/api/roodber8-add-country', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...newC })
@@ -164,7 +164,7 @@ export default function CountryBuilderPage() {
 
   async function handleActivate(iso2: string, activate: boolean) {
     try {
-      const res = await fetch('/api/admin-add-country', {
+      const res = await fetch('/api/roodber8-add-country', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ iso2, is_active: activate })
@@ -179,7 +179,7 @@ export default function CountryBuilderPage() {
     if (!deleteTarget) return
     setDeleting(true)
     try {
-      const res = await fetch('/api/admin-add-country', {
+      const res = await fetch('/api/roodber8-add-country', {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ iso2: deleteTarget.iso2 })
@@ -260,7 +260,7 @@ export default function CountryBuilderPage() {
     try {
       const controller = new AbortController()
       const tid = setTimeout(() => controller.abort(), 60000)
-      const res = await fetch('/api/admin-eor-guide', {
+      const res = await fetch('/api/roodber8-eor-guide', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -286,7 +286,7 @@ export default function CountryBuilderPage() {
     if (!eorCountry || !eorData) return
     setEorSaving(true); setEorMsg('')
     try {
-      const res = await fetch('/api/admin-eor-guide', {
+      const res = await fetch('/api/roodber8-eor-guide', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
