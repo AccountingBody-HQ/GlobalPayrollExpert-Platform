@@ -24,8 +24,8 @@ function pushConsentToGTM(analytics: boolean, marketing: boolean) {
   if (typeof window === 'undefined') return
   const w = window as any
   w.dataLayer = w.dataLayer || []
-  w.dataLayer.push({
-    event: 'consent_update',
+  w.gtag = w.gtag || function () { w.dataLayer.push(arguments) }
+  w.gtag('consent', 'update', {
     analytics_storage: analytics ? 'granted' : 'denied',
     ad_storage: marketing ? 'granted' : 'denied',
     ad_user_data: marketing ? 'granted' : 'denied',
