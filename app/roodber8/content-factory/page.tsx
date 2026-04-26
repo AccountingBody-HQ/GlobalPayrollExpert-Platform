@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import { Sparkles, ChevronRight, Globe, Edit3, Check, Loader2, AlertCircle, Send } from 'lucide-react'
 
-const SITES        = ['HRLake', 'AccountingBody', 'EthioTax']
+const SITES        = ['HRLake', 'AccountingBody', 'EthioTax', 'BirrBank']
 const CONTENT_TYPES = ['Country Report','Explainer','HR Management','EOR Guide','Tax Guide','Payroll Guide','Accounting Guide','Course','Article','Hiring Guide','HR Compliance Guide','Leave and Benefits','Compliance Calendar']
 const TONES        = [
   { label: 'Authoritative', desc: 'Expert, confident, definitive'  },
@@ -153,7 +153,7 @@ export default function ContentFactoryPage() {
                   <Globe size={14} className="mb-2 opacity-60" />
                   <p className="font-semibold text-sm">{site}</p>
                   <p className="text-xs mt-0.5" style={{ color: '#334155' }}>
-                    {site === 'HRLake' ? 'hrlake.com' : site === 'AccountingBody' ? 'accountingbody.com' : 'ethiotax.com'}
+                    {site === 'HRLake' ? 'hrlake.com' : site === 'AccountingBody' ? 'accountingbody.com' : site === 'EthioTax' ? 'ethiotax.com' : 'birrbank.com'}
                   </p>
                 </SelectCard>
               ))}

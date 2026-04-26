@@ -8,6 +8,7 @@ const SITE_MAP: Record<string, string> = {
   HRLake: 'hrlake',
   AccountingBody: 'accountingbody',
   EthioTax: 'ethiotax',
+  BirrBank: 'birrbank',
 }
 
 const CONTENT_TYPE_MAP: Record<string, string> = {
