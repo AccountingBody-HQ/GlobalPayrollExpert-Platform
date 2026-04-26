@@ -46,7 +46,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const crumb    = getBreadcrumb(pathname)
 
   async function handleLogout() {
-    await fetch('/api/roodber8-logout', { method: 'POST' })
+    await fetch('/api/admin-logout', { method: 'POST' })
     router.push('/roodber8-login')
   }
 
