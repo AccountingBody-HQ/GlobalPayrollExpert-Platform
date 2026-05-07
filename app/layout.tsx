@@ -11,6 +11,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 import { createClient } from '@supabase/supabase-js'
+import Script from 'next/script'
 import './globals.css'
 import CookieConsent from '@/components/CookieConsent'
 import AnalyticsPageTracker from '@/components/AnalyticsPageTracker'
@@ -206,6 +207,12 @@ export default async function RootLayout({
           <SpeedInsights />
           <CookieConsent />
           <AnalyticsPageTracker />
+          <Script
+            async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9708322474624496"
+            crossOrigin="anonymous"
+            strategy="afterInteractive"
+          />
         </body>
       </html>
     </ClerkProvider>
