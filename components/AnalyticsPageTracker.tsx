@@ -4,6 +4,12 @@
 // ============================================
 'use client'
 
+declare global {
+  interface Window {
+    dataLayer: Record<string, unknown>[]
+  }
+}
+
 import { useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
 
