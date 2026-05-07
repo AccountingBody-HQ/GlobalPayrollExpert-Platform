@@ -27,7 +27,7 @@ export default function CookiePolicyPage() {
             <h1 className="font-serif text-4xl lg:text-5xl font-bold text-white leading-[1.08] mb-6" style={{letterSpacing: '-0.025em'}}>
               Cookie Policy
             </h1>
-            <p className="text-slate-400 text-sm">Last updated: March 2026</p>
+            <p className="text-slate-400 text-sm">Last updated: May 2026</p>
           </div>
         </div>
       </section>
@@ -47,6 +47,7 @@ export default function CookiePolicyPage() {
                   ['#analytics',           'Analytics cookies'],
                   ['#functional',          'Functional cookies'],
                   ['#third-party',         'Third-party cookies'],
+                  ['#advertising',         'Advertising cookies'],
                   ['#managing-cookies',    'Managing cookies'],
                   ['#contact',             'Contact us'],
                 ].map(([href, label]) => (
@@ -64,7 +65,7 @@ export default function CookiePolicyPage() {
                 <p className="text-blue-800 text-sm leading-relaxed">
                   This Cookie Policy explains how HRLake.com uses cookies and similar
                   technologies. We use cookies to operate the platform, remember your preferences,
-                  and understand how visitors use the site. We do not use cookies for advertising.
+                  and understand how visitors use the site. We also use advertising cookies if you consent, to show relevant ads on HRLake.
                 </p>
               </div>
 
@@ -146,10 +147,42 @@ export default function CookiePolicyPage() {
                 <li><strong>Clerk</strong> — for authentication. Clerk&apos;s cookies are essential and cannot be disabled.</li>
                 <li><strong>Google Analytics</strong> — for usage analytics, only if you consent.</li>
                 <li><strong>Lemon Squeezy</strong> — may set cookies during the checkout process.</li>
+                <li><strong>Google AdSense</strong> — advertising network. AdSense cookies are only set if you accept marketing cookies via our consent banner.</li>
               </ul>
-              <p>We do not use any advertising networks or third-party tracking cookies for marketing purposes. We do not share cookie data with advertisers.</p>
 
-              <h2 id="managing-cookies">6. Managing your cookie preferences</h2>
+              <h2 id="advertising">6. Advertising cookies</h2>
+              <p>Advertising cookies are used to show you relevant ads on HRLake and across the web. These cookies are only set if you accept marketing cookies via our consent banner.</p>
+
+              <div className="not-prose overflow-x-auto rounded-2xl border border-slate-200 my-8">
+                <table className="w-full text-sm">
+                  <thead className="bg-slate-900 text-slate-300">
+                    <tr>
+                      <th className="text-left px-5 py-3 text-xs font-bold uppercase tracking-wider">Cookie</th>
+                      <th className="hidden sm:table-cell text-left px-5 py-3 text-xs font-bold uppercase tracking-wider">Provider</th>
+                      <th className="text-left px-5 py-3 text-xs font-bold uppercase tracking-wider">Purpose</th>
+                      <th className="hidden sm:table-cell text-left px-5 py-3 text-xs font-bold uppercase tracking-wider">Duration</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100">
+                    {[
+                      { name: '__gads',  provider: 'Google AdSense',    purpose: 'Registers ad impressions and click fraud protection', duration: '1 year' },
+                      { name: '__gpi',   provider: 'Google AdSense',    purpose: 'Stores user ad preferences',                         duration: '1 year' },
+                      { name: 'IDE',     provider: 'Google DoubleClick', purpose: 'Used to target ads based on browsing history',       duration: '1 year' },
+                    ].map(row => (
+                      <tr key={row.name} className="hover:bg-slate-50">
+                        <td className="px-5 py-3 font-mono text-xs text-slate-700">{row.name}</td>
+                        <td className="hidden sm:table-cell px-5 py-3 text-slate-600">{row.provider}</td>
+                        <td className="px-5 py-3 text-slate-600">{row.purpose}</td>
+                        <td className="hidden sm:table-cell px-5 py-3 text-slate-500">{row.duration}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              <p>You may opt out of personalised advertising at any time via <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer">Google&apos;s ad settings</a>.</p>
+
+              <h2 id="managing-cookies">7. Managing your cookie preferences</h2>
               <p>When you first visit the platform, you will be shown a cookie consent banner. You can choose to accept all cookies, accept essential cookies only, or customise your preferences.</p>
               <p>You can update your cookie preferences at any time by clicking the cookie settings link in the footer.</p>
               <p>You can also control cookies through your browser settings. Most browsers allow you to:</p>
@@ -173,7 +206,7 @@ export default function CookiePolicyPage() {
                 </div>
               </div>
 
-              <h2 id="contact">7. Contact us</h2>
+              <h2 id="contact">8. Contact us</h2>
               <p>If you have any questions about our use of cookies, please <Link href="/contact/">contact us</Link>. For information about how we handle your personal data more broadly, see our <Link href="/privacy-policy/">Privacy Policy</Link>.</p>
             </div>
           </div>
