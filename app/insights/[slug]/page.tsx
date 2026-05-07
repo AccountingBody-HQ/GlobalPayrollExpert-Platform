@@ -6,6 +6,7 @@ import { ArrowLeft, ArrowRight, Globe, Tag, User } from "lucide-react"
 import { getInsightBySlug, getRelatedArticles, urlFor } from "@/lib/sanity"
 import { getFlag } from "@/lib/flag"
 import { getArticleStructuredData, getBreadcrumbStructuredData, jsonLd } from "@/lib/structured-data"
+import GoogleAdUnit from "@/components/GoogleAdUnit"
 
 export const dynamic = "force-dynamic"
 
@@ -373,6 +374,8 @@ export default async function InsightArticlePage({
                 </figure>
               )}
 
+              <GoogleAdUnit slot="TOP_ARTICLE_SLOT" format="auto" />
+
               {article.body && (
                 <PortableText
                   value={(() => {
@@ -390,6 +393,8 @@ export default async function InsightArticlePage({
                   components={portableTextComponents}
                 />
               )}
+
+              <GoogleAdUnit slot="BOTTOM_ARTICLE_SLOT" format="auto" />
 
               {article.mcqUrl && (
                 <div className="mt-10 p-6 bg-blue-50 border border-blue-200 rounded-2xl">
@@ -477,6 +482,8 @@ export default async function InsightArticlePage({
                     official sources or a qualified professional.
                   </p>
                 </div>
+
+                <GoogleAdUnit slot="SIDEBAR_SLOT" format="vertical" />
 
               </div>
             </aside>
